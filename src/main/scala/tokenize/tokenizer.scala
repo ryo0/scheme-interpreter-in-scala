@@ -20,14 +20,35 @@ object tokenizer {
           case '+' | '-' | '*' | '/' | '\'' | '(' | ')'  =>
             val token = symbolMap.get(str(i))
             token.foreach(token => result :+= token)
+            i += 1
           case ' ' =>
-
+            i += 1
           case _ =>
-            result :+= Str(str(i).toString)
+            if (str(i).isDigit) {
+              val (num, j) = tokenizeDigit(str.slice(i, str.length))
+              i += j
+              result :+= num
+            } else if(str(i).isLetter) {
+              i += 1
+            }
         }
-        i += 1
       }
       result
     }
+
+  def tokenizeDigit(str: String) : (Num, Int) = {
+    var i = 0
+    var result = ""
+    while(i < str.length) {
+      val c = str(i)
+      if (c.isDigit) {
+        result += c
+        i += 1
+      } else {
+        return (Num(result.toFloat), i)
+      }
+    }
+    (Num(result.toFloat), i)
+  }
 
 }

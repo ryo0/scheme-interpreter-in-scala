@@ -1,8 +1,6 @@
 import tokenize.tokenizer.tokenize
 
 object Main extends App  {
-  val str = "hello"
-    println(str(1))
-  println(tokenize(str = "(a + b - c * d / e ')"))
+  println(tokenize(str = "11+22"))
 
 }
