@@ -25,7 +25,7 @@ object tokenizer {
             i += 1
           case _ =>
             if (str(i).isDigit) {
-              val (num, j) = tokenizeDigit(str.slice(i, str.length))
+              val (num, j) = tokenizeFloat(str.slice(i, str.length))
               i += j
               result :+= num
             } else if(str(i).isLetter) {
@@ -53,7 +53,16 @@ object tokenizer {
     (Str(result), i)
   }
 
-  def tokenizeDigit(str: String) : (Num, Int) = {
+  def tokenizeFloat(str: String) : (Num, Int) = {
+    val (num1, i) = tokenizeDigit(str)
+    if (i < str.length && str(i) == '.') {
+      val (num2, j) = tokenizeDigit(str.slice(i+1, str.length))
+      return (Num((num1 + "."  + num2).toFloat), i+1+j)
+    }
+    (Num(num1.toFloat), i)
+  }
+
+  def tokenizeDigit(str: String) : (String, Int) = {
     var i = 0
     var result = ""
     while(i < str.length) {
@@ -62,10 +71,10 @@ object tokenizer {
         result += c
         i += 1
       } else {
-        return (Num(result.toFloat), i)
+        return (result, i)
       }
     }
-    (Num(result.toFloat), i)
+    (result, i)
   }
 
 }
