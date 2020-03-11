@@ -29,12 +29,29 @@ object tokenizer {
               i += j
               result :+= num
             } else if(str(i).isLetter) {
-              i += 1
+              val (num, j) = tokenizeLetter(str.slice(i, str.length))
+              i += j
+              result :+= num
             }
         }
       }
       result
     }
+
+  def tokenizeLetter(str: String) : (Str, Int) = {
+    var i = 1
+    var result = str(0).toString
+    while (i < str.length) {
+      val c = str(i)
+      if (c.isLetter || c.isDigit) {
+        result += c
+        i += 1
+      } else {
+        return (Str(result), i)
+      }
+    }
+    (Str(result), i)
+  }
 
   def tokenizeDigit(str: String) : (Num, Int) = {
     var i = 0
