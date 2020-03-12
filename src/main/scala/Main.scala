@@ -1,4 +1,4 @@
-import tokenize.tokenizer.tokenize
+import tokenize.Tokenizer.tokenize
 
 object Main extends App  {
   println(tokenize(str = "11+22"))

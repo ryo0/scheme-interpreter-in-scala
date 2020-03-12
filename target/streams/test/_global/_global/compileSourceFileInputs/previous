@@ -1,0 +1,1 @@
+["sbt.Task[scala.collection.immutable.Map[java.lang.String, scala.collection.Seq[scala.Tuple2[java.nio.file.Path, sbt.nio.FileStamp]]]]",{"2.12.7":{"hashes":[["/Users/ryo/IdeaProjects/Scala-Scheme-interpreter/src/test/scala/TokenizerTest.scala","62ea8a14f5c92d98019613fbb951c32f2b381efb"]],"lastModifiedTimes":[]}}]
