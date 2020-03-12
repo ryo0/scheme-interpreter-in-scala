@@ -56,4 +56,20 @@ class TokenizerTest extends FunSuite {
     assert(tokenize("(> a 1)") === List(LParen, GreaterThan, Var("a"), Num(1f), RParen))
     assert(tokenize("(< a1 b2)") === List(LParen, LessThan, Var("a1"), Var("b2"), RParen))
   }
+
+  test("Tokenizer.tokenize2") {
+    assert(tokenize(
+      """
+        (define (len lst)
+          (if (null? lst)
+          0
+          (len (cdr lst))
+        )
+      """) === List(LParen, Define, LParen, Var("len"), Var("lst"), RParen,
+      LParen, If, LParen, Var("null?"), Var("lst"), RParen,
+      Num(0f),
+      LParen, Var("len"), LParen, Var("cdr"), Var("lst"), RParen, RParen,
+      RParen
+    ))
+  }
 }

@@ -38,7 +38,7 @@ object Tokenizer {
             val token = symbolMap.get(str(i))
             token.foreach(token => result :+= token)
             i += 1
-          case ' ' =>
+          case ' ' | '\n' =>
             i += 1
           case _ =>
             if (str(i).isDigit) {
@@ -49,6 +49,8 @@ object Tokenizer {
               val (num, j) = tokenizeLetter(str.slice(i, str.length))
               i += j
               result :+= num
+            } else {
+              print(str(i))
             }
         }
       }
@@ -60,7 +62,7 @@ object Tokenizer {
     var result = str(0).toString
     while (i < str.length) {
       val c = str(i)
-      if (c.isLetter || c.isDigit || c == '!') {
+      if (c.isLetter || c.isDigit || c == '!' || c == '?') {
         result += c
         i += 1
       } else {
