@@ -12,7 +12,7 @@ class TokenizerTest extends FunSuite {
     assert(tokenizeLetter("A)") === (Var("A"), 1))
     assert(tokenizeLetter("z") === (Var("z"), 1))
   }
-  
+
   test("Tokenizer.tokenizeLetter 予約語") {
     assert(tokenizeLetter("true") === (True, 4))
     assert(tokenizeLetter("false") === (False, 5))
@@ -50,7 +50,16 @@ class TokenizerTest extends FunSuite {
   }
 
   test("Tokenizer.tokenize") {
-    assert(tokenize("1+2-3*4/5") === List(Num(1f), Plus, Num(2f), Minus, Num(3f), Asterisk, Num(4f), Slash, Num(5f)))
+    assert(
+      tokenize("1+2-3*4/5") === List(Num(1f),
+                                     Plus,
+                                     Num(2f),
+                                     Minus,
+                                     Num(3f),
+                                     Asterisk,
+                                     Num(4f),
+                                     Slash,
+                                     Num(5f)))
     assert(tokenize("=") === List(Equal))
     assert(tokenize("'") === List(Quote))
     assert(tokenize("(> a 1)") === List(LParen, GreaterThan, Var("a"), Num(1f), RParen))
@@ -58,18 +67,35 @@ class TokenizerTest extends FunSuite {
   }
 
   test("Tokenizer.tokenize2") {
-    assert(tokenize(
-      """
+    assert(
+      tokenize("""
         (define (len lst)
           (if (null? lst)
           0
           (len (cdr lst))
         )
-      """) === List(LParen, Define, LParen, Var("len"), Var("lst"), RParen,
-      LParen, If, LParen, Var("null?"), Var("lst"), RParen,
-      Num(0f),
-      LParen, Var("len"), LParen, Var("cdr"), Var("lst"), RParen, RParen,
-      RParen
-    ))
+      """) === List(
+        LParen,
+        Define,
+        LParen,
+        Var("len"),
+        Var("lst"),
+        RParen,
+        LParen,
+        If,
+        LParen,
+        Var("null?"),
+        Var("lst"),
+        RParen,
+        Num(0f),
+        LParen,
+        Var("len"),
+        LParen,
+        Var("cdr"),
+        Var("lst"),
+        RParen,
+        RParen,
+        RParen
+      ))
   }
 }
