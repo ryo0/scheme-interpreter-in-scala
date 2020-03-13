@@ -60,6 +60,25 @@ object Tokenizer {
     result
   }
 
+  def removeComments(str: String): String = {
+    var i         = 0
+    var inComment = false
+    var result    = ""
+    while (i < str.length) {
+      val c = str(i)
+      if (c == ';' && !inComment) {
+        inComment = true
+      } else if (c == '\n' && inComment) {
+        inComment = false
+      }
+      if (!inComment) {
+        result += c
+      }
+      i += 1
+    }
+    result
+  }
+
   def tokenizeLetter(str: String): (Token, Int) = {
     var i      = 1
     var result = str(0).toString

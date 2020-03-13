@@ -3,10 +3,20 @@ import tokenize.Tokenizer.tokenizeLetter
 import tokenize.Tokenizer.tokenizeDigit
 import tokenize.Tokenizer.tokenizeFloat
 import tokenize.Tokenizer.tokenizeString
+import tokenize.Tokenizer.removeComments
 import tokenize.Tokenizer.tokenize
 import _root_.tokenize.token.Tokens._
 
 class TokenizerTest extends FunSuite {
+  test("Tokenizer.removeComments") {
+    assert(removeComments("(define x 1)") === "(define x 1)")
+    assert(removeComments("(define (len x) aaa ;bbb\n)") === "(define (len x) aaa \n)")
+    assert(removeComments("(define (len x) ;aaa bbb\n)") === "(define (len x) \n)")
+    assert(removeComments(";;aiueo\n;;README\n") === "\n\n")
+    assert(
+      removeComments(";;aiueo\na;;README\n(define (len x) aaa ;bbb\n)") === "\n\n(define (len x) aaa \n)")
+  }
+
   test("Tokenizer.tokenizeLetter") {
     assert(tokenizeLetter("aA1+") === (Var("aA1"), 3))
     assert(tokenizeLetter("a1") === (Var("a1"), 2))
