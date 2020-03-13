@@ -39,17 +39,21 @@ object Tokenizer {
           i += 1
         case ' ' | '\n' =>
           i += 1
+        case '\"' =>
+          val (resultStr, j) = tokenizeString(str.slice(i, str.length))
+          i += j
+          result :+= resultStr
         case _ =>
           if (str(i).isDigit) {
-            val (num, j) = tokenizeFloat(str.slice(i, str.length))
+            val (number, j) = tokenizeFloat(str.slice(i, str.length))
             i += j
-            result :+= num
+            result :+= number
           } else if (str(i).isLetter) {
-            val (num, j) = tokenizeLetter(str.slice(i, str.length))
+            val (letter, j) = tokenizeLetter(str.slice(i, str.length))
             i += j
-            result :+= num
+            result :+= letter
           } else {
-            print(str(i))
+            throw new Exception("tokenize例外:" + str(i))
           }
       }
     }
@@ -103,4 +107,17 @@ object Tokenizer {
     (result, i)
   }
 
+  def tokenizeString(str: String): (Str, Int) = {
+    var i      = 1
+    var result = ""
+    while (i < str.length) {
+      val c = str(i)
+      if (c == '\"') {
+        return (Str(result), i + 1)
+      }
+      result += c
+      i += 1
+    }
+    throw new Exception("Stringのダブルクォートが閉じていない")
+  }
 }

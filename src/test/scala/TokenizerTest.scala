@@ -2,6 +2,7 @@ import org.scalatest.FunSuite
 import tokenize.Tokenizer.tokenizeLetter
 import tokenize.Tokenizer.tokenizeDigit
 import tokenize.Tokenizer.tokenizeFloat
+import tokenize.Tokenizer.tokenizeString
 import tokenize.Tokenizer.tokenize
 import _root_.tokenize.token.Tokens._
 
@@ -49,6 +50,13 @@ class TokenizerTest extends FunSuite {
     assert(tokenizeFloat("3.5)") === (Num(3.5f), 3))
   }
 
+  test("Tokenizer.tokenizeString") {
+    assert(tokenizeString("\"aaa\")") === (Str("aaa"), 5))
+    assert(tokenizeString("\"a(abc)\"e") === (Str("a(abc)"), 8))
+    assert(tokenizeString("\"123\")") === (Str("123"), 5))
+    assert(tokenizeString("\"(+ 1 2)\")") === (Str("(+ 1 2)"), 9))
+  }
+
   test("Tokenizer.tokenize") {
     assert(
       tokenize("1+2-3*4/5") === List(Num(1f),
@@ -64,6 +72,7 @@ class TokenizerTest extends FunSuite {
     assert(tokenize("'") === List(Quote))
     assert(tokenize("(> a 1)") === List(LParen, GreaterThan, Var("a"), Num(1f), RParen))
     assert(tokenize("(< a1 b2)") === List(LParen, LessThan, Var("a1"), Var("b2"), RParen))
+    assert(tokenize("(= \"abc\" d)") === List(LParen, Equal, Str("abc"), Var("d"), RParen))
   }
 
   test("Tokenizer.tokenize2") {
