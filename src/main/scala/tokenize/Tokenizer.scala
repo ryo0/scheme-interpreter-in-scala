@@ -43,6 +43,19 @@ object Tokenizer {
           val (resultStr, j) = tokenizeString(str.slice(i, str.length))
           i += j
           result :+= resultStr
+        case '#' =>
+          if (i + 1 < str.length) {
+            if (str(i + 1) == 't') {
+              result :+= True
+            } else if (str(i + 1) == 'f') {
+              result :+= False
+            } else {
+              throw new Exception("#の後に来るのはtかfだけ" + str(i + 1))
+            }
+          } else {
+            throw new Exception("#がプログラムの末尾にある")
+          }
+          i += 2
         case _ =>
           if (str(i).isDigit) {
             val (number, j) = tokenizeFloat(str.slice(i, str.length))
