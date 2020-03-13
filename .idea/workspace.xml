@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="00f083c4-813f-49a5-a5cb-8e173c733ec7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/scala/TokenizerTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/TokenizerTest.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.12/classes/tokenize/tokenizer$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.12/classes/tokenize/tokenizer$.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.12/classes/tokenize/tokenizer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.12/classes/tokenize/tokenizer.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -40,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="55" column="55" lean-forward="true" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="55" />
+            <state relative-caret-position="266">
+              <caret line="67" column="69" selection-start-line="67" selection-start-column="69" selection-end-line="67" selection-end-column="69" />
             </state>
           </provider>
         </entry>
@@ -67,8 +64,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/scala/TokenizerTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="74" column="83" selection-start-line="74" selection-start-column="83" selection-end-line="74" selection-end-column="83" />
+            <state relative-caret-position="154">
+              <caret line="16" column="63" lean-forward="true" selection-start-line="16" selection-start-column="63" selection-end-line="16" selection-end-column="63" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -264,7 +261,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="ScalaTest.TokenizerTest.Tokenizer.tokenize">
+  <component name="RunManager" selected="ScalaTest.TokenizerTest.Tokenizer.tokenizeLetter">
     <configuration name="main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Scala-Scheme-interpreter" />
@@ -397,11 +394,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="ScalaTest.TokenizerTest.Tokenizer.tokenizeLetter" />
         <item itemvalue="ScalaTest.TokenizerTest.Tokenizer.tokenize" />
         <item itemvalue="ScalaTest.TokenizerTest.Tokenizer.tokenizeString" />
         <item itemvalue="ScalaTest.TokenizerTest.Tokenizer.tokenizeFloat" />
         <item itemvalue="ScalaTest.TokenizerTest.Tokenizer.tokenize2" />
-        <item itemvalue="ScalaTest.TokenizerTest.Tokenizer.tokenizeLetter" />
       </list>
     </recent_temporary>
   </component>
@@ -461,12 +458,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="TokenizerTest_Tokenizer_tokenizeLetter - 2020.03.12 at 21h 15m 51s.xml">
-      <configuration name="TokenizerTest.Tokenizer.tokenizeLetter" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TokenizerTest_Tokenizer_tokenizeLetter - 2020.03.12 at 21h 16m 21s.xml">
-      <configuration name="TokenizerTest.Tokenizer.tokenizeLetter" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
     <history-entry file="TokenizerTest_Tokenizer_tokenize2 - 2020.03.12 at 21h 24m 47s.xml">
       <configuration name="TokenizerTest.Tokenizer.tokenize2" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
@@ -490,6 +481,12 @@
     </history-entry>
     <history-entry file="TokenizerTest_Tokenizer_tokenizeString - 2020.03.13 at 19h 42m 44s.xml">
       <configuration name="TokenizerTest.Tokenizer.tokenizeString" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TokenizerTest_Tokenizer_tokenize - 2020.03.13 at 19h 47m 31s.xml">
+      <configuration name="TokenizerTest.Tokenizer.tokenize" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TokenizerTest_Tokenizer_tokenizeLetter - 2020.03.13 at 19h 52m 39s.xml">
+      <configuration name="TokenizerTest.Tokenizer.tokenizeLetter" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -560,15 +557,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="55" column="55" lean-forward="true" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="55" />
+        <state relative-caret-position="266">
+          <caret line="67" column="69" selection-start-line="67" selection-start-column="69" selection-end-line="67" selection-end-column="69" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/TokenizerTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="74" column="83" selection-start-line="74" selection-start-column="83" selection-end-line="74" selection-end-column="83" />
+        <state relative-caret-position="154">
+          <caret line="16" column="63" lean-forward="true" selection-start-line="16" selection-start-column="63" selection-end-line="16" selection-end-column="63" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>

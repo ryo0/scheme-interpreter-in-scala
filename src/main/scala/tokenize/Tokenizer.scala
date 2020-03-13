@@ -65,7 +65,7 @@ object Tokenizer {
     var result = str(0).toString
     while (i < str.length) {
       val c = str(i)
-      if (c.isLetter || c.isDigit || c == '!' || c == '?') {
+      if (c.isLetter || c.isDigit || c == '!' || c == '?' || c == '-') {
         result += c
         i += 1
       } else {

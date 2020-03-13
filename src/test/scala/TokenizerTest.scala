@@ -12,6 +12,9 @@ class TokenizerTest extends FunSuite {
     assert(tokenizeLetter("a1") === (Var("a1"), 2))
     assert(tokenizeLetter("A)") === (Var("A"), 1))
     assert(tokenizeLetter("z") === (Var("z"), 1))
+    assert(tokenizeLetter("null?") === (Var("null?"), 5))
+    assert(tokenizeLetter("yes!") === (Var("yes!"), 4))
+    assert(tokenizeLetter("len-iter") === (Var("len-iter"), 8))
   }
 
   test("Tokenizer.tokenizeLetter 予約語") {
