@@ -26,7 +26,7 @@ class ParserTest extends FunSuite {
       parseTokensToNodes(tokenize("(1 (+ 1 2) 3) (4)")) ===
         List(Node(
                List(Leaf(NumToken(1f)),
-                    Node(List(Leaf(Plus), Leaf(NumToken(1f)), Leaf(NumToken(2f)))),
+                    Node(List(Leaf(PlusToken), Leaf(NumToken(1f)), Leaf(NumToken(2f)))),
                     Leaf(NumToken(3f)))),
              Node(List(Leaf(NumToken(4f))))))
     assert(
@@ -38,7 +38,7 @@ class ParserTest extends FunSuite {
             Leaf(If),
             Node(List(Leaf(VarToken("null?")), Leaf(VarToken("x")))),
             Leaf(NumToken(0f)),
-            Node(List(Leaf(Plus),
+            Node(List(Leaf(PlusToken),
                       Leaf(NumToken(1f)),
                       Node(List(Leaf(VarToken("len")),
                                 Node(List(Leaf(VarToken("cdr")), Leaf(VarToken("lst"))))))))
@@ -53,11 +53,10 @@ class ParserTest extends FunSuite {
       parseNodesToExps(parseTokensToNodes(tokenize("(if #t #t #f)"))) === List(
         IfExp(True, True, False))
     )
-//    assert(
-//      parseNodesToExps(parseTokensToNodes(tokenize("(if (= 1 2) (+ 1 2) (- 1 2))"))) === IfExp(
-//        True,
-//        True,
-//        False)
-//    )
+    assert(
+      parseNodesToExps(parseTokensToNodes(tokenize("(if (= 1 2) (+ 1 2) (- 1 2))"))) === List(
+        IfExp(ProcedureCall(Equal, List(Num(1f), Num(2f))),
+              ProcedureCall(Plus, List(Num(1f), Num(2f))),
+              ProcedureCall(Minus, List(Num(1f), Num(2f))))))
   }
 }

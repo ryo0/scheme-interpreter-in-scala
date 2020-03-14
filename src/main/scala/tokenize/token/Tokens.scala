@@ -17,21 +17,21 @@ object Tokens {
 
   object RParen extends Token
 
-  object Plus extends Token
+  object PlusToken extends Token
 
-  object Minus extends Token
+  object MinusToken extends Token
 
-  object Asterisk extends Token
+  object AsteriskToken extends Token
 
-  object Slash extends Token
+  object SlashToken extends Token
 
-  object Equal extends Token
+  object EqualToken extends Token
 
-  object Quote extends Token
+  object QuoteToken extends Token
 
-  object LessThan extends Token
+  object LessThanToken extends Token
 
-  object GreaterThan extends Token
+  object GreaterThanToken extends Token
 
   object Define extends Token
 

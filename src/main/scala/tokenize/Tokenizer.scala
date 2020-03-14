@@ -3,16 +3,16 @@ import token.Tokens._
 
 object Tokenizer {
   private val symbolMap = Map(
-    '+' -> Plus,
-    '-' -> Minus,
-    '*' -> Asterisk,
-    '/' -> Slash,
-    ''' -> Quote,
+    '+' -> PlusToken,
+    '-' -> MinusToken,
+    '*' -> AsteriskToken,
+    '/' -> SlashToken,
+    ''' -> QuoteToken,
     '(' -> LParen,
     ')' -> RParen,
-    '=' -> Equal,
-    '>' -> GreaterThan,
-    '<' -> LessThan,
+    '=' -> EqualToken,
+    '>' -> GreaterThanToken,
+    '<' -> LessThanToken,
   )
   private val identifierMap = Map(
     "true"   -> TrueToken,

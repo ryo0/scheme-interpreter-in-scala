@@ -15,4 +15,9 @@ object ast {
   case class ProcedureCall(operator: Exp, operands: List[Exp]) extends Exp
   object True                                                  extends Exp
   object False                                                 extends Exp
+  object Plus                                                  extends Exp
+  object Minus                                                 extends Exp
+  object Asterisk                                              extends Exp
+  object Slash                                                 extends Exp
+  object Equal                                                 extends Exp
 }

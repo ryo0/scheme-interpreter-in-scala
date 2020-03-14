@@ -46,43 +46,59 @@ object parser {
   }
 
   def parseExpSub(node: Nodes): (Exp, List[Nodes]) = {
+
+    val symbolMap = Map(
+      TrueToken     -> True,
+      FalseToken    -> False,
+      PlusToken     -> Plus,
+      MinusToken    -> Minus,
+      AsteriskToken -> Asterisk,
+      SlashToken    -> SlashToken,
+      EqualToken    -> Equal,
+    )
     node match {
       case Leaf(l) =>
         l match {
-          case TrueToken  => (True, List())
-          case FalseToken => (False, List())
-          case _ =>
-            throw new Exception("parseExpSub何かがおかしい")
+          case NumToken(n) => (Num(n), List())
+          case StrToken(s) => (Str(s), List())
+          case VarToken(v) => (Var(v), List())
+          case _ => {
+            val symbolExp = symbolMap.get(l)
+            symbolExp match {
+              case Some(sExp: Exp) => (sExp, List())
+              case None            => throw new Exception("parseExpSub何かがおかしい" + l)
+            }
+          }
         }
+
       case Node(ns) =>
         ns match {
           case Leaf(l) :: restNodes =>
             l match {
               case If =>
                 parseIfExp(ns)
+              case _ =>
+                parseProcedureCall(ns)
             }
-          case nodes =>
-            throw new Exception("Procedure Callは未対応")
-//            parseProcedureCall(nodes)
+          case _ =>
+            throw new Exception("parseExpSub何かがおかしい")
         }
     }
   }
 
-//  def parseProcedureCall(nodes: List[Nodes]): (ProcedureCall, List[Nodes]) = {
-//    println("procedure call")
-//    println(nodes)
-//    nodes match {
-//      case x :: xs =>
-//        val (operator, _) = parseExpSub(List(x))
-//        val operands      = xs.map(x => parseExpSub(List(x))).map(x => x._1)
-//        ProcedureCall(operator, operands)
-//      case x :: _ =>
-//        val (operator, _) = parseExpSub(List(x))
-//        ProcedureCall(operator, List())
-//      case _ =>
-//        throw new Exception("procedureCallがなんか不正")
-//    }
-//  }/
+  def parseProcedureCall(nodes: List[Nodes]): (ProcedureCall, List[Nodes]) = {
+    nodes match {
+      case x :: xs =>
+        val operator = parseExp(x)
+        val operands = xs.map(x => parseExp(x))
+        (ProcedureCall(operator, operands), xs)
+      case x :: _ =>
+        val (operator, _) = parseExpSub(x)
+        (ProcedureCall(operator, List()), List())
+      case _ =>
+        throw new Exception("procedureCallがなんか不正")
+    }
+  }
 
   def parseIfExp(nodes: List[Nodes]): (IfExp, List[Nodes]) = {
     nodes match {

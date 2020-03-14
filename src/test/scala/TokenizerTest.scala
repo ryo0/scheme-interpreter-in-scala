@@ -73,20 +73,26 @@ class TokenizerTest extends FunSuite {
   test("Tokenizer.tokenize") {
     assert(
       tokenize("1+2-3*4/5") === List(NumToken(1f),
-                                     Plus,
+                                     PlusToken,
                                      NumToken(2f),
-                                     Minus,
+                                     MinusToken,
                                      NumToken(3f),
-                                     Asterisk,
+                                     AsteriskToken,
                                      NumToken(4f),
-                                     Slash,
+                                     SlashToken,
                                      NumToken(5f)))
-    assert(tokenize("=") === List(Equal))
-    assert(tokenize("'") === List(Quote))
-    assert(tokenize("(> a 1)") === List(LParen, GreaterThan, VarToken("a"), NumToken(1f), RParen))
-    assert(tokenize("(< a1 b2)") === List(LParen, LessThan, VarToken("a1"), VarToken("b2"), RParen))
+    assert(tokenize("=") === List(EqualToken))
+    assert(tokenize("'") === List(QuoteToken))
     assert(
-      tokenize("(= \"abc\" d)") === List(LParen, Equal, StrToken("abc"), VarToken("d"), RParen))
+      tokenize("(> a 1)") === List(LParen, GreaterThanToken, VarToken("a"), NumToken(1f), RParen))
+    assert(
+      tokenize("(< a1 b2)") === List(LParen, LessThanToken, VarToken("a1"), VarToken("b2"), RParen))
+    assert(
+      tokenize("(= \"abc\" d)") === List(LParen,
+                                         EqualToken,
+                                         StrToken("abc"),
+                                         VarToken("d"),
+                                         RParen))
     assert(tokenize("(eq? #t #f)") === List(LParen, VarToken("eq?"), TrueToken, FalseToken, RParen))
   }
 
