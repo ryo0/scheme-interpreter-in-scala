@@ -41,11 +41,7 @@ object parser {
     }
   }
 
-  def parseExp(nodes: Nodes): Exp = {
-    parseExpSub(nodes)._1
-  }
-
-  def parseExpSub(node: Nodes): (Exp, List[Nodes]) = {
+  def parseExp(node: Nodes): Exp = {
 
     val symbolMap = Map(
       TrueToken     -> True,
@@ -59,13 +55,13 @@ object parser {
     node match {
       case Leaf(l) =>
         l match {
-          case NumToken(n) => (Num(n), List())
-          case StrToken(s) => (Str(s), List())
-          case VarToken(v) => (Var(v), List())
+          case NumToken(n) => Num(n)
+          case StrToken(s) => Str(s)
+          case VarToken(v) => Var(v)
           case _ =>
             val symbolExp = symbolMap.get(l)
             symbolExp match {
-              case Some(sExp: Exp) => (sExp, List())
+              case Some(sExp: Exp) => sExp
               case None            => throw new Exception("parseExpSub何かがおかしい" + l)
             }
         }
@@ -85,27 +81,31 @@ object parser {
     }
   }
 
-  def parseProcedureCall(nodes: List[Nodes]): (ProcedureCall, List[Nodes]) = {
+  def parseProcedureCall(nodes: List[Nodes]): ProcedureCall = {
     nodes match {
       case x :: xs =>
         val operator = parseExp(x)
         val operands = xs.map(x => parseExp(x))
-        (ProcedureCall(operator, operands), xs)
+        ProcedureCall(operator, operands)
       case x :: _ =>
-        val (operator, _) = parseExpSub(x)
-        (ProcedureCall(operator, List()), List())
+        val operator = parseExp(x)
+        ProcedureCall(operator, List())
       case _ =>
         throw new Exception("procedureCallがなんか不正")
     }
   }
 
-  def parseIfExp(nodes: List[Nodes]): (IfExp, List[Nodes]) = {
+  def parseIfExp(nodes: List[Nodes]): IfExp = {
     nodes match {
       case Leaf(If) :: predicate :: consequent :: alternative :: _ =>
-        val (condExp, _)  = parseExpSub(predicate)
-        val (trueExp, _)  = parseExpSub(consequent)
-        val (falseExp, _) = parseExpSub(alternative)
-        (IfExp(condExp, trueExp, falseExp), List())
+        val condExp  = parseExp(predicate)
+        val trueExp  = parseExp(consequent)
+        val falseExp = parseExp(alternative)
+        IfExp(condExp, trueExp, Some(falseExp))
+      case Leaf(If) :: predicate :: consequent :: _ =>
+        val condExp = parseExp(predicate)
+        val trueExp = parseExp(consequent)
+        IfExp(condExp, trueExp, None)
       case _ =>
         throw new Exception("if式がなんか不正")
     }

@@ -50,22 +50,22 @@ class ParserTest extends FunSuite {
   test("parser.parseExp") {
     assert(
       parseNodesToExpList(parseTokensToNodes(tokenize("(if #t #t #f)"))) === List(
-        IfExp(True, True, False))
+        IfExp(True, True, Some(False)))
     )
     assert(
       parseNodesToExpList(parseTokensToNodes(tokenize("(if #t #t #f) (len lst)"))) === List(
-        IfExp(True, True, False),
+        IfExp(True, True, Some(False)),
         ProcedureCall(Var("len"), List(Var("lst"))))
     )
     assert(
       parseNodesToExpList(parseTokensToNodes(tokenize("(if (= 1 2) (+ 1 2) (- 1 2))"))) === List(
         IfExp(ProcedureCall(Equal, List(Num(1f), Num(2f))),
               ProcedureCall(Plus, List(Num(1f), Num(2f))),
-              ProcedureCall(Minus, List(Num(1f), Num(2f))))))
+              Some(ProcedureCall(Minus, List(Num(1f), Num(2f)))))))
     assert(
       parseNodesToExpList(parseTokensToNodes(tokenize("(if (= 1 (+ 1 1)) #t #f)"))) === List(
         IfExp(ProcedureCall(Equal, List(Num(1f), ProcedureCall(Plus, List(Num(1f), Num(1f))))),
               True,
-              False)))
+              Some(False))))
   }
 }
