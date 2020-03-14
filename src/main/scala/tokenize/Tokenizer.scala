@@ -15,8 +15,8 @@ object Tokenizer {
     '<' -> LessThan,
   )
   private val identifierMap = Map(
-    "true"   -> True,
-    "false"  -> False,
+    "true"   -> TrueToken,
+    "false"  -> FalseToken,
     "define" -> Define,
     "set!"   -> Set,
     "lambda" -> Lambda,
@@ -46,9 +46,9 @@ object Tokenizer {
         case '#' =>
           if (i + 1 < str.length) {
             if (str(i + 1) == 't') {
-              result :+= True
+              result :+= TrueToken
             } else if (str(i + 1) == 'f') {
-              result :+= False
+              result :+= FalseToken
             } else {
               throw new Exception("#の後に来るのはtかfだけ" + str(i + 1))
             }
@@ -111,17 +111,17 @@ object Tokenizer {
     if (identifierMap.contains(str)) {
       identifierMap(str)
     } else {
-      Var(str)
+      VarToken(str)
     }
   }
 
-  def tokenizeFloat(str: String): (Num, Int) = {
+  def tokenizeFloat(str: String): (NumToken, Int) = {
     val (num1, i) = tokenizeDigit(str)
     if (i < str.length && str(i) == '.') {
       val (num2, j) = tokenizeDigit(str.slice(i + 1, str.length))
-      return (Num((num1 + "." + num2).toFloat), i + 1 + j)
+      return (NumToken((num1 + "." + num2).toFloat), i + 1 + j)
     }
-    (Num(num1.toFloat), i)
+    (NumToken(num1.toFloat), i)
   }
 
   def tokenizeDigit(str: String): (String, Int) = {
@@ -139,13 +139,13 @@ object Tokenizer {
     (result, i)
   }
 
-  def tokenizeString(str: String): (Str, Int) = {
+  def tokenizeString(str: String): (StrToken, Int) = {
     var i      = 1
     var result = ""
     while (i < str.length) {
       val c = str(i)
       if (c == '\"') {
-        return (Str(result), i + 1)
+        return (StrToken(result), i + 1)
       }
       result += c
       i += 1

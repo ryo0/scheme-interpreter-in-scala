@@ -18,18 +18,18 @@ class TokenizerTest extends FunSuite {
   }
 
   test("Tokenizer.tokenizeLetter") {
-    assert(tokenizeLetter("aA1+") === (Var("aA1"), 3))
-    assert(tokenizeLetter("a1") === (Var("a1"), 2))
-    assert(tokenizeLetter("A)") === (Var("A"), 1))
-    assert(tokenizeLetter("z") === (Var("z"), 1))
-    assert(tokenizeLetter("null?") === (Var("null?"), 5))
-    assert(tokenizeLetter("yes!") === (Var("yes!"), 4))
-    assert(tokenizeLetter("len-iter") === (Var("len-iter"), 8))
+    assert(tokenizeLetter("aA1+") === (VarToken("aA1"), 3))
+    assert(tokenizeLetter("a1") === (VarToken("a1"), 2))
+    assert(tokenizeLetter("A)") === (VarToken("A"), 1))
+    assert(tokenizeLetter("z") === (VarToken("z"), 1))
+    assert(tokenizeLetter("null?") === (VarToken("null?"), 5))
+    assert(tokenizeLetter("yes!") === (VarToken("yes!"), 4))
+    assert(tokenizeLetter("len-iter") === (VarToken("len-iter"), 8))
   }
 
   test("Tokenizer.tokenizeLetter 予約語") {
-    assert(tokenizeLetter("true") === (True, 4))
-    assert(tokenizeLetter("false") === (False, 5))
+    assert(tokenizeLetter("true") === (TrueToken, 4))
+    assert(tokenizeLetter("false") === (FalseToken, 5))
     assert(tokenizeLetter("define") === (Define, 6))
     assert(tokenizeLetter("set!") === (Set, 4))
     assert(tokenizeLetter("lambda") === (Lambda, 6))
@@ -51,42 +51,43 @@ class TokenizerTest extends FunSuite {
   }
 
   test("Tokenizer.tokenizeFloat") {
-    assert(tokenizeFloat("1") === (Num(1f), 1))
-    assert(tokenizeFloat("123") === (Num(123f), 3))
-    assert(tokenizeFloat("2+") === (Num(2f), 1))
-    assert(tokenizeFloat("3)") === (Num(3f), 1))
-    assert(tokenizeFloat("4a)") === (Num(4f), 1))
-    assert(tokenizeFloat("4.1a)") === (Num(4.1f), 3))
-    assert(tokenizeFloat("1.0") === (Num(1.0f), 3))
-    assert(tokenizeFloat("12.3") === (Num(12.3f), 4))
-    assert(tokenizeFloat("2.1+") === (Num(2.1f), 3))
-    assert(tokenizeFloat("3.5)") === (Num(3.5f), 3))
+    assert(tokenizeFloat("1") === (NumToken(1f), 1))
+    assert(tokenizeFloat("123") === (NumToken(123f), 3))
+    assert(tokenizeFloat("2+") === (NumToken(2f), 1))
+    assert(tokenizeFloat("3)") === (NumToken(3f), 1))
+    assert(tokenizeFloat("4a)") === (NumToken(4f), 1))
+    assert(tokenizeFloat("4.1a)") === (NumToken(4.1f), 3))
+    assert(tokenizeFloat("1.0") === (NumToken(1.0f), 3))
+    assert(tokenizeFloat("12.3") === (NumToken(12.3f), 4))
+    assert(tokenizeFloat("2.1+") === (NumToken(2.1f), 3))
+    assert(tokenizeFloat("3.5)") === (NumToken(3.5f), 3))
   }
 
   test("Tokenizer.tokenizeString") {
-    assert(tokenizeString("\"aaa\")") === (Str("aaa"), 5))
-    assert(tokenizeString("\"a(abc)\"e") === (Str("a(abc)"), 8))
-    assert(tokenizeString("\"123\")") === (Str("123"), 5))
-    assert(tokenizeString("\"(+ 1 2)\")") === (Str("(+ 1 2)"), 9))
+    assert(tokenizeString("\"aaa\")") === (StrToken("aaa"), 5))
+    assert(tokenizeString("\"a(abc)\"e") === (StrToken("a(abc)"), 8))
+    assert(tokenizeString("\"123\")") === (StrToken("123"), 5))
+    assert(tokenizeString("\"(+ 1 2)\")") === (StrToken("(+ 1 2)"), 9))
   }
 
   test("Tokenizer.tokenize") {
     assert(
-      tokenize("1+2-3*4/5") === List(Num(1f),
+      tokenize("1+2-3*4/5") === List(NumToken(1f),
                                      Plus,
-                                     Num(2f),
+                                     NumToken(2f),
                                      Minus,
-                                     Num(3f),
+                                     NumToken(3f),
                                      Asterisk,
-                                     Num(4f),
+                                     NumToken(4f),
                                      Slash,
-                                     Num(5f)))
+                                     NumToken(5f)))
     assert(tokenize("=") === List(Equal))
     assert(tokenize("'") === List(Quote))
-    assert(tokenize("(> a 1)") === List(LParen, GreaterThan, Var("a"), Num(1f), RParen))
-    assert(tokenize("(< a1 b2)") === List(LParen, LessThan, Var("a1"), Var("b2"), RParen))
-    assert(tokenize("(= \"abc\" d)") === List(LParen, Equal, Str("abc"), Var("d"), RParen))
-    assert(tokenize("(eq? #t #f)") === List(LParen, Var("eq?"), True, False, RParen))
+    assert(tokenize("(> a 1)") === List(LParen, GreaterThan, VarToken("a"), NumToken(1f), RParen))
+    assert(tokenize("(< a1 b2)") === List(LParen, LessThan, VarToken("a1"), VarToken("b2"), RParen))
+    assert(
+      tokenize("(= \"abc\" d)") === List(LParen, Equal, StrToken("abc"), VarToken("d"), RParen))
+    assert(tokenize("(eq? #t #f)") === List(LParen, VarToken("eq?"), TrueToken, FalseToken, RParen))
   }
 
   test("Tokenizer.tokenize2") {
@@ -101,21 +102,21 @@ class TokenizerTest extends FunSuite {
         LParen,
         Define,
         LParen,
-        Var("len"),
-        Var("lst"),
+        VarToken("len"),
+        VarToken("lst"),
         RParen,
         LParen,
         If,
         LParen,
-        Var("null?"),
-        Var("lst"),
+        VarToken("null?"),
+        VarToken("lst"),
         RParen,
-        Num(0f),
+        NumToken(0f),
         LParen,
-        Var("len"),
+        VarToken("len"),
         LParen,
-        Var("cdr"),
-        Var("lst"),
+        VarToken("cdr"),
+        VarToken("lst"),
         RParen,
         RParen,
         RParen

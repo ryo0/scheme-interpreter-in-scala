@@ -1,17 +1,17 @@
 package tokenize.token
 
-object  Tokens {
+object Tokens {
   sealed class Token
 
-  case class Num(value: Float) extends Token
+  case class NumToken(value: Float) extends Token
 
-  case class Var(name: String) extends Token
+  case class VarToken(name: String) extends Token
 
-  case class Str(name: String) extends Token
+  case class StrToken(name: String) extends Token
 
-  object True extends Token
+  object TrueToken extends Token
 
-  object False extends Token
+  object FalseToken extends Token
 
   object LParen extends Token
 
