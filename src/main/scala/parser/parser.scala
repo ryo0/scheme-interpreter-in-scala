@@ -4,42 +4,26 @@ import ast.ast._
 import tokenize.token.Tokens._
 
 object parser {
-//  def parseNodes(nodes: List[Nodes],tokens: List[Token]): (List[Nodes], List[Token])= {
-//    match tokens {
-//      case List(x, xs) => {
-//        match x {
-//        case LParen =>
-//
-//        case RParen =>
-//        case _ =>
-//
-//        }
-//      }
-//      case () =>
-//        (nodes, List())
-//    }
-//  }
+  def parseNodes(tokens: List[Token]): List[Nodes] = {
+    parseNodeSub(tokens, List())._1
+  }
 
-  def parseNodeSub(tokens: List[Token], acm: List[Nodes]): (List[Token], List[Nodes]) = {
+  def parseNodeSub(tokens: List[Token], acm: List[Nodes]): (List[Nodes], List[Token]) = {
     tokens match {
-      case x :: xs => {
-        x match {
-          case LParen =>
-            val (rest, result) = parseNodeSub(xs, List())
-            parseNodeSub(rest, acm ::: List(Node(result)))
-          case RParen =>
-            (xs, acm)
-          case _ =>
-            parseNodeSub(xs, acm ::: List(Leaf(x)))
-        }
+      case x :: xs => {}
+      x match {
+        case LParen =>
+          val (result, rest) = parseNodeSub(xs, List())
+          parseNodeSub(rest, acm ::: List(Node(result)))
+        case RParen =>
+          (acm, xs)
+        case _ =>
+          parseNodeSub(xs, acm ::: List(Leaf(x)))
       }
-      case (x: Token) :: _ =>
-        (List(), Leaf(x) :: acm)
+    case x :: _ =>
+        (Leaf(x) :: acm, List())
       case _ =>
-        (List(), acm)
+        (acm, List())
     }
   }
 }
-
-// (a b c (d e)) (1 2)
-// => List(Nodes(Leaf(a), Leaf(b), Leaf(c), Node(Leaf(d), Leaf(e))), Nodes(Leaf(1), Leaf(2)))
