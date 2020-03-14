@@ -30,10 +30,10 @@ object parser {
     }
   }
 
-  def parseNodesToExps(nodes: List[Nodes]): List[Exp] = {
+  def parseNodesToExpList(nodes: List[Nodes]): List[Exp] = {
     nodes match {
       case x :: xs =>
-        parseExp(x) :: parseNodesToExps(xs)
+        parseExp(x) :: parseNodesToExpList(xs)
       case x :: List() =>
         List(parseExp(x))
       case _ =>
@@ -62,18 +62,17 @@ object parser {
           case NumToken(n) => (Num(n), List())
           case StrToken(s) => (Str(s), List())
           case VarToken(v) => (Var(v), List())
-          case _ => {
+          case _ =>
             val symbolExp = symbolMap.get(l)
             symbolExp match {
               case Some(sExp: Exp) => (sExp, List())
               case None            => throw new Exception("parseExpSub何かがおかしい" + l)
             }
-          }
         }
 
       case Node(ns) =>
         ns match {
-          case Leaf(l) :: restNodes =>
+          case Leaf(l) :: _ =>
             l match {
               case If =>
                 parseIfExp(ns)
@@ -102,11 +101,11 @@ object parser {
 
   def parseIfExp(nodes: List[Nodes]): (IfExp, List[Nodes]) = {
     nodes match {
-      case Leaf(If) :: cond :: truePart :: falsePart :: _ =>
-        val (condExp, _)     = parseExpSub(cond)
-        val (trueExp, _)     = parseExpSub(truePart)
-        val (falseExp, rest) = parseExpSub(falsePart)
-        (IfExp(condExp, trueExp, falseExp), rest)
+      case Leaf(If) :: predicate :: consequent :: alternative :: _ =>
+        val (condExp, _)  = parseExpSub(predicate)
+        val (trueExp, _)  = parseExpSub(consequent)
+        val (falseExp, _) = parseExpSub(alternative)
+        (IfExp(condExp, trueExp, falseExp), List())
       case _ =>
         throw new Exception("if式がなんか不正")
     }

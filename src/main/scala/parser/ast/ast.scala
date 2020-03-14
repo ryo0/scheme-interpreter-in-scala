@@ -20,4 +20,6 @@ object ast {
   object Asterisk                                              extends Exp
   object Slash                                                 extends Exp
   object Equal                                                 extends Exp
+  object LessThan                                              extends Exp
+  object GreaterThan                                           extends Exp
 }
