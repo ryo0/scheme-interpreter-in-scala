@@ -94,7 +94,7 @@ class ParserTest extends FunSuite {
       parseTokensToNodes(tokenize("(lambda (x) (define y 1) (if (= x 1) (+ x y) y))"))) === Program(
       List(LambdaExp(
         List(Var("x")),
-        Program(List(DefineStatement(Var("y"), Num(1f)),
+        Program(List(DefineStatement(Var("y"), Program(List(Num(1f)))),
                      IfExp(ProcedureCall(Equal, List(Var("x"), Num(1f))),
                            ProcedureCall(Plus, List(Var("x"), Var("y"))),
                            Some(Var("y")))))
@@ -103,14 +103,14 @@ class ParserTest extends FunSuite {
   test("define") {
     assert(
       parseForm(parseTokensToNodes(tokenize("(define x (/ 2.1 5.22))")).head) ===
-        DefineStatement(Var("x"), ProcedureCall(Slash, List(Num(2.1f), Num(5.22f))))
+        DefineStatement(Var("x"), Program(List(ProcedureCall(Slash, List(Num(2.1f), Num(5.22f))))))
     )
     assert(
       parseForm(parseTokensToNodes(
         tokenize("(define (len lst) (if (null? lst) 0 (+ 1 (cdr lst))))")).head) ===
         DefineStatement(
           Var("len"),
-          LambdaExp(
+          Program(List(LambdaExp(
             List(Var("lst")),
             Program(
               List(
@@ -119,7 +119,26 @@ class ParserTest extends FunSuite {
                   Num(0f),
                   Some(ProcedureCall(Plus,
                                      List(Num(1f), ProcedureCall(Var("cdr"), List(Var("lst")))))))))
-          )
+          )))
+        )
+    )
+    assert(
+      parseForm(parseTokensToNodes(
+        tokenize("(define (len lst) (define x 100) (if (null? lst) 0 (+ 1 (cdr lst))))")).head) ===
+        DefineStatement(
+          Var("len"),
+          Program(List(LambdaExp(
+            List(Var("lst")),
+            Program(
+              List(
+                DefineStatement(Var("x"), Program(List(Num(100f)))),
+                IfExp(ProcedureCall(Var("null?"), List(Var("lst"))),
+                      Num(0f),
+                      Some(
+                        ProcedureCall(Plus,
+                                      List(Num(1f), ProcedureCall(Var("cdr"), List(Var("lst")))))))
+              ))
+          )))
         )
     )
   }

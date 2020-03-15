@@ -68,24 +68,20 @@ object parser {
         throw new Exception("error")
       case Node(ns) =>
         ns match {
-          case Leaf(Define) :: Leaf(variable) :: Leaf(value) :: List() =>
-            DefineStatement(parseVar(Leaf(variable)), parseExp(Leaf(value)))
+          case Leaf(Define) :: Leaf(variable) :: rest =>
+            // (define  x (+ 1 2) (- 2 3))
+            DefineStatement(parseVar(Leaf(variable)), parseProgram(rest))
           case Leaf(Define) :: Leaf(l) :: body :: _ =>
+            // (define x 1)
             val variable = parseVar(Leaf(l))
             val bodyExp  = parseExp(body)
-            DefineStatement(variable, bodyExp)
-          case _ =>
-            throw new Exception("defineがなんかおかしい")
-          case Leaf(Define) :: Node(ns2) :: body =>
-            ns2 match {
-              case Leaf(variable) :: rest =>
-                val params = parseVarList(rest)
-                val bodyp  = parseProgram(body)
-                DefineStatement(parseVar(Leaf(variable)), LambdaExp(params, bodyp))
-              case _ =>
-                throw new Exception("defineがなんかおかしい")
-
-            }
+            DefineStatement(variable, Program(List(bodyExp)))
+          case Leaf(Define) :: Node(Leaf(v) :: ps) :: rest =>
+            // (define (x a) (define y 1) (+ a y))
+            val variable = parseVar(Leaf(v))
+            val params   = parseVarList(ps)
+            val program  = parseProgram(rest)
+            DefineStatement(variable, Program(List(LambdaExp(params, program))))
           case _ =>
             println(ns)
             throw new Exception("defineがなんかおかしい")
@@ -111,7 +107,7 @@ object parser {
       PlusToken     -> Plus,
       MinusToken    -> Minus,
       AsteriskToken -> Asterisk,
-      SlashToken    -> SlashToken,
+      SlashToken    -> Slash,
       EqualToken    -> Equal,
     )
     node match {
