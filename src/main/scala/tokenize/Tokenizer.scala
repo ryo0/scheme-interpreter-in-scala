@@ -25,8 +25,8 @@ object Tokenizer {
     "else"   -> Else,
     "let"    -> Let,
     "begin"  -> Begin,
-    "and"    -> And,
-    "or"     -> Or,
+    "and"    -> AndToken,
+    "or"     -> OrToken,
   )
   def tokenize(str: String): List[Token] = {
     var result: List[Token] = List()

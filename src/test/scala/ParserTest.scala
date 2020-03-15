@@ -61,12 +61,13 @@ class ParserTest extends FunSuite {
     )
     assert(
       parseExpList(parseTokensToNodes(tokenize("(if (= 1 2) (+ 1 2) (- 1 2))"))) === List(
-        IfExp(ProcedureCall(Equal, List(Num(1f), Num(2f))),
-              ProcedureCall(Plus, List(Num(1f), Num(2f))),
-              Some(ProcedureCall(Minus, List(Num(1f), Num(2f)))))))
+        IfExp(ProcedureCall(Op(Equal), List(Num(1f), Num(2f))),
+              ProcedureCall(Op(Plus), List(Num(1f), Num(2f))),
+              Some(ProcedureCall(Op(Minus), List(Num(1f), Num(2f)))))))
     assert(
       parseExpList(parseTokensToNodes(tokenize("(if (= 1 (+ 1 1)) #t #f)"))) === List(
-        IfExp(ProcedureCall(Equal, List(Num(1f), ProcedureCall(Plus, List(Num(1f), Num(1f))))),
+        IfExp(ProcedureCall(Op(Equal),
+                            List(Num(1f), ProcedureCall(Op(Plus), List(Num(1f), Num(1f))))),
               True,
               Some(False))))
   }
@@ -81,14 +82,16 @@ class ParserTest extends FunSuite {
       parseProgram(parseTokensToNodes(tokenize("(lambda (x) (+ 1 2) 3"))) === Program(
         List(
           LambdaExp(List(Var("x")),
-                    Program(List(ProcedureCall(Plus, List(Num(1f), Num(2f))), Num(3f))))
+                    Program(List(ProcedureCall(Op(Plus), List(Num(1f), Num(2f))), Num(3f))))
         )))
 
     assert(
       parseProgram(parseTokensToNodes(tokenize("(lambda (x) (if (= x 1) #t #f))"))) === Program(
-        List(LambdaExp(
-          List(Var("x")),
-          Program(List(IfExp(ProcedureCall(Equal, List(Var("x"), Num(1f))), True, Some(False))))))))
+        List(
+          LambdaExp(
+            List(Var("x")),
+            Program(
+              List(IfExp(ProcedureCall(Op(Equal), List(Var("x"), Num(1f))), True, Some(False))))))))
 
     assert(parseProgram(
       parseTokensToNodes(tokenize("(lambda (x) (define y 1) (if (= x 1) (+ x y) y))"))) === Program(
@@ -96,8 +99,8 @@ class ParserTest extends FunSuite {
         List(Var("x")),
         Program(List(
           DefineStatement(Var("y"), Program(List(Num(1f)))),
-          IfExp(ProcedureCall(Equal, List(Var("x"), Num(1f))),
-                ProcedureCall(Plus, List(Var("x"), Var("y"))),
+          IfExp(ProcedureCall(Op(Equal), List(Var("x"), Num(1f))),
+                ProcedureCall(Op(Plus), List(Var("x"), Var("y"))),
                 Some(Var("y")))
         ))
       ))))
@@ -105,7 +108,8 @@ class ParserTest extends FunSuite {
   test("define") {
     assert(
       parseForm(parseTokensToNodes(tokenize("(define x (/ 2.1 5.22))")).head) ===
-        DefineStatement(Var("x"), Program(List(ProcedureCall(Slash, List(Num(2.1f), Num(5.22f))))))
+        DefineStatement(Var("x"),
+                        Program(List(ProcedureCall(Op(Slash), List(Num(2.1f), Num(5.22f))))))
     )
     assert(
       parseForm(parseTokensToNodes(
@@ -120,7 +124,7 @@ class ParserTest extends FunSuite {
                   ProcedureCall(Var("null?"), List(Var("lst"))),
                   Num(0f),
                   Some(ProcedureCall(
-                    Plus,
+                    Op(Plus),
                     List(Num(1f),
                          ProcedureCall(Var("len"),
                                        List(ProcedureCall(Var("cdr"), List(Var("lst"))))))))
@@ -144,7 +148,7 @@ class ParserTest extends FunSuite {
                   ProcedureCall(Var("null?"), List(Var("lst"))),
                   Num(0f),
                   Some(ProcedureCall(
-                    Plus,
+                    Op(Plus),
                     List(Num(1f),
                          ProcedureCall(Var("len"),
                                        List(ProcedureCall(Var("cdr"), List(Var("lst"))))))))

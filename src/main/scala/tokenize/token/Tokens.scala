@@ -49,8 +49,8 @@ object Tokens {
 
   object Begin extends Token
 
-  object And extends Token
+  object AndToken extends Token
 
-  object Or extends Token
+  object OrToken extends Token
 
 }

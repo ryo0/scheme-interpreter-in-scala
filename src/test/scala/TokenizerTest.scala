@@ -38,8 +38,8 @@ class TokenizerTest extends FunSuite {
     assert(tokenizeLetter("else") === (Else, 4))
     assert(tokenizeLetter("let") === (Let, 3))
     assert(tokenizeLetter("begin") === (Begin, 5))
-    assert(tokenizeLetter("and") === (And, 3))
-    assert(tokenizeLetter("or") === (Or, 2))
+    assert(tokenizeLetter("and") === (AndToken, 3))
+    assert(tokenizeLetter("or") === (OrToken, 2))
   }
 
   test("Tokenizer.tokenizeDigit") {

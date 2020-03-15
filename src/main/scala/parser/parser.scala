@@ -69,7 +69,7 @@ object parser {
       case Node(ns) =>
         ns match {
           case Leaf(Define) :: Leaf(variable) :: rest =>
-            // (define  x (+ 1 2) (- 2 3))
+            // (define x (+ 1 2) (- 2 3))
             DefineStatement(parseVar(Leaf(variable)), parseProgram(rest))
           case Leaf(Define) :: Leaf(l) :: body :: _ =>
             // (define x 1)
@@ -104,11 +104,13 @@ object parser {
     val symbolMap = Map(
       TrueToken     -> True,
       FalseToken    -> False,
-      PlusToken     -> Plus,
-      MinusToken    -> Minus,
-      AsteriskToken -> Asterisk,
-      SlashToken    -> Slash,
-      EqualToken    -> Equal,
+      PlusToken     -> Op(Plus),
+      MinusToken    -> Op(Minus),
+      AsteriskToken -> Op(Asterisk),
+      SlashToken    -> Op(Slash),
+      EqualToken    -> Op(Equal),
+      AndToken      -> Op(And),
+      OrToken       -> Op(Or)
     )
     node match {
       case Leaf(l) =>
