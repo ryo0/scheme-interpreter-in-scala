@@ -30,10 +30,56 @@ object parser {
     }
   }
 
-  def parseNodesToExpList(nodes: List[Nodes]): List[Exp] = {
+  def parseForm(nodes: Nodes): Form = {
+    nodes match {
+      case Leaf(_) =>
+        throw new Exception("formが不正")
+      case Node(ns) =>
+        ns match {
+          case Leaf(Define) :: _ =>
+            parseDefine(nodes)
+          case _ =>
+            parseExp(nodes)
+        }
+
+    }
+  }
+
+  def parseDefine(nodes: Nodes): DefineStatement = {
+    nodes match {
+      case Leaf(_) =>
+        throw new Exception("error")
+      case Node(ns) =>
+        ns match {
+          case Leaf(Define) :: Leaf(variable) :: Leaf(value) :: List() =>
+            DefineStatement(parseVar(Leaf(variable)), parseExp(Leaf(value)))
+          case Leaf(Define) :: Leaf(l) :: body :: _ =>
+            val variable = parseVar(Leaf(l))
+            val bodyExp  = parseExp(body)
+            DefineStatement(variable, bodyExp)
+          case _ =>
+            throw new Exception("defineがなんかおかしい")
+          case Leaf(Define) :: Node(ns2) :: body =>
+            ns2 match {
+              case Leaf(variable) :: rest =>
+                val params  = parseVarList(rest)
+                val bodyExp = parseExpList(body)
+                DefineStatement(parseVar(Leaf(variable)), LambdaExp(params, bodyExp))
+              case _ =>
+                throw new Exception("defineがなんかおかしい")
+
+            }
+          case _ =>
+            println(ns)
+            throw new Exception("defineがなんかおかしい")
+        }
+    }
+  }
+
+  def parseExpList(nodes: List[Nodes]): List[Exp] = {
     nodes match {
       case x :: xs =>
-        parseExp(x) :: parseNodesToExpList(xs)
+        parseExp(x) :: parseExpList(xs)
       case x :: List() =>
         List(parseExp(x))
       case _ =>
@@ -42,7 +88,6 @@ object parser {
   }
 
   def parseExp(node: Nodes): Exp = {
-
     val symbolMap = Map(
       TrueToken     -> True,
       FalseToken    -> False,
@@ -89,7 +134,7 @@ object parser {
         val operator = parseExp(x)
         val operands = xs.map(x => parseExp(x))
         ProcedureCall(operator, operands)
-      case x :: _ =>
+      case x :: List() =>
         val operator = parseExp(x)
         ProcedureCall(operator, List())
       case _ =>
@@ -99,12 +144,12 @@ object parser {
 
   def parseIfExp(nodes: List[Nodes]): IfExp = {
     nodes match {
-      case Leaf(If) :: predicate :: consequent :: alternative :: _ =>
+      case Leaf(If) :: predicate :: consequent :: alternative :: List() =>
         val condExp  = parseExp(predicate)
         val trueExp  = parseExp(consequent)
         val falseExp = parseExp(alternative)
         IfExp(condExp, trueExp, Some(falseExp))
-      case Leaf(If) :: predicate :: consequent :: _ =>
+      case Leaf(If) :: predicate :: consequent :: List() =>
         val condExp = parseExp(predicate)
         val trueExp = parseExp(consequent)
         IfExp(condExp, trueExp, None)
@@ -124,7 +169,7 @@ object parser {
     nodes match {
       case first :: rest =>
         parseVar(first) :: parseVarList(rest)
-      case first :: _ =>
+      case first :: List() =>
         List(parseVar(first))
       case _ =>
         List()
@@ -135,7 +180,7 @@ object parser {
     nodes match {
       case Leaf(Lambda) :: Node(ns) :: body =>
         val ops      = parseVarList(ns)
-        val bodyExps = parseNodesToExpList(body)
+        val bodyExps = parseExpList(body)
         LambdaExp(ops, bodyExps)
       case _ =>
         throw new Exception("Lambda Error")

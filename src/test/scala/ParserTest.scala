@@ -3,7 +3,8 @@ import _root_.tokenize.token.Tokens._
 import _root_.tokenize.Tokenizer.tokenize
 import parser.ast.ast._
 import parser.parser.parseTokensToNodes
-import parser.parser.parseNodesToExpList
+import parser.parser.parseExpList
+import parser.parser.parseForm
 
 class ParserTest extends FunSuite {
   test("parser.parseNodes") {
@@ -49,40 +50,62 @@ class ParserTest extends FunSuite {
   }
   test("parser.parseIfExp") {
     assert(
-      parseNodesToExpList(parseTokensToNodes(tokenize("(if #t #t #f)"))) === List(
+      parseExpList(parseTokensToNodes(tokenize("(if #t #t #f)"))) === List(
         IfExp(True, True, Some(False)))
     )
     assert(
-      parseNodesToExpList(parseTokensToNodes(tokenize("(if #t #t #f) (len lst)"))) === List(
+      parseExpList(parseTokensToNodes(tokenize("(if #t #t #f) (len lst)"))) === List(
         IfExp(True, True, Some(False)),
         ProcedureCall(Var("len"), List(Var("lst"))))
     )
     assert(
-      parseNodesToExpList(parseTokensToNodes(tokenize("(if (= 1 2) (+ 1 2) (- 1 2))"))) === List(
+      parseExpList(parseTokensToNodes(tokenize("(if (= 1 2) (+ 1 2) (- 1 2))"))) === List(
         IfExp(ProcedureCall(Equal, List(Num(1f), Num(2f))),
               ProcedureCall(Plus, List(Num(1f), Num(2f))),
               Some(ProcedureCall(Minus, List(Num(1f), Num(2f)))))))
     assert(
-      parseNodesToExpList(parseTokensToNodes(tokenize("(if (= 1 (+ 1 1)) #t #f)"))) === List(
+      parseExpList(parseTokensToNodes(tokenize("(if (= 1 (+ 1 1)) #t #f)"))) === List(
         IfExp(ProcedureCall(Equal, List(Num(1f), ProcedureCall(Plus, List(Num(1f), Num(1f))))),
               True,
               Some(False))))
   }
   test("parser.parseLambdaExp") {
     assert(
-      parseNodesToExpList(parseTokensToNodes(tokenize("(lambda (a b c) d)"))) === List(
+      parseExpList(parseTokensToNodes(tokenize("(lambda (a b c) d)"))) === List(
         LambdaExp(List(Var("a"), Var("b"), Var("c")), List(Var("d")))
       ))
 
     assert(
-      parseNodesToExpList(parseTokensToNodes(tokenize("(lambda (x) (+ 1 2) 3"))) === List(
+      parseExpList(parseTokensToNodes(tokenize("(lambda (x) (+ 1 2) 3"))) === List(
         LambdaExp(List(Var("x")), List(ProcedureCall(Plus, List(Num(1f), Num(2f))), Num(3f)))
       ))
 
     assert(
-      parseNodesToExpList(parseTokensToNodes(tokenize("(lambda (x) (if (= x 1) #t #f))"))) === List(
+      parseExpList(parseTokensToNodes(tokenize("(lambda (x) (if (= x 1) #t #f))"))) === List(
         LambdaExp(List(Var("x")),
                   List(IfExp(ProcedureCall(Equal, List(Var("x"), Num(1f))), True, Some(False))))
       ))
+  }
+  test("parser.parseForm") {
+    assert(
+      parseForm(parseTokensToNodes(tokenize("(define x (/ 2.1 5.22))")).head) ===
+        DefineStatement(Var("x"), ProcedureCall(Slash, List(Num(2.1f), Num(5.22f))))
+    )
+    assert(
+      parseForm(parseTokensToNodes(
+        tokenize("(define (len lst) (if (null? lst) 0 (+ 1 (cdr lst))))")).head) ===
+        DefineStatement(
+          Var("len"),
+          LambdaExp(
+            List(Var("lst")),
+            List(
+              IfExp(ProcedureCall(Var("null?"), List(Var("lst"))),
+                    Num(0f),
+                    Some(
+                      ProcedureCall(Plus,
+                                    List(Num(1f), ProcedureCall(Var("cdr"), List(Var("lst"))))))))
+          )
+        )
+    )
   }
 }

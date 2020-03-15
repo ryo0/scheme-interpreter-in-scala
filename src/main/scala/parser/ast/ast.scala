@@ -9,7 +9,7 @@ object ast {
 
   case class Program(p: List[Form])
   sealed class Form
-  case class DefineState(name: Var, body: Exp)                     extends Form
+  case class DefineStatement(name: Var, body: Exp)                 extends Form
   sealed class Exp                                                 extends Form
   case class Num(n: Float)                                         extends Exp
   case class Var(v: String)                                        extends Exp
