@@ -30,10 +30,27 @@ object parser {
     }
   }
 
+  def parseProgram(nodes: List[Nodes]): Program = {
+    Program(parseFormList(nodes))
+  }
+
+  def parseFormList(nodes: List[Nodes]): List[Form] = {
+    nodes match {
+      case first :: rest =>
+        parseForm(first) :: parseFormList(rest)
+      case first :: List() =>
+        List(parseForm(first))
+      case List() =>
+        List()
+    }
+  }
+
   def parseForm(nodes: Nodes): Form = {
     nodes match {
-      case Leaf(_) =>
-        throw new Exception("formが不正")
+      case Leaf(Define) =>
+        throw new Exception("(define)は不正なコード")
+      case Leaf(l) =>
+        parseExp(Leaf(l))
       case Node(ns) =>
         ns match {
           case Leaf(Define) :: _ =>
@@ -62,9 +79,9 @@ object parser {
           case Leaf(Define) :: Node(ns2) :: body =>
             ns2 match {
               case Leaf(variable) :: rest =>
-                val params  = parseVarList(rest)
-                val bodyExp = parseExpList(body)
-                DefineStatement(parseVar(Leaf(variable)), LambdaExp(params, bodyExp))
+                val params = parseVarList(rest)
+                val bodyp  = parseProgram(body)
+                DefineStatement(parseVar(Leaf(variable)), LambdaExp(params, bodyp))
               case _ =>
                 throw new Exception("defineがなんかおかしい")
 
@@ -179,9 +196,9 @@ object parser {
   def parseLambdaExp(nodes: List[Nodes]): LambdaExp = {
     nodes match {
       case Leaf(Lambda) :: Node(ns) :: body =>
-        val ops      = parseVarList(ns)
-        val bodyExps = parseExpList(body)
-        LambdaExp(ops, bodyExps)
+        val ops   = parseVarList(ns)
+        val pbody = parseProgram(body)
+        LambdaExp(ops, pbody)
       case _ =>
         throw new Exception("Lambda Error")
     }

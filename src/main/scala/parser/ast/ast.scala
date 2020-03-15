@@ -15,7 +15,7 @@ object ast {
   case class Var(v: String)                                        extends Exp
   case class Str(s: String)                                        extends Exp
   case class IfExp(cond: Exp, trueExp: Exp, falseExp: Option[Exp]) extends Exp
-  case class LambdaExp(vars: List[Var], body: List[Exp])           extends Exp
+  case class LambdaExp(vars: List[Var], body: Program)             extends Exp
   case class ProcedureCall(operator: Exp, operands: List[Exp])     extends Exp
   object True                                                      extends Exp
   object False                                                     extends Exp
