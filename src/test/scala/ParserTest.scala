@@ -94,10 +94,12 @@ class ParserTest extends FunSuite {
       parseTokensToNodes(tokenize("(lambda (x) (define y 1) (if (= x 1) (+ x y) y))"))) === Program(
       List(LambdaExp(
         List(Var("x")),
-        Program(List(DefineStatement(Var("y"), Program(List(Num(1f)))),
-                     IfExp(ProcedureCall(Equal, List(Var("x"), Num(1f))),
-                           ProcedureCall(Plus, List(Var("x"), Var("y"))),
-                           Some(Var("y")))))
+        Program(List(
+          DefineStatement(Var("y"), Program(List(Num(1f)))),
+          IfExp(ProcedureCall(Equal, List(Var("x"), Num(1f))),
+                ProcedureCall(Plus, List(Var("x"), Var("y"))),
+                Some(Var("y")))
+        ))
       ))))
   }
   test("define") {
@@ -107,38 +109,48 @@ class ParserTest extends FunSuite {
     )
     assert(
       parseForm(parseTokensToNodes(
-        tokenize("(define (len lst) (if (null? lst) 0 (+ 1 (cdr lst))))")).head) ===
+        tokenize("(define (len lst) (if (null? lst) 0 (+ 1 (len (cdr lst)))))")).head) ===
         DefineStatement(
           Var("len"),
-          Program(List(LambdaExp(
-            List(Var("lst")),
-            Program(
-              List(
-                IfExp(
+          Program(
+            List(LambdaExp(
+              List(Var("lst")),
+              Program(
+                List(IfExp(
                   ProcedureCall(Var("null?"), List(Var("lst"))),
                   Num(0f),
-                  Some(ProcedureCall(Plus,
-                                     List(Num(1f), ProcedureCall(Var("cdr"), List(Var("lst")))))))))
-          )))
+                  Some(ProcedureCall(
+                    Plus,
+                    List(Num(1f),
+                         ProcedureCall(Var("len"),
+                                       List(ProcedureCall(Var("cdr"), List(Var("lst"))))))))
+                ))
+              )
+            )))
         )
     )
     assert(
-      parseForm(parseTokensToNodes(
-        tokenize("(define (len lst) (define x 100) (if (null? lst) 0 (+ 1 (cdr lst))))")).head) ===
+      parseForm(
+        parseTokensToNodes(tokenize(
+          "(define (len lst) (define x 100) (if (null? lst) 0 (+ 1 (len (cdr lst)))))")).head) ===
         DefineStatement(
           Var("len"),
-          Program(List(LambdaExp(
-            List(Var("lst")),
-            Program(
-              List(
+          Program(
+            List(LambdaExp(
+              List(Var("lst")),
+              Program(List(
                 DefineStatement(Var("x"), Program(List(Num(100f)))),
-                IfExp(ProcedureCall(Var("null?"), List(Var("lst"))),
-                      Num(0f),
-                      Some(
-                        ProcedureCall(Plus,
-                                      List(Num(1f), ProcedureCall(Var("cdr"), List(Var("lst")))))))
+                IfExp(
+                  ProcedureCall(Var("null?"), List(Var("lst"))),
+                  Num(0f),
+                  Some(ProcedureCall(
+                    Plus,
+                    List(Num(1f),
+                         ProcedureCall(Var("len"),
+                                       List(ProcedureCall(Var("cdr"), List(Var("lst"))))))))
+                )
               ))
-          )))
+            )))
         )
     )
   }
