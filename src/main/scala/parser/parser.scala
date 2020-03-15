@@ -72,6 +72,8 @@ object parser {
             l match {
               case If =>
                 parseIfExp(ns)
+              case Lambda =>
+                parseLambdaExp(ns)
               case _ =>
                 parseProcedureCall(ns)
             }
@@ -108,6 +110,35 @@ object parser {
         IfExp(condExp, trueExp, None)
       case _ =>
         throw new Exception("if式がなんか不正")
+    }
+  }
+
+  def parseVar(node: Nodes): Var = {
+    node match {
+      case Leaf(VarToken(v)) => Var(v)
+      case _                 => throw new Exception("VarにLeaf(VarToken)以外が渡された")
+    }
+  }
+
+  def parseVarList(nodes: List[Nodes]): List[Var] = {
+    nodes match {
+      case first :: rest =>
+        parseVar(first) :: parseVarList(rest)
+      case first :: _ =>
+        List(parseVar(first))
+      case _ =>
+        List()
+    }
+  }
+
+  def parseLambdaExp(nodes: List[Nodes]): LambdaExp = {
+    nodes match {
+      case Leaf(Lambda) :: Node(ns) :: body =>
+        val ops      = parseVarList(ns)
+        val bodyExps = parseNodesToExpList(body)
+        LambdaExp(ops, bodyExps)
+      case _ =>
+        throw new Exception("Lambda Error")
     }
   }
 }
