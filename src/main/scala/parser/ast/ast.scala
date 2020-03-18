@@ -14,9 +14,9 @@ object ast {
   object And         extends rawOp
   object Or          extends rawOp
 
-  sealed class Nodes
-  case class Leaf(l: Token)           extends Nodes
-  case class Node(nodes: List[Nodes]) extends Nodes
+  sealed class Node
+  case class Leaf(l: Token)           extends Node
+  case class Nodes(nodes: List[Node]) extends Node
 
   case class Program(p: List[Form])
   sealed class Form
@@ -28,6 +28,7 @@ object ast {
   case class Op(op: rawOp)                                         extends Exp
   case class IfExp(cond: Exp, trueExp: Exp, falseExp: Option[Exp]) extends Exp
   case class LambdaExp(vars: List[Var], body: Program)             extends Exp
+  case class LetExp(bindings: List[(Var, Exp)], body: Program)     extends Exp
   case class ProcedureCall(operator: Exp, operands: List[Exp])     extends Exp
   object True                                                      extends Exp
   object False                                                     extends Exp

@@ -6,48 +6,50 @@ import parser.parser.parseTokensToNodes
 import parser.parser.parseExpList
 import parser.parser.parseForm
 import parser.parser.parseProgram
+import parser.parser.parseBindings
+import parser.parser.parseLetExp
 
 class ParserTest extends FunSuite {
   test("parser.parseNodes") {
     assert(
       parseTokensToNodes(List(LParen, NumToken(1), RParen)) === List(
-        Node(List(Leaf(NumToken(1f))))))
+        Nodes(List(Leaf(NumToken(1f))))))
     assert(
       parseTokensToNodes(tokenize("(a b c (d e (f)))")) ===
         List(
-          Node(
+          Nodes(
             List(
               Leaf(VarToken("a")),
               Leaf(VarToken("b")),
               Leaf(VarToken("c")),
-              Node(
-                List(Leaf(VarToken("d")), Leaf(VarToken("e")), Node(List(Leaf(VarToken("f")))))))))
+              Nodes(
+                List(Leaf(VarToken("d")), Leaf(VarToken("e")), Nodes(List(Leaf(VarToken("f")))))))))
     )
     assert(
       parseTokensToNodes(tokenize("(1 (+ 1 2) 3) (4)")) ===
-        List(Node(
+        List(Nodes(
                List(Leaf(NumToken(1f)),
-                    Node(List(Leaf(PlusToken), Leaf(NumToken(1f)), Leaf(NumToken(2f)))),
+                    Nodes(List(Leaf(PlusToken), Leaf(NumToken(1f)), Leaf(NumToken(2f)))),
                     Leaf(NumToken(3f)))),
-             Node(List(Leaf(NumToken(4f))))))
+             Nodes(List(Leaf(NumToken(4f))))))
     assert(
       parseTokensToNodes(tokenize("(define (len lst) (if (null? x) 0 (+ 1 (len (cdr lst)))))")) ===
-        List(Node(List(
+        List(Nodes(List(
           Leaf(Define),
-          Node(List(Leaf(VarToken("len")), Leaf(VarToken("lst")))),
-          Node(List(
+          Nodes(List(Leaf(VarToken("len")), Leaf(VarToken("lst")))),
+          Nodes(List(
             Leaf(If),
-            Node(List(Leaf(VarToken("null?")), Leaf(VarToken("x")))),
+            Nodes(List(Leaf(VarToken("null?")), Leaf(VarToken("x")))),
             Leaf(NumToken(0f)),
-            Node(List(Leaf(PlusToken),
-                      Leaf(NumToken(1f)),
-                      Node(List(Leaf(VarToken("len")),
-                                Node(List(Leaf(VarToken("cdr")), Leaf(VarToken("lst"))))))))
+            Nodes(List(Leaf(PlusToken),
+                       Leaf(NumToken(1f)),
+                       Nodes(List(Leaf(VarToken("len")),
+                                  Nodes(List(Leaf(VarToken("cdr")), Leaf(VarToken("lst"))))))))
           ))
         ))))
     assert(
       parseTokensToNodes(tokenize("(if #t 1 2)")) === List(
-        Node(List(Leaf(If), Leaf(TrueToken), Leaf(NumToken(1f)), Leaf(NumToken(2f))))))
+        Nodes(List(Leaf(If), Leaf(TrueToken), Leaf(NumToken(1f)), Leaf(NumToken(2f))))))
   }
   test("parser.parseIfExp") {
     assert(
@@ -157,5 +159,40 @@ class ParserTest extends FunSuite {
             )))
         )
     )
+  }
+  test("let") {
+    assert(
+      parseBindings(parseTokensToNodes(tokenize("((x (+ 1 2)) (y (cdr a)))")))
+        === List((Var("x"), ProcedureCall(Op(Plus), List(Num(1f), Num(2f)))),
+                 (Var("y"), ProcedureCall(Var("cdr"), List(Var("a"))))))
+    assert(
+      parseExpList(parseTokensToNodes(tokenize(
+        "(let ((x (+ 1 2)) (y (cdr a))) (define (len lst) (if (null? lst) 0 (+ 1 (len (cdr lst)))))#t)")))
+        === List(LetExp(
+          List((Var("x"), ProcedureCall(Op(Plus), List(Num(1f), Num(2f)))),
+               (Var("y"), ProcedureCall(Var("cdr"), List(Var("a"))))),
+          Program(List(
+            DefineStatement(
+              Var("len"),
+              Program(
+                List(LambdaExp(
+                  List(Var("lst")),
+                  Program(List(
+                    IfExp(
+                      ProcedureCall(Var("null?"), List(Var("lst"))),
+                      Num(0f),
+                      Some(ProcedureCall(
+                        Op(Plus),
+                        List(Num(1f),
+                             ProcedureCall(Var("len"),
+                                           List(ProcedureCall(Var("cdr"), List(Var("lst"))))))))
+                    )
+                  ))
+                ))
+              )
+            ),
+            True
+          ))
+        )))
   }
 }

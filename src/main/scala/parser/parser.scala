@@ -7,17 +7,17 @@ import tokenize.token.Tokens.TrueToken
 import tokenize.token.Tokens.FalseToken
 
 object parser {
-  def parseTokensToNodes(tokens: List[Token]): List[Nodes] = {
+  def parseTokensToNodes(tokens: List[Token]): List[Node] = {
     parseTokensToNodeSub(tokens, List())._1
   }
 
-  def parseTokensToNodeSub(tokens: List[Token], acm: List[Nodes]): (List[Nodes], List[Token]) = {
+  def parseTokensToNodeSub(tokens: List[Token], acm: List[Node]): (List[Node], List[Token]) = {
     tokens match {
       case x :: xs =>
         x match {
           case LParen =>
             val (result, rest) = parseTokensToNodeSub(xs, List())
-            parseTokensToNodeSub(rest, acm ::: List(Node(result)))
+            parseTokensToNodeSub(rest, acm ::: List(Nodes(result)))
           case RParen =>
             (acm, xs)
           case _ =>
@@ -30,11 +30,11 @@ object parser {
     }
   }
 
-  def parseProgram(nodes: List[Nodes]): Program = {
+  def parseProgram(nodes: List[Node]): Program = {
     Program(parseFormList(nodes))
   }
 
-  def parseFormList(nodes: List[Nodes]): List[Form] = {
+  def parseFormList(nodes: List[Node]): List[Form] = {
     nodes match {
       case first :: rest =>
         parseForm(first) :: parseFormList(rest)
@@ -45,13 +45,13 @@ object parser {
     }
   }
 
-  def parseForm(nodes: Nodes): Form = {
+  def parseForm(nodes: Node): Form = {
     nodes match {
       case Leaf(Define) =>
         throw new Exception("(define)は不正なコード")
       case Leaf(l) =>
         parseExp(Leaf(l))
-      case Node(ns) =>
+      case Nodes(ns) =>
         ns match {
           case Leaf(Define) :: _ =>
             parseDefine(nodes)
@@ -62,11 +62,11 @@ object parser {
     }
   }
 
-  def parseDefine(nodes: Nodes): DefineStatement = {
+  def parseDefine(nodes: Node): DefineStatement = {
     nodes match {
       case Leaf(_) =>
         throw new Exception("error")
-      case Node(ns) =>
+      case Nodes(ns) =>
         ns match {
           case Leaf(Define) :: Leaf(variable) :: rest =>
             // (define x (+ 1 2) (- 2 3))
@@ -76,7 +76,7 @@ object parser {
             val variable = parseVar(Leaf(l))
             val bodyExp  = parseExp(body)
             DefineStatement(variable, Program(List(bodyExp)))
-          case Leaf(Define) :: Node(Leaf(v) :: ps) :: rest =>
+          case Leaf(Define) :: Nodes(Leaf(v) :: ps) :: rest =>
             // (define (x a) (define y 1) (+ a y))
             val variable = parseVar(Leaf(v))
             val params   = parseVarList(ps)
@@ -89,7 +89,7 @@ object parser {
     }
   }
 
-  def parseExpList(nodes: List[Nodes]): List[Exp] = {
+  def parseExpList(nodes: List[Node]): List[Exp] = {
     nodes match {
       case x :: xs =>
         parseExp(x) :: parseExpList(xs)
@@ -100,7 +100,7 @@ object parser {
     }
   }
 
-  def parseExp(node: Nodes): Exp = {
+  def parseExp(node: Node): Exp = {
     val symbolMap = Map(
       TrueToken     -> True,
       FalseToken    -> False,
@@ -126,7 +126,7 @@ object parser {
             }
         }
 
-      case Node(ns) =>
+      case Nodes(ns) =>
         ns match {
           case Leaf(l) :: _ =>
             l match {
@@ -134,16 +134,19 @@ object parser {
                 parseIfExp(ns)
               case Lambda =>
                 parseLambdaExp(ns)
+              case Let =>
+                parseLetExp(ns)
               case _ =>
                 parseProcedureCall(ns)
             }
           case _ =>
+            println(ns)
             throw new Exception("parseExpSub何かがおかしい")
         }
     }
   }
 
-  def parseProcedureCall(nodes: List[Nodes]): ProcedureCall = {
+  def parseProcedureCall(nodes: List[Node]): ProcedureCall = {
     nodes match {
       case x :: xs =>
         val operator = parseExp(x)
@@ -157,7 +160,7 @@ object parser {
     }
   }
 
-  def parseIfExp(nodes: List[Nodes]): IfExp = {
+  def parseIfExp(nodes: List[Node]): IfExp = {
     nodes match {
       case Leaf(If) :: predicate :: consequent :: alternative :: List() =>
         val condExp  = parseExp(predicate)
@@ -173,14 +176,14 @@ object parser {
     }
   }
 
-  def parseVar(node: Nodes): Var = {
+  def parseVar(node: Node): Var = {
     node match {
       case Leaf(VarToken(v)) => Var(v)
       case _                 => throw new Exception("VarにLeaf(VarToken)以外が渡された")
     }
   }
 
-  def parseVarList(nodes: List[Nodes]): List[Var] = {
+  def parseVarList(nodes: List[Node]): List[Var] = {
     nodes match {
       case first :: rest =>
         parseVar(first) :: parseVarList(rest)
@@ -191,14 +194,53 @@ object parser {
     }
   }
 
-  def parseLambdaExp(nodes: List[Nodes]): LambdaExp = {
+  def parseLambdaExp(nodes: List[Node]): LambdaExp = {
     nodes match {
-      case Leaf(Lambda) :: Node(ns) :: body =>
+      case Leaf(Lambda) :: Nodes(ns) :: body =>
         val ops   = parseVarList(ns)
         val pbody = parseProgram(body)
         LambdaExp(ops, pbody)
       case _ =>
         throw new Exception("Lambda Error")
+    }
+  }
+  def parseBindings(ns: List[Node]): List[(Var, Exp)] = {
+    def parseBindingsSub(ns: List[Node], acm: List[(Var, Exp)]): List[(Var, Exp)] = {
+      ns match {
+        case Nodes(nodes) :: List() =>
+          nodes match {
+            case Nodes(first) :: rest2 =>
+              val t = parseBinding(first)
+              parseBindingsSub(rest2, acm :+ t)
+            case xs =>
+              acm :+ parseBinding(xs)
+          }
+        case Nodes(nodes) :: rest =>
+          parseBindingsSub(rest, acm ::: parseBindings(nodes))
+        case xs =>
+          acm :+ parseBinding(xs)
+      }
+    }
+    parseBindingsSub(ns, List())
+  }
+
+  def parseBinding(ns: List[Node]): (Var, Exp) = {
+    ns match {
+      case Leaf(VarToken(v)) :: Nodes(nodes) :: _ =>
+        (parseVar(Leaf(VarToken(v))), parseExp(Nodes(nodes)))
+      case _ =>
+        throw new Exception("binding error")
+    }
+  }
+
+  def parseLetExp(nodes: List[Node]): LetExp = {
+    // let ((a b) (c d)) body)
+    nodes match {
+      case Leaf(Let) :: Nodes(ns) :: body =>
+        LetExp(parseBindings(ns), parseProgram(body))
+      case _ =>
+        println(nodes)
+        throw new Exception("let error")
     }
   }
 }
