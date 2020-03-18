@@ -7,6 +7,13 @@ import tokenize.token.Tokens.TrueToken
 import tokenize.token.Tokens.FalseToken
 
 object parser {
+  def car(lst: List[Node]): Node = {
+    lst.head
+  }
+  def cdr(lst: List[Node]): List[Node] = {
+    lst.tail
+  }
+
   def parseTokensToNodes(tokens: List[Token]): List[Node] = {
     parseTokensToNodeSub(tokens, List())._1
   }
@@ -23,8 +30,6 @@ object parser {
           case _ =>
             parseTokensToNodeSub(xs, acm ::: List(Leaf(x)))
         }
-      case x :: _ =>
-        (Leaf(x) :: acm, List())
       case _ =>
         (acm, List())
     }
@@ -38,8 +43,6 @@ object parser {
     nodes match {
       case first :: rest =>
         parseForm(first) :: parseFormList(rest)
-      case first :: List() =>
-        List(parseForm(first))
       case List() =>
         List()
     }
@@ -71,11 +74,6 @@ object parser {
           case Leaf(Define) :: Leaf(variable) :: rest =>
             // (define x (+ 1 2) (- 2 3))
             DefineStatement(parseVar(Leaf(variable)), parseProgram(rest))
-          case Leaf(Define) :: Leaf(l) :: body :: _ =>
-            // (define x 1)
-            val variable = parseVar(Leaf(l))
-            val bodyExp  = parseExp(body)
-            DefineStatement(variable, Program(List(bodyExp)))
           case Leaf(Define) :: Nodes(Leaf(v) :: ps) :: rest =>
             // (define (x a) (define y 1) (+ a y))
             val variable = parseVar(Leaf(v))
@@ -93,8 +91,6 @@ object parser {
     nodes match {
       case x :: xs =>
         parseExp(x) :: parseExpList(xs)
-      case x :: List() =>
-        List(parseExp(x))
       case _ =>
         List()
     }
@@ -136,6 +132,8 @@ object parser {
                 parseLambdaExp(ns)
               case Let =>
                 parseLetExp(ns)
+              case Cond =>
+                parseCondExp(ns)
               case _ =>
                 parseProcedureCall(ns)
             }
@@ -152,9 +150,6 @@ object parser {
         val operator = parseExp(x)
         val operands = xs.map(x => parseExp(x))
         ProcedureCall(operator, operands)
-      case x :: List() =>
-        val operator = parseExp(x)
-        ProcedureCall(operator, List())
       case _ =>
         throw new Exception("procedureCallがなんか不正")
     }
@@ -187,8 +182,6 @@ object parser {
     nodes match {
       case first :: rest =>
         parseVar(first) :: parseVarList(rest)
-      case first :: List() =>
-        List(parseVar(first))
       case _ =>
         List()
     }
@@ -234,7 +227,7 @@ object parser {
   }
 
   def parseLetExp(nodes: List[Node]): LetExp = {
-    // let ((a b) (c d)) body)
+    // (let ((a b) (c d)) body)
     nodes match {
       case Leaf(Let) :: Nodes(ns) :: body =>
         LetExp(parseBindings(ns), parseProgram(body))
@@ -243,4 +236,38 @@ object parser {
         throw new Exception("let error")
     }
   }
+
+  def parseCondExp(nodes: List[Node]): CondExp = {
+    val cdrNodes = cdr(nodes)
+    parseCondExpSub(cdrNodes, CondExp(List(), List()))
+  }
+
+  def parseCondExpSub(nodes: List[Node], acm: CondExp): CondExp = {
+    //    (cond (a 1)
+    //          (b 2)
+    //          (else 3)
+    //          )
+    nodes match {
+      case Nodes(Leaf(Else) :: rest) :: List() =>
+        CondExp(acm.condAndClauses, parseExpList(rest))
+      case Nodes(ns) :: rest =>
+        val cc     = parseCondClause(ns)
+        val result = parseCondExpSub(rest, acm)
+        CondExp(cc :: result.condAndClauses, result.elseCause)
+      case _ =>
+        acm
+    }
+  }
+
+  def parseCondClause(nodes: List[Node]): (Exp, List[Exp]) = {
+    //    (cond (a 1)
+    //          (b 2)
+    //          (else 3)
+    //          )
+    //    の中の(a 1)
+    val carExp  = parseExp(car(nodes))
+    val cdrExps = cdr(nodes).map(it => parseExp(it))
+    (carExp, cdrExps)
+  }
+
 }

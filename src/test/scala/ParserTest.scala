@@ -4,10 +4,10 @@ import _root_.tokenize.Tokenizer.tokenize
 import parser.ast.ast._
 import parser.parser.parseTokensToNodes
 import parser.parser.parseExpList
+import parser.parser.parseExp
 import parser.parser.parseForm
 import parser.parser.parseProgram
 import parser.parser.parseBindings
-import parser.parser.parseLetExp
 
 class ParserTest extends FunSuite {
   test("parser.parseNodes") {
@@ -166,9 +166,9 @@ class ParserTest extends FunSuite {
         === List((Var("x"), ProcedureCall(Op(Plus), List(Num(1f), Num(2f)))),
                  (Var("y"), ProcedureCall(Var("cdr"), List(Var("a"))))))
     assert(
-      parseExpList(parseTokensToNodes(tokenize(
-        "(let ((x (+ 1 2)) (y (cdr a))) (define (len lst) (if (null? lst) 0 (+ 1 (len (cdr lst)))))#t)")))
-        === List(LetExp(
+      parseExp(parseTokensToNodes(tokenize(
+        "(let ((x (+ 1 2)) (y (cdr a))) (define (len lst) (if (null? lst) 0 (+ 1 (len (cdr lst)))))#t)")).head)
+        === LetExp(
           List((Var("x"), ProcedureCall(Op(Plus), List(Num(1f), Num(2f)))),
                (Var("y"), ProcedureCall(Var("cdr"), List(Var("a"))))),
           Program(List(
@@ -193,6 +193,32 @@ class ParserTest extends FunSuite {
             ),
             True
           ))
-        )))
+        ))
+  }
+  test("cond") {
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(cond ((= a 1) #t) (else #f))")).head)
+        === CondExp(List((ProcedureCall(Op(Equal), List(Var("a"), Num(1f))), List(True))),
+                    List(False)))
+
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(cond ((= a 1) #t) ((= a 2) #f))")).head)
+        === CondExp(List((ProcedureCall(Op(Equal), List(Var("a"), Num(1f))), List(True)),
+                         (ProcedureCall(Op(Equal), List(Var("a"), Num(2f))), List(False))),
+                    List())
+    )
+
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(cond ((= a 1) (+ 1 2)) ((= a 2) (+ 1 2 )))")).head)
+        === CondExp(
+          List(
+            (ProcedureCall(Op(Equal), List(Var("a"), Num(1f))),
+             List(ProcedureCall(Op(Plus), List(Num(1f), Num(2f))))),
+            (ProcedureCall(Op(Equal), List(Var("a"), Num(2f))),
+             List(ProcedureCall(Op(Plus), List(Num(1f), Num(2f)))))
+          ),
+          List()
+        )
+    )
   }
 }
