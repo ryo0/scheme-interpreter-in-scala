@@ -162,7 +162,7 @@ class ParserTest extends FunSuite {
   }
   test("let") {
     assert(
-      parseBindings(parseTokensToNodes(tokenize("((x (+ 1 2)) (y (cdr a)))")))
+      parseBindings(parseTokensToNodes(tokenize("((x (+ 1 2)) (y (cdr a)))")).head)
         === List((Var("x"), ProcedureCall(Op(Plus), List(Num(1f), Num(2f)))),
                  (Var("y"), ProcedureCall(Var("cdr"), List(Var("a"))))))
     assert(

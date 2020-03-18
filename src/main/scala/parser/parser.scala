@@ -197,40 +197,27 @@ object parser {
         throw new Exception("Lambda Error")
     }
   }
-  def parseBindings(ns: List[Node]): List[(Var, Exp)] = {
-    def parseBindingsSub(ns: List[Node], acm: List[(Var, Exp)]): List[(Var, Exp)] = {
-      ns match {
-        case Nodes(nodes) :: List() =>
-          nodes match {
-            case Nodes(first) :: rest2 =>
-              val t = parseBinding(first)
-              parseBindingsSub(rest2, acm :+ t)
-            case xs =>
-              acm :+ parseBinding(xs)
+  def parseBindings(node: Node): List[(Var, Exp)] = {
+    def parseBindingsSub(node: Node, acm: List[(Var, Exp)]): List[(Var, Exp)] = {
+      // ((a b) (c d))
+      node match {
+        case Nodes(ns) =>
+          ns.map {
+            case Nodes(Leaf(l) :: rest :: List()) =>
+              (parseVar(Leaf(l)), parseExp(rest))
+            case Leaf(l) =>
+              throw new Exception("bindings error")
           }
-        case Nodes(nodes) :: rest =>
-          parseBindingsSub(rest, acm ::: parseBindings(nodes))
-        case xs =>
-          acm :+ parseBinding(xs)
       }
     }
-    parseBindingsSub(ns, List())
-  }
-
-  def parseBinding(ns: List[Node]): (Var, Exp) = {
-    ns match {
-      case Leaf(VarToken(v)) :: Nodes(nodes) :: _ =>
-        (parseVar(Leaf(VarToken(v))), parseExp(Nodes(nodes)))
-      case _ =>
-        throw new Exception("binding error")
-    }
+    parseBindingsSub(node, List())
   }
 
   def parseLetExp(nodes: List[Node]): LetExp = {
     // (let ((a b) (c d)) body)
     nodes match {
-      case Leaf(Let) :: Nodes(ns) :: body =>
-        LetExp(parseBindings(ns), parseProgram(body))
+      case Leaf(Let) :: bindings :: body =>
+        LetExp(parseBindings(bindings), parseProgram(body))
       case _ =>
         println(nodes)
         throw new Exception("let error")
@@ -269,5 +256,4 @@ object parser {
     val cdrExps = cdr(nodes).map(it => parseExp(it))
     (carExp, cdrExps)
   }
-
 }
