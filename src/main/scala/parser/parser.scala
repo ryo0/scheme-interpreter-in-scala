@@ -41,10 +41,6 @@ object parser {
 
   def parseFormList(nodes: List[Node]): List[Form] = {
     nodes match {
-      case Leaf(Quote) :: quoteBody :: rest =>
-        // この時点でQuoteを特別扱いするの、なんかおかしい気がするけど、
-        // ただparseExpにぶっこむと
-        parseQuoteExp(Leaf(Quote) :: quoteBody :: List()) :: parseFormList(rest)
       case first :: rest =>
         parseForm(first) :: parseFormList(rest)
       case List() =>
@@ -93,6 +89,8 @@ object parser {
 
   def parseExpList(nodes: List[Node]): List[Exp] = {
     nodes match {
+      case Leaf(Quote) :: quoteBody :: rest =>
+        parseQuoteExp(Leaf(Quote) :: quoteBody :: List()) :: parseExpList(rest)
       case x :: xs =>
         parseExp(x) :: parseExpList(xs)
       case _ =>
@@ -140,6 +138,8 @@ object parser {
                 parseCondExp(ns)
               case Quote =>
                 parseQuoteExp(ns)
+              case Set =>
+                parseSetExp(ns)
               case _ =>
                 parseProcedureCall(ns)
             }
@@ -154,7 +154,7 @@ object parser {
     nodes match {
       case x :: xs =>
         val operator = parseExp(x)
-        val operands = xs.map(x => parseExp(x))
+        val operands = parseExpList(xs)
         ProcedureCall(operator, operands)
       case _ =>
         throw new Exception("procedureCallがなんか不正")
@@ -209,8 +209,8 @@ object parser {
       node match {
         case Nodes(ns) =>
           ns.map {
-            case Nodes(Leaf(l) :: rest :: List()) =>
-              (parseVar(Leaf(l)), parseExp(rest))
+            case Nodes(Leaf(l) :: rest) =>
+              (parseVar(Leaf(l)), parseExpList(rest).head)
             case Leaf(l) =>
               throw new Exception("bindings error")
           }
@@ -259,8 +259,13 @@ object parser {
     //          )
     //    の中の(a 1)
     val carExp  = parseExp(car(nodes))
-    val cdrExps = cdr(nodes).map(it => parseExp(it))
+    val cdrExps = parseExpList(cdr(nodes))
     (carExp, cdrExps)
+  }
+
+  def parseSetExp(nodes: List[Node]): SetExp = {
+    val cdrnodes = cdr(nodes)
+    SetExp(parseVar(car(cdrnodes)), parseExpList(cdr(cdrnodes)).head)
   }
 
   def parseQuoteExp(nodes: List[Node]): QuoteExp = {

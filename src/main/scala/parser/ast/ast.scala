@@ -29,6 +29,7 @@ object ast {
   case class ProcedureCall(operator: Exp, operands: List[Exp])                     extends Exp
   case class CondExp(condAndClauses: List[(Exp, List[Exp])], elseCause: List[Exp]) extends Exp
   case class QuoteExp(data: Datum)                                                 extends Exp
+  case class SetExp(variable: Var, value: Exp)                                     extends Exp
   sealed class Datum                                                               extends Exp
   object True                                                                      extends Datum
   object False                                                                     extends Datum

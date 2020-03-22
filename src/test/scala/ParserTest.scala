@@ -212,6 +212,7 @@ class ParserTest extends FunSuite {
           ))
         ))
   }
+
   test("cond") {
     assert(
       parseExp(parseTokensToNodes(tokenize("(cond ((= a 1) #t) (else #f))")).head)
@@ -241,35 +242,44 @@ class ParserTest extends FunSuite {
 
   test("quote") {
     assert(
-      parseFormList(parseTokensToNodes(tokenize("'a")))
+      parseExpList(parseTokensToNodes(tokenize("'a")))
         === List(QuoteExp(Var("a"))))
 
     assert(
-      parseFormList(parseTokensToNodes(tokenize("'(a 1 2)")))
+      parseExpList(parseTokensToNodes(tokenize("'(a 1 2)")))
         === List(QuoteExp(DataList(List(Var("a"), Num(1f), Num(2f))))))
 
     assert(
-      parseFormList(parseTokensToNodes(tokenize("'(a (1 2))")))
+      parseExpList(parseTokensToNodes(tokenize("'(a (1 2))")))
         === List(QuoteExp(DataList(List(Var("a"), DataList(List(Num(1f), Num(2f))))))))
 
     assert(
-      parseFormList(parseTokensToNodes(tokenize("'(a \"(1 2)\")")))
+      parseExpList(parseTokensToNodes(tokenize("'(a \"(1 2)\")")))
         === List(QuoteExp(DataList(List(Var("a"), Str("(1 2)"))))))
 
     assert(
-      parseFormList(parseTokensToNodes(tokenize("(quote a)")))
+      parseExpList(parseTokensToNodes(tokenize("(quote a)")))
         === List(QuoteExp(Var("a"))))
 
     assert(
-      parseFormList(parseTokensToNodes(tokenize("(quote (a 1 2))")))
+      parseExpList(parseTokensToNodes(tokenize("(quote (a 1 2))")))
         === List(QuoteExp(DataList(List(Var("a"), Num(1f), Num(2f))))))
 
     assert(
-      parseFormList(parseTokensToNodes(tokenize("(quote (a (1 2)))")))
+      parseExpList(parseTokensToNodes(tokenize("(quote (a (1 2)))")))
         === List(QuoteExp(DataList(List(Var("a"), DataList(List(Num(1f), Num(2f))))))))
 
     assert(
-      parseFormList(parseTokensToNodes(tokenize("(quote (a \"(1 2)\"))")))
+      parseExpList(parseTokensToNodes(tokenize("(quote (a \"(1 2)\"))")))
         === List(QuoteExp(DataList(List(Var("a"), Str("(1 2)"))))))
+  }
+
+  test("set!") {
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(set! x #t)")).head)
+        === SetExp(Var("x"), True))
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(set! x '(1 2 3))")).head)
+        === SetExp(Var("x"), QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f))))))
   }
 }
