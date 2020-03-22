@@ -41,6 +41,10 @@ object parser {
 
   def parseFormList(nodes: List[Node]): List[Form] = {
     nodes match {
+      case Leaf(Quote) :: quoteBody :: rest =>
+        // この時点でQuoteを特別扱いするの、なんかおかしい気がするけど、
+        // 特殊な形式してるからこれしか思い浮かばなかった……
+        parseQuoteExp(Leaf(Quote) :: quoteBody :: List()) :: parseFormList(rest)
       case first :: rest =>
         parseForm(first) :: parseFormList(rest)
       case List() =>
@@ -118,7 +122,7 @@ object parser {
             val symbolExp = symbolMap.get(l)
             symbolExp match {
               case Some(sExp: Exp) => sExp
-              case None            => throw new Exception("parseExpSub何かがおかしい" + l)
+              case None            => throw new Exception("parseExp何かがおかしい" + l)
             }
         }
 
@@ -255,5 +259,39 @@ object parser {
     val carExp  = parseExp(car(nodes))
     val cdrExps = cdr(nodes).map(it => parseExp(it))
     (carExp, cdrExps)
+  }
+
+  def parseQuoteExp(nodes: List[Node]): QuoteExp = {
+    QuoteExp(parseDatum(car(cdr(nodes))))
+  }
+
+  def parseData(node: List[Node]): List[Datum] = {
+    node match {
+      case first :: rest =>
+        parseDatum(first) :: parseData(rest)
+      case first :: List() =>
+        List(parseDatum(first))
+      case _ =>
+        List()
+    }
+  }
+
+  def parseDatum(node: Node): Datum = {
+    // '(1 2 3)
+    // 'a
+    // どっちにしてもnode一つで表される
+
+    node match {
+      case Leaf(l) =>
+        l match {
+          case NumToken(n) => Num(n)
+          case StrToken(s) => Str(s)
+          case VarToken(v) => Var(v)
+          case TrueToken   => True
+          case FalseToken  => False
+        }
+      case Nodes(ns) =>
+        DataList(parseData(ns))
+    }
   }
 }

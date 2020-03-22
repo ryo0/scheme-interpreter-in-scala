@@ -27,7 +27,7 @@ object Tokens {
 
   object EqualToken extends Token
 
-  object QuoteToken extends Token
+  object Quote extends Token
 
   object LessThanToken extends Token
 

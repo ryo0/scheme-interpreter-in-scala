@@ -7,7 +7,7 @@ object Tokenizer {
     '-' -> MinusToken,
     '*' -> AsteriskToken,
     '/' -> SlashToken,
-    ''' -> QuoteToken,
+    ''' -> Quote,
     '(' -> LParen,
     ')' -> RParen,
     '=' -> EqualToken,

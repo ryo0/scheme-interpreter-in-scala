@@ -8,6 +8,7 @@ import parser.parser.parseExp
 import parser.parser.parseForm
 import parser.parser.parseProgram
 import parser.parser.parseBindings
+import parser.parser.parseFormList
 
 class ParserTest extends FunSuite {
   test("parser.parseNodes") {
@@ -32,6 +33,22 @@ class ParserTest extends FunSuite {
                     Nodes(List(Leaf(PlusToken), Leaf(NumToken(1f)), Leaf(NumToken(2f)))),
                     Leaf(NumToken(3f)))),
              Nodes(List(Leaf(NumToken(4f))))))
+    assert(
+      parseTokensToNodes(tokenize("'(1 (+ 1 2) 3) (4)")) ===
+        List(
+          Leaf(Quote),
+          Nodes(
+            List(Leaf(NumToken(1f)),
+                 Nodes(List(Leaf(PlusToken), Leaf(NumToken(1f)), Leaf(NumToken(2f)))),
+                 Leaf(NumToken(3f)))),
+          Nodes(List(Leaf(NumToken(4f))))
+        ))
+    assert(
+      parseTokensToNodes(tokenize("'a")) ===
+        List(
+          Leaf(Quote),
+          Leaf(VarToken("a"))
+        ))
     assert(
       parseTokensToNodes(tokenize("(define (len lst) (if (null? x) 0 (+ 1 (len (cdr lst)))))")) ===
         List(Nodes(List(
@@ -220,5 +237,23 @@ class ParserTest extends FunSuite {
           List()
         )
     )
+  }
+
+  test("quote") {
+    assert(
+      parseFormList(parseTokensToNodes(tokenize("'a")))
+        === List(QuoteExp(Var("a"))))
+
+    assert(
+      parseFormList(parseTokensToNodes(tokenize("'(a 1 2)")))
+        === List(QuoteExp(DataList(List(Var("a"), Num(1f), Num(2f))))))
+
+    assert(
+      parseFormList(parseTokensToNodes(tokenize("'(a (1 2))")))
+        === List(QuoteExp(DataList(List(Var("a"), DataList(List(Num(1f), Num(2f))))))))
+
+    assert(
+      parseFormList(parseTokensToNodes(tokenize("'(a \"(1 2)\")")))
+        === List(QuoteExp(DataList(List(Var("a"), Str("(1 2)"))))))
   }
 }

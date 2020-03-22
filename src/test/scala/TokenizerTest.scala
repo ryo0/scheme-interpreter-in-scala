@@ -14,7 +14,7 @@ class TokenizerTest extends FunSuite {
     assert(removeComments("(define (len x) ;aaa bbb\n)") === "(define (len x) \n)")
     assert(removeComments(";;aiueo\n;;README\n") === "\n\n")
     assert(
-      removeComments(";;aiueo\na;;README\n(define (len x) aaa ;bbb\n)") === "\n\n(define (len x) aaa \n)")
+      removeComments(";;aiueo\na;;README\n(define (len x) aaa ;bbb\n)") === "\na\n(define (len x) aaa \n)")
   }
 
   test("Tokenizer.tokenizeLetter") {
@@ -70,6 +70,17 @@ class TokenizerTest extends FunSuite {
     assert(tokenizeString("\"(+ 1 2)\")") === (StrToken("(+ 1 2)"), 9))
   }
 
+  test("Tokenizer.tokenizeQuote") {
+    assert(tokenize("'a") === List(Quote, VarToken("a")))
+    assert(
+      tokenize("'(a 1 2)") === List(Quote,
+                                    LParen,
+                                    VarToken("a"),
+                                    NumToken(1f),
+                                    NumToken(2f),
+                                    RParen))
+  }
+
   test("Tokenizer.tokenize") {
     assert(
       tokenize("1+2-3*4/5") === List(NumToken(1f),
@@ -82,7 +93,7 @@ class TokenizerTest extends FunSuite {
                                      SlashToken,
                                      NumToken(5f)))
     assert(tokenize("=") === List(EqualToken))
-    assert(tokenize("'") === List(QuoteToken))
+    assert(tokenize("'") === List(Quote))
     assert(
       tokenize("(> a 1)") === List(LParen, GreaterThanToken, VarToken("a"), NumToken(1f), RParen))
     assert(
@@ -128,4 +139,5 @@ class TokenizerTest extends FunSuite {
         RParen
       ))
   }
+
 }
