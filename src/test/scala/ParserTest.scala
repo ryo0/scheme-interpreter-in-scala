@@ -131,6 +131,10 @@ class ParserTest extends FunSuite {
                         Program(List(ProcedureCall(Op(Slash), List(Num(2.1f), Num(5.22f))))))
     )
     assert(
+      parseForm(parseTokensToNodes(tokenize("(define x '(2.1 5.22))")).head) ===
+        DefineStatement(Var("x"), Program(List(QuoteExp(DataList(List(Num(2.1f), Num(5.22f)))))))
+    )
+    assert(
       parseForm(parseTokensToNodes(
         tokenize("(define (len lst) (if (null? lst) 0 (+ 1 (len (cdr lst)))))")).head) ===
         DefineStatement(
@@ -182,6 +186,12 @@ class ParserTest extends FunSuite {
       parseBindings(parseTokensToNodes(tokenize("((x (+ 1 2)) (y (cdr a)))")).head)
         === List((Var("x"), ProcedureCall(Op(Plus), List(Num(1f), Num(2f)))),
                  (Var("y"), ProcedureCall(Var("cdr"), List(Var("a"))))))
+
+    assert(
+      parseBindings(parseTokensToNodes(tokenize("((x '(1 2)) (y (cdr a)))")).head)
+        === List((Var("x"), QuoteExp(DataList(List(Num(1f), Num(2f))))),
+                 (Var("y"), ProcedureCall(Var("cdr"), List(Var("a"))))))
+
     assert(
       parseExp(parseTokensToNodes(tokenize(
         "(let ((x (+ 1 2)) (y (cdr a))) (define (len lst) (if (null? lst) 0 (+ 1 (len (cdr lst)))))#t)")).head)
@@ -213,11 +223,27 @@ class ParserTest extends FunSuite {
         ))
   }
 
+//  test("if") {
+//    assert(
+//      parseExp(parseTokensToNodes(tokenize("(if (= a 1) '(1) '(2))")).head)
+//        === IfExp(ProcedureCall(Op(Equal), List(Var("a"), Num(1f))),
+//                  QuoteExp(DataList(List(Num(1f)))),
+//                  Some(QuoteExp(DataList(List(Num(2f)))))))
+//  }
+
   test("cond") {
     assert(
       parseExp(parseTokensToNodes(tokenize("(cond ((= a 1) #t) (else #f))")).head)
         === CondExp(List((ProcedureCall(Op(Equal), List(Var("a"), Num(1f))), List(True))),
                     List(False)))
+
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(cond ((= a 'x) '(1 2)) (else '(1 2 3)))")).head)
+        === CondExp(
+          List((ProcedureCall(Op(Equal), List(Var("a"), QuoteExp(Var("x")))),
+                List(QuoteExp(DataList(List(Num(1f), Num(2f))))))),
+          List(QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f)))))
+        ))
 
     assert(
       parseExp(parseTokensToNodes(tokenize("(cond ((= a 1) #t) ((= a 2) #f))")).head)

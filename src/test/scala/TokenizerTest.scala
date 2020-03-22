@@ -4,10 +4,20 @@ import tokenize.Tokenizer.tokenizeDigit
 import tokenize.Tokenizer.tokenizeFloat
 import tokenize.Tokenizer.tokenizeString
 import tokenize.Tokenizer.removeComments
+import tokenize.Tokenizer.getAtom
 import tokenize.Tokenizer.tokenize
 import _root_.tokenize.token.Tokens._
 
 class TokenizerTest extends FunSuite {
+  test("getAtom") {
+    assert(getAtom("abc b") === "abc")
+    assert(getAtom("(abc))b") === "(abc)")
+    assert(getAtom("((abc)d)b") === "((abc)d)")
+    assert(getAtom("((abc)d e)b") === "((abc)d e)")
+    assert(getAtom("(a '(a))") === "(a '(a))")
+    assert(getAtom("(a '(a b) d)") === "(a '(a b) d)")
+  }
+
   test("Tokenizer.removeComments") {
     assert(removeComments("(define x 1)") === "(define x 1)")
     assert(removeComments("(define (len x) aaa ;bbb\n)") === "(define (len x) aaa \n)")

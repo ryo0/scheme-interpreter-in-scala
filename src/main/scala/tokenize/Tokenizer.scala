@@ -74,6 +74,32 @@ object Tokenizer {
     result
   }
 
+  def getAtom(str: String): String = {
+    def getAtomSub(str: String, counter: Int, acm: String): String = {
+      if (str.length == 0) {
+        return acm
+      }
+      str(0) match {
+        case ' ' | '\n' | ''' =>
+          if (counter == 0) {
+            acm
+          } else {
+            getAtomSub(str.slice(1, str.length), counter, acm + str(0))
+          }
+        case '(' =>
+          getAtomSub(str.slice(1, str.length), counter + 1, acm + str(0))
+        case ')' =>
+          if (counter == 1) {
+            return acm + str(0)
+          }
+          getAtomSub(str.slice(1, str.length), counter - 1, acm + str(0))
+        case _ =>
+          getAtomSub(str.slice(1, str.length), counter, acm + str(0))
+      }
+    }
+    getAtomSub(str, 0, "")
+  }
+
   def removeComments(str: String): String = {
     var i         = 0
     var inComment = false

@@ -41,6 +41,8 @@ object parser {
 
   def parseFormList(nodes: List[Node]): List[Form] = {
     nodes match {
+      case Leaf(Quote) :: quoteBody :: rest =>
+        parseQuoteExp(Leaf(Quote) :: quoteBody :: List()) :: parseFormList(rest)
       case first :: rest =>
         parseForm(first) :: parseFormList(rest)
       case List() =>
