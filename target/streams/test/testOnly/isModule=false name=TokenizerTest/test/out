@@ -1,3 +1,12 @@
 [0m[[0m[0minfo[0m] [0m[0m[32mTokenizerTest:[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m- Tokenizer.tokenizeLetter *** FAILED ***[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  (Str(aa1),3) did not equal Str(aa1) (TokenizerTest.scala:7)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- getAtom[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.removeComments[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.tokenizeLetter[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.tokenizeLetter 予約語[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.tokenizeDigit[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.tokenizeFloat[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.tokenizeString[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.tokenizeQuote[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.tokenize[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Tokenizer.tokenize2[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- tokenize quote[0m[0m

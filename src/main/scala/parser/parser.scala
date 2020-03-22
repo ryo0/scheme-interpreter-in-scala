@@ -41,8 +41,6 @@ object parser {
 
   def parseFormList(nodes: List[Node]): List[Form] = {
     nodes match {
-      case Leaf(Quote) :: quoteBody :: rest =>
-        parseQuoteExp(Leaf(Quote) :: quoteBody :: List()) :: parseFormList(rest)
       case first :: rest =>
         parseForm(first) :: parseFormList(rest)
       case List() =>
@@ -91,8 +89,6 @@ object parser {
 
   def parseExpList(nodes: List[Node]): List[Exp] = {
     nodes match {
-      case Leaf(Quote) :: quoteBody :: rest =>
-        parseQuoteExp(Leaf(Quote) :: quoteBody :: List()) :: parseExpList(rest)
       case x :: xs =>
         parseExp(x) :: parseExpList(xs)
       case _ =>
@@ -211,8 +207,8 @@ object parser {
       node match {
         case Nodes(ns) =>
           ns.map {
-            case Nodes(Leaf(l) :: rest) =>
-              (parseVar(Leaf(l)), parseExpList(rest).head)
+            case Nodes(Leaf(l) :: rest :: List()) =>
+              (parseVar(Leaf(l)), parseExp(rest))
             case Leaf(l) =>
               throw new Exception("bindings error")
           }
@@ -267,7 +263,7 @@ object parser {
 
   def parseSetExp(nodes: List[Node]): SetExp = {
     val cdrnodes = cdr(nodes)
-    SetExp(parseVar(car(cdrnodes)), parseExpList(cdr(cdrnodes)).head)
+    SetExp(parseVar(car(cdrnodes)), parseExp(car(cdr(cdrnodes))))
   }
 
   def parseQuoteExp(nodes: List[Node]): QuoteExp = {
@@ -286,16 +282,13 @@ object parser {
   }
 
   def parseDatum(node: Node): Datum = {
-    // '(1 2 3)
-    // 'a
-    // どっちにしてもnode一つで表される
-
     node match {
       case Leaf(l) =>
         l match {
           case NumToken(n) => Num(n)
           case StrToken(s) => Str(s)
           case VarToken(v) => Var(v)
+          case Quote       => DataList(List())
           case TrueToken   => True
           case FalseToken  => False
         }

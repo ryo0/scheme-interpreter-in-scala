@@ -16,6 +16,10 @@ class TokenizerTest extends FunSuite {
     assert(getAtom("((abc)d e)b") === "((abc)d e)")
     assert(getAtom("(a '(a))") === "(a '(a))")
     assert(getAtom("(a '(a b) d)") === "(a '(a b) d)")
+    assert(getAtom("(2.1 5.22)") === "(2.1 5.22)")
+    assert(getAtom("(1 2) abc") === "(1 2)")
+    assert(getAtom("x) '(1 2))") === "x")
+
   }
 
   test("Tokenizer.removeComments") {
@@ -81,13 +85,15 @@ class TokenizerTest extends FunSuite {
   }
 
   test("Tokenizer.tokenizeQuote") {
-    assert(tokenize("'a") === List(Quote, VarToken("a")))
+    assert(tokenize("'a") === List(LParen, Quote, VarToken("a"), RParen))
     assert(
-      tokenize("'(a 1 2)") === List(Quote,
+      tokenize("'(a 1 2)") === List(LParen,
+                                    Quote,
                                     LParen,
                                     VarToken("a"),
                                     NumToken(1f),
                                     NumToken(2f),
+                                    RParen,
                                     RParen))
   }
 
@@ -103,7 +109,7 @@ class TokenizerTest extends FunSuite {
                                      SlashToken,
                                      NumToken(5f)))
     assert(tokenize("=") === List(EqualToken))
-    assert(tokenize("'") === List(Quote))
+    assert(tokenize("'") === List(LParen, Quote, RParen))
     assert(
       tokenize("(> a 1)") === List(LParen, GreaterThanToken, VarToken("a"), NumToken(1f), RParen))
     assert(
@@ -144,6 +150,42 @@ class TokenizerTest extends FunSuite {
         LParen,
         VarToken("cdr"),
         VarToken("lst"),
+        RParen,
+        RParen,
+        RParen
+      ))
+  }
+
+  test("tokenize quote") {
+    assert(
+      tokenize("(define x '(2.1 5.22))") === List(LParen,
+                                                  Define,
+                                                  VarToken("x"),
+                                                  LParen,
+                                                  Quote,
+                                                  LParen,
+                                                  NumToken(2.1f),
+                                                  NumToken(5.22f),
+                                                  RParen,
+                                                  RParen,
+                                                  RParen))
+    assert(
+      tokenize("((= a 'x) '(1 2))") === List(
+        // ((= a (quote x)) (quote (1 2)))
+        LParen,
+        LParen,
+        EqualToken,
+        VarToken("a"),
+        LParen,
+        Quote,
+        VarToken("x"),
+        RParen,
+        RParen,
+        LParen,
+        Quote,
+        LParen,
+        NumToken(1f),
+        NumToken(2f),
         RParen,
         RParen,
         RParen

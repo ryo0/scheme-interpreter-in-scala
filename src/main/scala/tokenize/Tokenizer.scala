@@ -34,10 +34,19 @@ object Tokenizer {
     var i                   = 0
     while (i < str.length) {
       str(i) match {
-        case '+' | '-' | '*' | '/' | ''' | '(' | ')' | '=' | '>' | '<' =>
+        case '+' | '-' | '*' | '/' | '(' | ')' | '=' | '>' | '<' =>
           val token = symbolMap.get(str(i))
           token.foreach(token => result :+= token)
           i += 1
+        case ''' =>
+          val atom      = getAtom(str.slice(i + 1, str.length))
+          val quoteBody = tokenize(atom)
+          result :+= LParen
+          result :+= Quote
+          result = result ::: quoteBody
+          result :+= RParen
+          // '(1 2 3) -> (quote (1 2 3))
+          i += 1 + atom.length
         case ' ' | '\n' =>
           i += 1
         case '\"' =>
@@ -81,7 +90,7 @@ object Tokenizer {
       }
       str(0) match {
         case ' ' | '\n' | ''' =>
-          if (counter == 0) {
+          if (counter <= 0) {
             acm
           } else {
             getAtomSub(str.slice(1, str.length), counter, acm + str(0))
@@ -91,6 +100,9 @@ object Tokenizer {
         case ')' =>
           if (counter == 1) {
             return acm + str(0)
+          }
+          if (counter == 0) {
+            return acm
           }
           getAtomSub(str.slice(1, str.length), counter - 1, acm + str(0))
         case _ =>
