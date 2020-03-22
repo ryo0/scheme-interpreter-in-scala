@@ -138,6 +138,12 @@ object parser {
                 parseQuoteExp(ns)
               case Set =>
                 parseSetExp(ns)
+              case Begin =>
+                parseBeginExp(ns)
+              case AndToken =>
+                parseAndExp(ns)
+              case OrToken =>
+                parseOrExp(ns)
               case _ =>
                 parseProcedureCall(ns)
             }
@@ -295,5 +301,17 @@ object parser {
       case Nodes(ns) =>
         DataList(parseData(ns))
     }
+  }
+
+  def parseBeginExp(nodes: List[Node]): BeginExp = {
+    BeginExp(parseExpList(cdr(nodes)))
+  }
+
+  def parseAndExp(nodes: List[Node]): AndExp = {
+    AndExp(parseExpList(cdr(nodes)))
+  }
+
+  def parseOrExp(nodes: List[Node]): OrExp = {
+    OrExp(parseExpList(cdr(nodes)))
   }
 }

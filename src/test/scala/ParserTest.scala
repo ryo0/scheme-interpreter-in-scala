@@ -304,4 +304,22 @@ class ParserTest extends FunSuite {
       parseExp(parseTokensToNodes(tokenize("(set! x '(1 2 3))")).head)
         === SetExp(Var("x"), QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f))))))
   }
+
+  test("begin") {
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(begin x #t)")).head)
+        === BeginExp(List(Var("x"), True)))
+  }
+
+  test("and") {
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(and x #t)")).head)
+        === AndExp(List(Var("x"), True)))
+  }
+
+  test("or") {
+    assert(
+      parseExp(parseTokensToNodes(tokenize("(or x #t)")).head)
+        === OrExp(List(Var("x"), True)))
+  }
 }

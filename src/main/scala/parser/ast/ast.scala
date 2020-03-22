@@ -30,6 +30,9 @@ object ast {
   case class CondExp(condAndClauses: List[(Exp, List[Exp])], elseCause: List[Exp]) extends Exp
   case class QuoteExp(data: Datum)                                                 extends Exp
   case class SetExp(variable: Var, value: Exp)                                     extends Exp
+  case class BeginExp(exps: List[Exp])                                             extends Exp
+  case class AndExp(exps: List[Exp])                                               extends Exp
+  case class OrExp(exps: List[Exp])                                                extends Exp
   sealed class Datum                                                               extends Exp
   object True                                                                      extends Datum
   object False                                                                     extends Datum
