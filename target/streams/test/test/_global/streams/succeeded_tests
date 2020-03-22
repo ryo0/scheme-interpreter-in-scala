@@ -1,3 +1,5 @@
 #Successful Tests
-#Sun Mar 22 15:30:12 JST 2020
-TokenizerTest=1584858612340
+#Sun Mar 22 20:31:18 JST 2020
+TokenizerTest=1584876678739
+ParserTest=1584876677586
+EvalTest=1584876671483

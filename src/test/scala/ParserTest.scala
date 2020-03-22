@@ -67,11 +67,11 @@ class ParserTest extends FunSuite {
   test("parser.parseIfExp") {
     assert(
       parseExpList(parseTokensToNodes(tokenize("(if #t #t #f)"))) === List(
-        IfExp(True, True, Some(False)))
+        IfExp(Bool(true), Bool(true), Some(Bool(false))))
     )
     assert(
       parseExpList(parseTokensToNodes(tokenize("(if #t #t #f) (len lst)"))) === List(
-        IfExp(True, True, Some(False)),
+        IfExp(Bool(true), Bool(true), Some(Bool(false))),
         ProcedureCall(Var("len"), List(Var("lst"))))
     )
     assert(
@@ -83,8 +83,8 @@ class ParserTest extends FunSuite {
       parseExpList(parseTokensToNodes(tokenize("(if (= 1 (+ 1 1)) #t #f)"))) === List(
         IfExp(ProcedureCall(Op(Equal),
                             List(Num(1f), ProcedureCall(Op(Plus), List(Num(1f), Num(1f))))),
-              True,
-              Some(False))))
+              Bool(true),
+              Some(Bool(false)))))
   }
   test("parser.parseLambdaExp") {
     assert(
@@ -103,10 +103,10 @@ class ParserTest extends FunSuite {
     assert(
       parseProgram(parseTokensToNodes(tokenize("(lambda (x) (if (= x 1) #t #f))"))) === Program(
         List(
-          LambdaExp(
-            List(Var("x")),
-            Program(
-              List(IfExp(ProcedureCall(Op(Equal), List(Var("x"), Num(1f))), True, Some(False))))))))
+          LambdaExp(List(Var("x")),
+                    Program(List(IfExp(ProcedureCall(Op(Equal), List(Var("x"), Num(1f))),
+                                       Bool(true),
+                                       Some(Bool(false)))))))))
 
     assert(parseProgram(
       parseTokensToNodes(tokenize("(lambda (x) (define y 1) (if (= x 1) (+ x y) y))"))) === Program(
@@ -214,7 +214,7 @@ class ParserTest extends FunSuite {
                 ))
               )
             ),
-            True
+            Bool(true)
           ))
         ))
   }
@@ -230,21 +230,21 @@ class ParserTest extends FunSuite {
   test("cond") {
     assert(
       parseExp(parseTokensToNodes(tokenize("(cond ((= a 1) #t) (else #f))")).head)
-        === CondExp(List((ProcedureCall(Op(Equal), List(Var("a"), Num(1f))), List(True))),
-                    List(False)))
+        === CondExp(List((ProcedureCall(Op(Equal), List(Var("a"), Num(1f))), List(Bool(true)))),
+                    List(Bool(false))))
 
     assert(
       parseExp(parseTokensToNodes(tokenize("(cond ((= a 'x) '(1 2)) (else '(1 2 3)))")).head)
         === CondExp(
-          List((ProcedureCall(Op(Equal), List(Var("a"), QuoteExp(Var("x")))),
+          List((ProcedureCall(Op(Equal), List(Var("a"), QuoteExp(Symbol("x")))),
                 List(QuoteExp(DataList(List(Num(1f), Num(2f))))))),
           List(QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f)))))
         ))
 
     assert(
       parseExp(parseTokensToNodes(tokenize("(cond ((= a 1) #t) ((= a 2) #f))")).head)
-        === CondExp(List((ProcedureCall(Op(Equal), List(Var("a"), Num(1f))), List(True)),
-                         (ProcedureCall(Op(Equal), List(Var("a"), Num(2f))), List(False))),
+        === CondExp(List((ProcedureCall(Op(Equal), List(Var("a"), Num(1f))), List(Bool(true))),
+                         (ProcedureCall(Op(Equal), List(Var("a"), Num(2f))), List(Bool(false)))),
                     List())
     )
 
@@ -265,41 +265,45 @@ class ParserTest extends FunSuite {
   test("quote") {
     assert(
       parseExpList(parseTokensToNodes(tokenize("'a")))
-        === List(QuoteExp(Var("a"))))
+        === List(QuoteExp(Symbol("a"))))
 
     assert(
       parseExpList(parseTokensToNodes(tokenize("'(a 1 2)")))
-        === List(QuoteExp(DataList(List(Var("a"), Num(1f), Num(2f))))))
+        === List(QuoteExp(DataList(List(Symbol("a"), Num(1f), Num(2f))))))
 
     assert(
       parseExpList(parseTokensToNodes(tokenize("'(a (1 2))")))
-        === List(QuoteExp(DataList(List(Var("a"), DataList(List(Num(1f), Num(2f))))))))
+        === List(QuoteExp(DataList(List(Symbol("a"), DataList(List(Num(1f), Num(2f))))))))
 
     assert(
       parseExpList(parseTokensToNodes(tokenize("'(a \"(1 2)\")")))
-        === List(QuoteExp(DataList(List(Var("a"), Str("(1 2)"))))))
+        === List(QuoteExp(DataList(List(Symbol("a"), Str("(1 2)"))))))
 
     assert(
       parseExpList(parseTokensToNodes(tokenize("(quote a)")))
-        === List(QuoteExp(Var("a"))))
+        === List(QuoteExp(Symbol("a"))))
 
     assert(
       parseExpList(parseTokensToNodes(tokenize("(quote (a 1 2))")))
-        === List(QuoteExp(DataList(List(Var("a"), Num(1f), Num(2f))))))
+        === List(QuoteExp(DataList(List(Symbol("a"), Num(1f), Num(2f))))))
 
     assert(
       parseExpList(parseTokensToNodes(tokenize("(quote (a (1 2)))")))
-        === List(QuoteExp(DataList(List(Var("a"), DataList(List(Num(1f), Num(2f))))))))
+        === List(QuoteExp(DataList(List(Symbol("a"), DataList(List(Num(1f), Num(2f))))))))
 
     assert(
       parseExpList(parseTokensToNodes(tokenize("(quote (a \"(1 2)\"))")))
-        === List(QuoteExp(DataList(List(Var("a"), Str("(1 2)"))))))
+        === List(QuoteExp(DataList(List(Symbol("a"), Str("(1 2)"))))))
+
+    assert(
+      parseExpList(parseTokensToNodes(tokenize("(quote (+ 1 2))")))
+        === List(QuoteExp(DataList(List(Op(Plus), Num(1f), Num(2f))))))
   }
 
   test("set!") {
     assert(
       parseExp(parseTokensToNodes(tokenize("(set! x #t)")).head)
-        === SetExp(Var("x"), True))
+        === SetExp(Var("x"), Bool(true)))
     assert(
       parseExp(parseTokensToNodes(tokenize("(set! x '(1 2 3))")).head)
         === SetExp(Var("x"), QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f))))))
@@ -308,18 +312,18 @@ class ParserTest extends FunSuite {
   test("begin") {
     assert(
       parseExp(parseTokensToNodes(tokenize("(begin x #t)")).head)
-        === BeginExp(List(Var("x"), True)))
+        === BeginExp(List(Var("x"), Bool(true))))
   }
 
   test("and") {
     assert(
       parseExp(parseTokensToNodes(tokenize("(and x #t)")).head)
-        === AndExp(List(Var("x"), True)))
+        === AndExp(List(Var("x"), Bool(true))))
   }
 
   test("or") {
     assert(
       parseExp(parseTokensToNodes(tokenize("(or x #t)")).head)
-        === OrExp(List(Var("x"), True)))
+        === OrExp(List(Var("x"), Bool(true))))
   }
 }

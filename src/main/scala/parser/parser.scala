@@ -1,7 +1,6 @@
 package parser
 
 import ast.ast._
-import ast.ast.True
 import tokenize.token.Tokens._
 import tokenize.token.Tokens.TrueToken
 import tokenize.token.Tokens.FalseToken
@@ -96,18 +95,19 @@ object parser {
     }
   }
 
+  val symbolMap = Map(
+    TrueToken     -> Bool(true),
+    FalseToken    -> Bool(false),
+    PlusToken     -> Op(Plus),
+    MinusToken    -> Op(Minus),
+    AsteriskToken -> Op(Asterisk),
+    SlashToken    -> Op(Slash),
+    EqualToken    -> Op(Equal),
+    AndToken      -> Op(And),
+    OrToken       -> Op(Or)
+  )
+
   def parseExp(node: Node): Exp = {
-    val symbolMap = Map(
-      TrueToken     -> True,
-      FalseToken    -> False,
-      PlusToken     -> Op(Plus),
-      MinusToken    -> Op(Minus),
-      AsteriskToken -> Op(Asterisk),
-      SlashToken    -> Op(Slash),
-      EqualToken    -> Op(Equal),
-      AndToken      -> Op(And),
-      OrToken       -> Op(Or)
-    )
     node match {
       case Leaf(l) =>
         l match {
@@ -293,10 +293,16 @@ object parser {
         l match {
           case NumToken(n) => Num(n)
           case StrToken(s) => Str(s)
-          case VarToken(v) => Var(v)
+          case VarToken(v) => Symbol(v)
           case Quote       => DataList(List())
-          case TrueToken   => True
-          case FalseToken  => False
+          case TrueToken   => Bool(true)
+          case FalseToken  => Bool(false)
+          case _ =>
+            val symbolExp = symbolMap.get(l)
+            symbolExp match {
+              case Some(sExp: Exp) => sExp
+              case None            => throw new Exception("parseExp何かがおかしい" + l)
+            }
         }
       case Nodes(ns) =>
         DataList(parseData(ns))
