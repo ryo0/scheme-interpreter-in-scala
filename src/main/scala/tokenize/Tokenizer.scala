@@ -18,6 +18,7 @@ object Tokenizer {
     "true"   -> TrueToken,
     "false"  -> FalseToken,
     "define" -> Define,
+    "quote"  -> Quote,
     "set!"   -> Set,
     "lambda" -> Lambda,
     "cond"   -> Cond,

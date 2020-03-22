@@ -43,7 +43,7 @@ object parser {
     nodes match {
       case Leaf(Quote) :: quoteBody :: rest =>
         // この時点でQuoteを特別扱いするの、なんかおかしい気がするけど、
-        // 特殊な形式してるからこれしか思い浮かばなかった……
+        // ただparseExpにぶっこむと
         parseQuoteExp(Leaf(Quote) :: quoteBody :: List()) :: parseFormList(rest)
       case first :: rest =>
         parseForm(first) :: parseFormList(rest)
@@ -138,6 +138,8 @@ object parser {
                 parseLetExp(ns)
               case Cond =>
                 parseCondExp(ns)
+              case Quote =>
+                parseQuoteExp(ns)
               case _ =>
                 parseProcedureCall(ns)
             }
