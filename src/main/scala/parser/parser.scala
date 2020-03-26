@@ -147,9 +147,8 @@ object parser {
               case _ =>
                 parseProcedureCall(ns)
             }
-          case _ =>
-            println(ns)
-            throw new Exception("parseExpSub何かがおかしい")
+          case Nodes(nodes) :: _ =>
+            parseProcedureCall(ns)
         }
     }
   }

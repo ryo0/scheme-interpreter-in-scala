@@ -34,13 +34,12 @@ object ast {
   case class AndExp(exps: List[Exp])                                               extends Exp
   case class OrExp(exps: List[Exp])                                                extends Exp
 
-  sealed class Datum                    extends Exp
-  case class Bool(b: Boolean)           extends Datum
-  case class Op(op: rawOp)              extends Datum
-  case class Num(n: Float)              extends Datum
-  case class Str(s: String)             extends Datum
-  case class Symbol(v: String)          extends Datum
-  case class DataList(lst: List[Datum]) extends Datum
-  case class Procedure(env: List[Map[Symbol, Datum]], params: List[Symbol], body: Program)
-      extends Datum
+  sealed class Datum                          extends Exp
+  case class Bool(b: Boolean)                 extends Datum
+  case class Op(op: rawOp)                    extends Datum
+  case class Num(n: Float)                    extends Datum
+  case class Str(s: String)                   extends Datum
+  case class Symbol(v: String)                extends Datum
+  case class DataList(lst: List[Datum])       extends Datum
+  case class Procedure(p: List[Datum] => Exp) extends Datum
 }
