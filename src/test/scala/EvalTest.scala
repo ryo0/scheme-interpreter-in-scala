@@ -6,7 +6,8 @@ import parser.parser.parseTokensToNodes
 import parser.parser.parseExp
 class EvalTest extends FunSuite {
   test("eval If") {
-    assert(evalExp(parseExp(parseTokensToNodes(tokenize("(if #t 1 2)")).head)) === Num(1f))
-    assert(evalExp(parseExp(parseTokensToNodes(tokenize("(if #f 1 \"a\"")).head)) === Str("a"))
+    assert(evalExp(parseExp(parseTokensToNodes(tokenize("(if #t 1 2)")).head), List()) === Num(1f))
+    assert(
+      evalExp(parseExp(parseTokensToNodes(tokenize("(if #f 1 \"a\"")).head), List()) === Str("a"))
   }
 }

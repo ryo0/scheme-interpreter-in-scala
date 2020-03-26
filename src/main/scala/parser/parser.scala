@@ -72,11 +72,11 @@ object parser {
         ns match {
           case Leaf(Define) :: Leaf(variable) :: rest =>
             // (define x (+ 1 2) (- 2 3))
-            DefineStatement(parseVar(Leaf(variable)), parseProgram(rest))
+            DefineStatement(parseSymbol(Leaf(variable)), parseProgram(rest))
           case Leaf(Define) :: Nodes(Leaf(v) :: ps) :: rest =>
             // (define (x a) (define y 1) (+ a y))
-            val variable = parseVar(Leaf(v))
-            val params   = parseVarList(ps)
+            val variable = parseSymbol(Leaf(v))
+            val params   = parseSymbolList(ps)
             val program  = parseProgram(rest)
             DefineStatement(variable, Program(List(LambdaExp(params, program))))
           case _ =>
@@ -113,7 +113,7 @@ object parser {
         l match {
           case NumToken(n) => Num(n)
           case StrToken(s) => Str(s)
-          case VarToken(v) => Var(v)
+          case VarToken(v) => Symbol(v)
           case _ =>
             val symbolExp = symbolMap.get(l)
             symbolExp match {
@@ -181,17 +181,17 @@ object parser {
     }
   }
 
-  def parseVar(node: Node): Var = {
+  def parseSymbol(node: Node): Symbol = {
     node match {
-      case Leaf(VarToken(v)) => Var(v)
+      case Leaf(VarToken(v)) => Symbol(v)
       case _                 => throw new Exception("VarにLeaf(VarToken)以外が渡された")
     }
   }
 
-  def parseVarList(nodes: List[Node]): List[Var] = {
+  def parseSymbolList(nodes: List[Node]): List[Symbol] = {
     nodes match {
       case first :: rest =>
-        parseVar(first) :: parseVarList(rest)
+        parseSymbol(first) :: parseSymbolList(rest)
       case _ =>
         List()
     }
@@ -200,21 +200,21 @@ object parser {
   def parseLambdaExp(nodes: List[Node]): LambdaExp = {
     nodes match {
       case Leaf(Lambda) :: Nodes(ns) :: body =>
-        val ops   = parseVarList(ns)
+        val ops   = parseSymbolList(ns)
         val pbody = parseProgram(body)
         LambdaExp(ops, pbody)
       case _ =>
         throw new Exception("Lambda Error")
     }
   }
-  def parseBindings(node: Node): List[(Var, Exp)] = {
-    def parseBindingsSub(node: Node, acm: List[(Var, Exp)]): List[(Var, Exp)] = {
+  def parseBindings(node: Node): List[(Symbol, Exp)] = {
+    def parseBindingsSub(node: Node, acm: List[(Symbol, Exp)]): List[(Symbol, Exp)] = {
       // ((a b) (c d))
       node match {
         case Nodes(ns) =>
           ns.map {
             case Nodes(Leaf(l) :: rest :: List()) =>
-              (parseVar(Leaf(l)), parseExp(rest))
+              (parseSymbol(Leaf(l)), parseExp(rest))
             case Leaf(l) =>
               throw new Exception("bindings error")
           }
@@ -269,7 +269,7 @@ object parser {
 
   def parseSetExp(nodes: List[Node]): SetExp = {
     val cdrnodes = cdr(nodes)
-    SetExp(parseVar(car(cdrnodes)), parseExp(car(cdr(cdrnodes))))
+    SetExp(parseSymbol(car(cdrnodes)), parseExp(car(cdr(cdrnodes))))
   }
 
   def parseQuoteExp(nodes: List[Node]): QuoteExp = {
