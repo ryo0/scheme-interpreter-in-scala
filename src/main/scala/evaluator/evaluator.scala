@@ -39,13 +39,41 @@ object evaluator {
   }
 
   def evalExp(exp: Exp, env: List[Map[Symbol, Datum]]): Datum = {
+    val opMap = Map(Plus -> { (x: Float, y: Float) =>
+      x + y
+    }, Minus -> { (x: Float, y: Float) =>
+      println(x, y)
+      x - y
+    }, Asterisk -> { (x: Float, y: Float) =>
+      x * y
+    }, Slash -> { (x: Float, y: Float) =>
+      x / y
+    })
     exp match {
-      case Num(_) | Str(_) | Bool(_) | Op(_) =>
+      case Num(_) | Str(_) | Bool(_) =>
         exp.asInstanceOf[Datum]
+      case Op(_op) =>
+        val op = opMap(_op)
+        _op match {
+          case Plus | Minus =>
+            Procedure(args => {
+              val first = args.head
+              args.tail
+                .map(arg => evalExp(arg, env).asInstanceOf[Num])
+                .foldLeft(first.asInstanceOf[Num]) { (acc, x) =>
+                  Num(op(acc.n, x.n))
+                }
+            })
+          case Asterisk | Slash =>
+            Procedure(args =>
+              args.map(arg => evalExp(arg, env).asInstanceOf[Num]).foldLeft(Num(1f)) { (acc, x) =>
+                Num(op(acc.n, x.n))
+            })
+        }
       case Symbol(n) =>
         findValueFromEnv(Symbol(n), env) match {
-          case Some(n) => n
-          case None    => throw new Exception("変数が見つかりません")
+          case Some(_n) => _n
+          case None     => throw new Exception("変数が見つかりません")
         }
       case IfExp(cond, t, f) =>
         evalIf(IfExp(cond, t, f), env)
@@ -64,8 +92,8 @@ object evaluator {
       evalExp(exp.trueExp, env)
     } else {
       exp.falseExp match {
-        case Some(exp) => evalExp(exp, env)
-        case None      => Bool(false)
+        case Some(_exp) => evalExp(_exp, env)
+        case None       => Bool(false)
       }
     }
   }
