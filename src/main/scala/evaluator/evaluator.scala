@@ -63,15 +63,33 @@ object evaluator {
   }
 
   def evalExp(exp: Exp, env: List[Map[Symbol, Datum]]): Datum = {
-    val opMap = Map(Plus -> { (x: Float, y: Float) =>
-      x + y
-    }, Minus -> { (x: Float, y: Float) =>
-      x - y
-    }, Asterisk -> { (x: Float, y: Float) =>
-      x * y
-    }, Slash -> { (x: Float, y: Float) =>
-      x / y
-    })
+    val opMap = Map(
+      Plus -> Procedure(args => {
+        val first = args.head
+        args.tail
+          .map(arg => evalExp(arg, env).asInstanceOf[Num])
+          .foldLeft(first.asInstanceOf[Num]) { (acc, x) =>
+            Num(acc.n + x.n)
+          }
+      }),
+      Minus -> Procedure(args => {
+        val first = args.head
+        args.tail
+          .map(arg => evalExp(arg, env).asInstanceOf[Num])
+          .foldLeft(first.asInstanceOf[Num]) { (acc, x) =>
+            Num(acc.n - x.n)
+          }
+      }),
+      Asterisk -> Procedure(args =>
+        args.map(arg => evalExp(arg, env).asInstanceOf[Num]).foldLeft(Num(1f)) { (acc, x) =>
+          Num(acc.n * x.n)
+      }),
+      Slash -> Procedure(args =>
+        args.map(arg => evalExp(arg, env).asInstanceOf[Num]).foldLeft(Num(1f)) { (acc, x) =>
+          Num(acc.n / x.n)
+      }),
+      Equal -> equalProc
+    )
     exp match {
       case QuoteExp(body) =>
         body
@@ -79,26 +97,8 @@ object evaluator {
         exp.asInstanceOf[Datum]
       case DataList(_) =>
         exp.asInstanceOf[Datum]
-      case Op(Equal) =>
-        equalProc
       case Op(_op) =>
-        val op = opMap(_op)
-        _op match {
-          case Plus | Minus =>
-            Procedure(args => {
-              val first = args.head
-              args.tail
-                .map(arg => evalExp(arg, env).asInstanceOf[Num])
-                .foldLeft(first.asInstanceOf[Num]) { (acc, x) =>
-                  Num(op(acc.n, x.n))
-                }
-            })
-          case Asterisk | Slash =>
-            Procedure(args =>
-              args.map(arg => evalExp(arg, env).asInstanceOf[Num]).foldLeft(Num(1f)) { (acc, x) =>
-                Num(op(acc.n, x.n))
-            })
-        }
+        opMap(_op)
       case Symbol(n) =>
         findValueFromEnv(Symbol(n), env) match {
           case Some(_n) => _n
