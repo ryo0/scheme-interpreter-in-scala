@@ -65,16 +65,15 @@ object evaluator {
   }
 
   def findValueFromEnv(symbol: Symbol, env: List[mutable.Map[Symbol, Datum]]): Option[Datum] = {
-    var result: Option[Datum] = None
     for (envMap <- env) {
       val value = envMap.get(symbol)
       value match {
         case Some(_) =>
-          result = value
+          return value
         case _ =>
       }
     }
-    result
+    None
   }
 
   def evalDefinition(defStmt: DefineStatement,

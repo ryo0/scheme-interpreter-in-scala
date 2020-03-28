@@ -128,6 +128,11 @@ class EvalTest extends FunSuite {
         parseProgram(parseTokensToNodes(
           tokenize("(define (len lst) (if (null? lst) 0 (+ 1 (len (cdr lst))))) (len '(1 2 3))")))
       ) === Num(3f))
+    assert(
+      eval(
+        parseProgram(
+          parseTokensToNodes(tokenize("(define x 1) (define (double x) (* x 2)) (double 11)")))
+      ) === Num(22f))
   }
 
   test("><") {
