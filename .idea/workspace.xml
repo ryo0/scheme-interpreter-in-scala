@@ -43,7 +43,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/ParserTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1875">
+            <state relative-caret-position="400">
               <caret line="134" column="35" selection-start-line="134" selection-start-column="35" selection-end-line="134" selection-end-column="35" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
@@ -87,13 +87,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="138" column="35" selection-start-line="138" selection-start-column="35" selection-end-line="138" selection-end-column="35" />
+            <state relative-caret-position="164">
+              <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
               <folding>
-                <element signature="e#19#52#0" expanded="true" />
+                <element signature="e#19#59#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,11 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="159" column="13" selection-start-line="159" selection-start-column="13" selection-end-line="159" selection-end-column="13" />
+            <state relative-caret-position="124">
+              <caret line="56" selection-start-line="56" selection-end-line="56" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -142,7 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>parsedefi</find>
       <find>Token</find>
       <find>Plus,</find>
       <find>:::</find>
@@ -171,6 +170,7 @@
       <find>evalDefi</find>
       <find>initEnv</find>
       <find>println</find>
+      <find>&lt;-</find>
       <find>evalProgram</find>
     </findStrings>
     <replaceStrings>
@@ -180,8 +180,8 @@
       <replace>Bool(false),</replace>
       <replace>VarToken</replace>
       <replace>initEnv</replace>
-      <replace>eval</replace>
       <replace>List[mutable.Map</replace>
+      <replace>eval</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -212,8 +212,8 @@
         <option value="$PROJECT_DIR$/src/test/scala/ParserTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/parser.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/EvalTest.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
       </list>
     </option>
   </component>
@@ -472,27 +472,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="EvalTest_define - 2020.03.28 at 17h 33m 53s.xml">
-      <configuration name="EvalTest.define" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 17h 34m 10s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 17h 45m 11s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 17h 45m 55s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 18h 04m 58s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_define - 2020.03.28 at 18h 06m 20s.xml">
-      <configuration name="EvalTest.define" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_define - 2020.03.28 at 18h 08m 00s.xml">
-      <configuration name="EvalTest.define" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
     <history-entry file="EvalTest - 2020.03.28 at 18h 08m 09s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
@@ -500,6 +479,27 @@
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
     <history-entry file="EvalTest - 2020.03.28 at 18h 39m 19s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 18h 39m 49s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 19h 00m 20s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 19h 00m 37s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 19h 01m 20s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 19h 02m 11s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 19h 07m 17s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 19h 08m 19s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
   </component>
@@ -593,16 +593,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ParserTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1875">
-          <caret line="134" column="35" selection-start-line="134" selection-start-column="35" selection-end-line="134" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -644,22 +634,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/ParserTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="138" column="35" selection-start-line="138" selection-start-column="35" selection-end-line="138" selection-end-column="35" />
+        <state relative-caret-position="400">
+          <caret line="134" column="35" selection-start-line="134" selection-start-column="35" selection-end-line="134" selection-end-column="35" />
           <folding>
-            <element signature="e#19#52#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="159" column="13" selection-start-line="159" selection-start-column="13" selection-end-line="159" selection-end-column="13" />
+        <state relative-caret-position="124">
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+          <folding>
+            <element signature="e#19#59#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -159,4 +159,13 @@ class EvalTest extends FunSuite {
         parseTokensToNodes(tokenize("(let ((x (let ((x 1) (y 2)) (+ x y))) (y 2)) (+ x y))")))) ===
         Num(5f))
   }
+
+  test("cond") {
+    assert(eval(parseProgram(parseTokensToNodes(tokenize(
+      "(define (len lst) (cond ((null? lst) 1 2 0) ((= \"aaa\" lst) 10000) (else \"aaa\" (+ 1 (len (cdr lst)))))) (len '(1 1 1 1 1))")))) ===
+      Num(5f))
+    assert(eval(parseProgram(parseTokensToNodes(tokenize(
+      "(define (len lst) (cond ((null? lst) 1 2 0) ((= \"aaa\" lst) 10000) (else \"aaa\" (+ 1 (len (cdr lst)))))) (len \"aaa\"))))")))) ===
+      Num(10000f))
+  }
 }

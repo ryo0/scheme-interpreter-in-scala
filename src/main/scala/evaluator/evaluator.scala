@@ -1,6 +1,6 @@
 package evaluator
 
-import parser.ast.ast.{Symbol, _}
+import parser.ast.ast.{Datum, Symbol, _}
 
 import scala.collection.mutable
 
@@ -19,12 +19,18 @@ object evaluator {
         Symbol("cdr") -> Procedure(args => DataList(args.head.asInstanceOf[DataList].lst.tail)),
         Symbol("cons") -> Procedure(
           args => DataList(args.head :: args.tail.head.asInstanceOf[DataList].lst)),
-        Symbol("null?") -> Procedure(args =>
-          if (args.head.asInstanceOf[DataList].lst.isEmpty) {
-            Bool(true)
-          } else {
-            Bool(false)
-        }),
+        Symbol("null?") -> Procedure(
+          args =>
+            if (args.head
+                  .isInstanceOf[DataList]
+                  .&&(args.head
+                    .asInstanceOf[DataList]
+                    .lst
+                    .isEmpty)) {
+              Bool(true)
+            } else {
+              Bool(false)
+          }),
         Symbol("eq?")    -> equalProc,
         Symbol("equal?") -> equalProc,
         Symbol("=")      -> equalProc,
@@ -132,6 +138,8 @@ object evaluator {
         }
       case IfExp(cond, t, f) =>
         evalIf(IfExp(cond, t, f), env)
+      case CondExp(condAndClauses, elseCause) =>
+        evalCond(CondExp(condAndClauses, elseCause), env)
       case LambdaExp(vars, body) =>
         Procedure(
           args => evalProgram(body, extendEnv(vars, args.map(arg => evalExp(arg, env)), env)))
@@ -149,6 +157,29 @@ object evaluator {
                            exp.bindings.map(bind => evalExp(bind._2, env)),
                            env)
     evalProgram(exp.body, newEnv)
+  }
+
+  def evalCond(exp: CondExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
+    findFirstSome(exp.condAndClauses.map(cls => {
+      if (Bool(true) == evalExp(cls._1, env)) {
+        Option(cls._2.map(cl2 => evalExp(cl2, env)).last)
+      } else {
+        None
+      }
+    })) match {
+      case Some(d) => d
+      case None    => exp.elseCause.map(elseC => evalExp(elseC, env)).last
+    }
+  }
+
+  def findFirstSome(ops: List[Option[Datum]]): Option[Datum] = {
+    for (op <- ops) {
+      op match {
+        case Some(n) => return Some(n)
+        case None    => None
+      }
+    }
+    None
   }
 
   def evalIf(exp: IfExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
