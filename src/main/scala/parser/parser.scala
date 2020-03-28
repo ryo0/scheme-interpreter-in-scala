@@ -96,15 +96,17 @@ object parser {
   }
 
   val symbolMap = Map(
-    TrueToken     -> Bool(true),
-    FalseToken    -> Bool(false),
-    PlusToken     -> Op(Plus),
-    MinusToken    -> Op(Minus),
-    AsteriskToken -> Op(Asterisk),
-    SlashToken    -> Op(Slash),
-    EqualToken    -> Op(Equal),
-    AndToken      -> Op(And),
-    OrToken       -> Op(Or)
+    TrueToken        -> Bool(true),
+    FalseToken       -> Bool(false),
+    PlusToken        -> Op(Plus),
+    MinusToken       -> Op(Minus),
+    AsteriskToken    -> Op(Asterisk),
+    SlashToken       -> Op(Slash),
+    EqualToken       -> Op(Equal),
+    AndToken         -> Op(And),
+    OrToken          -> Op(Or),
+    GreaterThanToken -> Op(GreaterThan),
+    LessThanToken    -> Op(LessThan)
   )
 
   def parseExp(node: Node): Exp = {

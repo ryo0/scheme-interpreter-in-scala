@@ -109,8 +109,13 @@ object evaluator {
         args.map(arg => evalExp(arg, env).asInstanceOf[Num]).foldLeft(Num(1f)) { (acc, x) =>
           Num(acc.n / x.n)
       }),
-      Equal -> equalProc
+      Equal -> equalProc,
+      GreaterThan -> Procedure(
+        args => Bool(args.head.asInstanceOf[Num].n > args.tail.head.asInstanceOf[Num].n)),
+      LessThan -> Procedure(
+        args => Bool(args.head.asInstanceOf[Num].n < args.tail.head.asInstanceOf[Num].n))
     )
+
     exp match {
       case QuoteExp(body) =>
         body

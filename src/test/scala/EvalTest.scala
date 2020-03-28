@@ -129,4 +129,19 @@ class EvalTest extends FunSuite {
           tokenize("(define (len lst) (if (null? lst) 0 (+ 1 (len (cdr lst))))) (len '(1 2 3))")))
       ) === Num(3f))
   }
+
+  test("><") {
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(> 1 2)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(< 1 2)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(> 2 1)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(< 2 1)")))) ===
+        Bool(false))
+  }
 }
