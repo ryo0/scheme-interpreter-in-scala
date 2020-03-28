@@ -3,6 +3,15 @@ package evaluator
 import parser.ast.ast._
 
 object evaluator {
+  val initEnv: List[Map[Symbol, Datum]] = List(
+    Map(
+      Symbol("car") -> Procedure(args => args.head.asInstanceOf[DataList].lst.head),
+      Symbol("cdr") -> Procedure(args => DataList(args.head.asInstanceOf[DataList].lst.tail)),
+      Symbol("cons") -> Procedure(
+        args => DataList(args.head :: args.tail.head.asInstanceOf[DataList].lst))
+    )
+  )
+
   def evalProgram(program: Program, env: List[Map[Symbol, Datum]]): Datum = {
     val data = program.p.map { p: Form =>
       {
@@ -42,7 +51,6 @@ object evaluator {
     val opMap = Map(Plus -> { (x: Float, y: Float) =>
       x + y
     }, Minus -> { (x: Float, y: Float) =>
-      println(x, y)
       x - y
     }, Asterisk -> { (x: Float, y: Float) =>
       x * y
@@ -50,7 +58,11 @@ object evaluator {
       x / y
     })
     exp match {
+      case QuoteExp(body) =>
+        body
       case Num(_) | Str(_) | Bool(_) =>
+        exp.asInstanceOf[Datum]
+      case DataList(_) =>
         exp.asInstanceOf[Datum]
       case Op(_op) =>
         val op = opMap(_op)
