@@ -34,6 +34,8 @@ object Tokenizer {
     var i                   = 0
     while (i < str.length) {
       str(i) match {
+        case '|' =>
+          i += 1
         case '+' | '-' | '*' | '/' | '(' | ')' | '=' | '>' | '<' =>
           val token = symbolMap.get(str(i))
           token.foreach(token => result :+= token)

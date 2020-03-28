@@ -185,7 +185,7 @@ object parser {
   def parseSymbol(node: Node): Symbol = {
     node match {
       case Leaf(VarToken(v)) => Symbol(v)
-      case _                 => throw new Exception("VarにLeaf(VarToken)以外が渡された")
+      case _                 => throw new Exception("VarにLeaf(VarToken)以外が渡された" + node)
     }
   }
 

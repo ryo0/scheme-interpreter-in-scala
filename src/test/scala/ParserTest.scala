@@ -1,6 +1,7 @@
 import org.scalatest.FunSuite
 import _root_.tokenize.token.Tokens._
 import _root_.tokenize.Tokenizer.tokenize
+import parser.ast.ast
 import parser.ast.ast._
 import parser.parser.parseTokensToNodes
 import parser.parser.parseExpList
@@ -302,6 +303,16 @@ class ParserTest extends FunSuite {
     assert(
       parseExpList(parseTokensToNodes(tokenize("(quote (+ 1 2))")))
         === List(QuoteExp(DataList(List(Op(Plus), Num(1f), Num(2f))))))
+
+    assert(
+      parseProgram(parseTokensToNodes(tokenize("(deriv '(x + 3) 'x) (print \"aaa\")"))) ===
+        Program(List(
+          ProcedureCall(Symbol("deriv"),
+                        List(QuoteExp(DataList(List(Symbol("x"), Op(Plus), Num(3f)))),
+                             QuoteExp(Symbol("x"))),
+          ),
+          ProcedureCall(Symbol("print"), List(Str("aaa")))
+        )))
   }
 
   test("set!") {

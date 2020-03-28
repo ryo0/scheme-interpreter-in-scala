@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="00f083c4-813f-49a5-a5cb-8e173c733ec7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Main.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Main.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/parser/parser.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/parser/parser.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/scala/EvalTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/EvalTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/ParserTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/ParserTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.12/classes/Main$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.12/classes/Main$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.12/classes/Main$delayedInit$body.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.12/classes/Main$delayedInit$body.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.12/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.12/classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.12/classes/tokenize/tokenizer$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.12/classes/tokenize/tokenizer$.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -31,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/TokenizerTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2460">
-              <caret line="172" column="10" selection-start-line="172" selection-start-column="6" selection-end-line="172" selection-end-column="14" />
+            <state relative-caret-position="105">
+              <caret line="160" column="38" selection-start-line="160" selection-start-column="38" selection-end-line="160" selection-end-column="38" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -43,8 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/ParserTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="134" column="35" selection-start-line="134" selection-start-column="35" selection-end-line="134" selection-end-column="35" />
+            <state relative-caret-position="155">
+              <caret line="311" column="51" selection-start-line="311" selection-start-column="51" selection-end-line="311" selection-end-column="51" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -53,15 +63,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/parser/parser.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1620">
-              <caret line="108" column="35" selection-start-line="108" selection-start-column="35" selection-end-line="108" selection-end-column="35" />
+            <state relative-caret-position="143">
+              <caret line="187" column="81" selection-start-line="187" selection-start-column="81" selection-end-line="187" selection-end-column="81" />
               <folding>
                 <element signature="e#16#32#0" expanded="true" />
               </folding>
@@ -72,17 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/collection/immutable/List.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4080">
+            <state relative-caret-position="400">
               <caret line="281" selection-start-line="281" selection-end-line="281" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -90,8 +86,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="150" column="39" selection-start-line="150" selection-start-column="39" selection-end-line="150" selection-end-column="39" />
+            <state relative-caret-position="218">
+              <caret line="76" column="38" lean-forward="true" selection-start-line="76" selection-start-column="38" selection-end-line="76" selection-end-column="38" />
               <folding>
                 <element signature="e#19#59#0" expanded="true" />
               </folding>
@@ -100,19 +96,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/Option.scala">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="312" lean-forward="true" selection-start-line="312" selection-end-line="312" />
+            <state relative-caret-position="143">
+              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="237" column="15" selection-start-line="237" selection-start-column="15" selection-end-line="237" selection-end-column="15" />
+            <state relative-caret-position="397">
+              <caret line="293" column="64" selection-start-line="293" selection-start-column="64" selection-end-line="293" selection-end-column="64" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -121,10 +117,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/token/Tokens.scala">
+        <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/collection/immutable/Range.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+            <state relative-caret-position="150">
+              <caret line="154" selection-start-line="154" selection-end-line="154" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="237">
+              <caret line="120" column="10" selection-start-line="120" selection-start-column="10" selection-end-line="120" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-7">
+              <caret line="34" column="28" lean-forward="true" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -142,36 +159,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Plus,</find>
-      <find>:::</find>
-      <find>parseCond</find>
-      <find>'</find>
-      <find>parseset</find>
-      <find>parseExp</find>
-      <find>ExpList</find>
-      <find>.head</find>
-      <find>if</find>
-      <find>define</find>
-      <find>getAtom</find>
-      <find>'(</find>
-      <find>Quote</find>
-      <find>quote</find>
-      <find>True</find>
-      <find>False,</find>
-      <find>SymbolToken</find>
-      <find>ProcedureCall</find>
-      <find>parseVarList</find>
-      <find>Var</find>
       <find>List()</find>
       <find>def</find>
       <find>/0x00000008012df840@689604d9</find>
       <find>List[Map</find>
       <find>evalDefi</find>
       <find>initEnv</find>
-      <find>println</find>
       <find>evalProgram</find>
+      <find>=</find>
+      <find>m2</find>
       <find>and</find>
+      <find>length</find>
+      <find>&gt;=</find>
       <find>&lt;-</find>
+      <find>&gt;=</find>
+      <find>sum?</find>
+      <find>println</find>
+      <find>pair?</find>
+      <find>print</find>
+      <find>list</find>
+      <find>in deriv</find>
+      <find>simple-sum?</find>
+      <find>=number?</find>
+      <find>(x)</find>
+      <find>quote</find>
+      <find>quote&quot;</find>
+      <find>ProcedureCall</find>
+      <find>cons</find>
+      <find>&quot;ok</find>
+      <find>CondExp</find>
+      <find>len</find>
     </findStrings>
     <replaceStrings>
       <replace>extends Token</replace>
@@ -181,8 +198,10 @@
       <replace>VarToken</replace>
       <replace>initEnv</replace>
       <replace>eval</replace>
-      <replace>or</replace>
+      <replace>number?</replace>
+      <replace>number??</replace>
       <replace>List[mutable.Map</replace>
+      <replace>or</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -203,18 +222,18 @@
         <option value="$PROJECT_DIR$/build.sbt" />
         <option value="$PROJECT_DIR$/src/test/scala/tokenizerTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/tokenize/tokenizer.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
         <option value="$PROJECT_DIR$/REAME.md" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/parser/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/tokenize/token/Tokens.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/TokenizerTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/ParserTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/parser.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/TokenizerTest.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/ParserTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/EvalTest.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
       </list>
     </option>
   </component>
@@ -229,7 +248,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="92" />
+    <option name="x" value="53" />
     <option name="y" value="23" />
     <option name="width" value="1358" />
     <option name="height" value="755" />
@@ -239,7 +258,60 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Scala-Scheme-interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scala-Scheme-interpreter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Scala-Scheme-interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scala-Scheme-interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Scala-Scheme-interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scala-Scheme-interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Scala-Scheme-interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scala-Scheme-interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Scala-Scheme-interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scala-Scheme-interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+              <item name="tokenize" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Scala-Scheme-interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scala-Scheme-interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Scala-Scheme-interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scala-Scheme-interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -275,7 +347,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="ScalaTest.EvalTest">
+  <component name="RunManager" selected="Application.main">
     <configuration name="main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Scala-Scheme-interpreter" />
@@ -283,7 +355,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EvalTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+    <configuration name="EvalTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
       <module name="Scala-Scheme-interpreter" />
       <setting name="path" value="EvalTest" />
       <setting name="vmparams" value="" />
@@ -320,7 +392,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EvalTest.begin" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+    <configuration name="EvalTest.findFirstSome" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
       <module name="Scala-Scheme-interpreter" />
       <setting name="path" value="EvalTest" />
       <setting name="vmparams" value="" />
@@ -334,12 +406,12 @@
       <envs />
       <setting name="testKind" value="Test name" />
       <setting name="path" value="EvalTest" />
-      <setting name="testName" value="begin" />
+      <setting name="testName" value="findFirstSome" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EvalTest.define" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+    <configuration name="EvalTest.lib" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
       <module name="Scala-Scheme-interpreter" />
       <setting name="path" value="EvalTest" />
       <setting name="vmparams" value="" />
@@ -353,14 +425,14 @@
       <envs />
       <setting name="testKind" value="Test name" />
       <setting name="path" value="EvalTest" />
-      <setting name="testName" value="define" />
+      <setting name="testName" value="lib" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EvalTest.equal?, eq?, =" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+    <configuration name="ParserTest.quote" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
       <module name="Scala-Scheme-interpreter" />
-      <setting name="path" value="EvalTest" />
+      <setting name="path" value="ParserTest" />
       <setting name="vmparams" value="" />
       <setting name="params" value="" />
       <setting name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -371,8 +443,8 @@
       <setting name="jrePath" value="" />
       <envs />
       <setting name="testKind" value="Test name" />
-      <setting name="path" value="EvalTest" />
-      <setting name="testName" value="equal?, eq?, =" />
+      <setting name="path" value="ParserTest" />
+      <setting name="testName" value="quote" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -402,18 +474,17 @@
       <item itemvalue="Application.main" />
       <item itemvalue="ScalaTest.Test" />
       <item itemvalue="ScalaTest.EvalTest" />
-      <item itemvalue="ScalaTest.EvalTest.equal?, eq?, =" />
-      <item itemvalue="ScalaTest.EvalTest.define" />
-      <item itemvalue="ScalaTest.EvalTest.begin" />
       <item itemvalue="ScalaTest.EvalTest.and" />
+      <item itemvalue="ScalaTest.EvalTest.findFirstSome" />
+      <item itemvalue="ScalaTest.EvalTest.lib" />
+      <item itemvalue="ScalaTest.ParserTest.quote" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="ScalaTest.EvalTest" />
+        <item itemvalue="ScalaTest.EvalTest.findFirstSome" />
+        <item itemvalue="ScalaTest.ParserTest.quote" />
+        <item itemvalue="ScalaTest.EvalTest.lib" />
         <item itemvalue="ScalaTest.EvalTest.and" />
-        <item itemvalue="ScalaTest.EvalTest.begin" />
-        <item itemvalue="ScalaTest.EvalTest.define" />
-        <item itemvalue="ScalaTest.EvalTest.equal?, eq?, =" />
       </list>
     </recent_temporary>
   </component>
@@ -473,42 +544,42 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="EvalTest - 2020.03.28 at 19h 07m 17s.xml">
+    <history-entry file="EvalTest_findFirstSome - 2020.03.28 at 22h 29m 48s.xml">
+      <configuration name="EvalTest.findFirstSome" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_findFirstSome - 2020.03.28 at 22h 30m 25s.xml">
+      <configuration name="EvalTest.findFirstSome" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 22h 30m 34s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 19h 08m 19s.xml">
+    <history-entry file="EvalTest - 2020.03.28 at 22h 31m 25s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 19h 08m 33s.xml">
+    <history-entry file="EvalTest - 2020.03.28 at 22h 31m 57s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
-    <history-entry file="EvalTest_begin - 2020.03.28 at 19h 20m 02s.xml">
-      <configuration name="EvalTest.begin" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_and - 2020.03.28 at 19h 21m 55s.xml">
-      <configuration name="EvalTest.and" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_and - 2020.03.28 at 19h 22m 15s.xml">
-      <configuration name="EvalTest.and" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_and - 2020.03.28 at 19h 22m 48s.xml">
-      <configuration name="EvalTest.and" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_and - 2020.03.28 at 19h 23m 41s.xml">
-      <configuration name="EvalTest.and" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 19h 23m 47s.xml">
+    <history-entry file="EvalTest - 2020.03.28 at 22h 35m 18s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 19h 24m 12s.xml">
+    <history-entry file="EvalTest - 2020.03.28 at 22h 39m 54s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 22h 40m 30s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 22h 40m 42s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 22h 40m 55s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="92" y="23" width="1358" height="755" extended-state="0" />
+    <frame x="53" y="23" width="1358" height="755" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49622926" weight="0.22570772" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49622926" visible="true" weight="0.22526637" />
       <window_info id="Structure" order="1" sideWeight="0.50377077" side_tool="true" weight="0.21193573" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -549,13 +620,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="34" selection-start-column="34" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scalatest/scalatest_2.12/3.0.8/scalatest_2.12-3.0.8-sources.jar!/org/scalatest/OutcomeOf.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
@@ -577,64 +641,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/TokenizerTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2460">
-          <caret line="172" column="10" selection-start-line="172" selection-start-column="6" selection-end-line="172" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/collection/immutable/List.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4080">
-          <caret line="281" selection-start-line="281" selection-end-line="281" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/token/Tokens.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
           <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/parser/parser.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="108" column="35" selection-start-line="108" selection-start-column="35" selection-end-line="108" selection-end-column="35" />
-          <folding>
-            <element signature="e#16#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ParserTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="134" column="35" selection-start-line="134" selection-start-column="35" selection-end-line="134" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -645,10 +658,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/collection/immutable/List.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="281" selection-start-line="281" selection-end-line="281" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/parser/parser.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="187" column="81" selection-start-line="187" selection-start-column="81" selection-end-line="187" selection-end-column="81" />
+          <folding>
+            <element signature="e#16#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="34" column="28" lean-forward="true" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/TokenizerTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="160" column="38" selection-start-line="160" selection-start-column="38" selection-end-line="160" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/ParserTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="311" column="51" selection-start-line="311" selection-start-column="51" selection-end-line="311" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/collection/immutable/Range.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="154" selection-start-line="154" selection-end-line="154" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="150" column="39" selection-start-line="150" selection-start-column="39" selection-end-line="150" selection-end-column="39" />
+        <state relative-caret-position="218">
+          <caret line="76" column="38" lean-forward="true" selection-start-line="76" selection-start-column="38" selection-end-line="76" selection-end-column="38" />
           <folding>
             <element signature="e#19#59#0" expanded="true" />
           </folding>
@@ -657,10 +728,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="237" column="15" selection-start-line="237" selection-start-column="15" selection-end-line="237" selection-end-column="15" />
+        <state relative-caret-position="397">
+          <caret line="293" column="64" selection-start-line="293" selection-start-column="64" selection-end-line="293" selection-end-column="64" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="120" column="10" selection-start-line="120" selection-start-column="10" selection-end-line="120" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>

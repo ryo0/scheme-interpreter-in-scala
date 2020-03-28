@@ -5,35 +5,129 @@ import parser.ast.ast.{Datum, Symbol, _}
 import scala.collection.mutable
 
 object evaluator {
-  val equalProc = Procedure(args =>
-    if (args.head == args.tail.head) {
+  val equalProc = Procedure(args => {
+    val a = args.head
+    val b = args.tail.head
+    println(a, b, a == b)
+    if (a == b) {
       Bool(true)
     } else {
-      Bool(false)
+      a match {
+        case exp: QuoteExp if b.isInstanceOf[DataList] =>
+          equalList(exp.data.asInstanceOf[DataList], b.asInstanceOf[DataList])
+        case _: DataList if b.isInstanceOf[QuoteExp] =>
+          equalList(b.asInstanceOf[QuoteExp].data.asInstanceOf[DataList], a.asInstanceOf[DataList])
+        case _ =>
+          Bool(false)
+      }
+    }
   })
+
+  def equalList(a: DataList, b: DataList): Bool = {
+    Bool(a.lst == b.lst)
+  }
 
   def eval(program: Program): Datum = {
     val initEnv: List[mutable.Map[Symbol, Datum]] = List(
       mutable.Map(
-        Symbol("car") -> Procedure(args => args.head.asInstanceOf[DataList].lst.head),
-        Symbol("cdr") -> Procedure(args => DataList(args.head.asInstanceOf[DataList].lst.tail)),
+        Symbol("car") -> Procedure(args => {
+          if (args.isEmpty) {
+            return QuoteExp(DataList(List()))
+          }
+          if (args.head.asInstanceOf[QuoteExp].data.asInstanceOf[DataList].lst.isEmpty) {
+            return QuoteExp(DataList(List()))
+          }
+          args.head match {
+            case list: DataList =>
+              QuoteExp(list.lst.head)
+            case _ =>
+              QuoteExp(args.head.asInstanceOf[QuoteExp].data.asInstanceOf[DataList].lst.head)
+          }
+        }),
+        Symbol("cdr") -> {
+          Procedure(
+            args => {
+              if (args.isEmpty) {
+                return QuoteExp(DataList(List()))
+              }
+              args.head match {
+                case list: DataList =>
+                  QuoteExp(DataList(list.lst.tail))
+                case quote: QuoteExp =>
+                  quote.data match {
+                    case list: DataList =>
+                      QuoteExp(DataList(list.lst.tail))
+                    case _ =>
+                      QuoteExp(DataList(args.tail))
+                  }
+              }
+            }
+          )
+        },
         Symbol("cons") -> Procedure(
-          args => DataList(args.head :: args.tail.head.asInstanceOf[DataList].lst)),
-        Symbol("null?") -> Procedure(
           args =>
-            if (args.head
-                  .isInstanceOf[DataList]
-                  .&&(args.head
-                    .asInstanceOf[DataList]
-                    .lst
-                    .isEmpty)) {
-              Bool(true)
-            } else {
+            QuoteExp(DataList(
+              args.head :: args.tail.head.asInstanceOf[QuoteExp].data.asInstanceOf[DataList].lst))),
+        Symbol("null?") -> Procedure(args =>
+          args.head match {
+            case list: DataList =>
+              Bool(list.lst.isEmpty)
+            case QuoteExp(body) =>
+              body match {
+                case list: DataList =>
+                  if (list.lst.nonEmpty) {
+                    Bool(false)
+                  } else {
+                    Bool(true)
+                  }
+                case _ =>
+                  Bool(false)
+              }
+            case _ =>
               Bool(false)
-          }),
+        }),
         Symbol("eq?")    -> equalProc,
         Symbol("equal?") -> equalProc,
         Symbol("=")      -> equalProc,
+        Symbol("number?") -> Procedure(args => {
+          if (!args.exists(arg => arg.isInstanceOf[Num])) {
+            Bool(false)
+          } else {
+            Bool(true)
+          }
+        }),
+        Symbol("symbol?") -> Procedure(args => {
+          if (!args.exists(
+                arg =>
+                  arg.isInstanceOf[QuoteExp] && arg
+                    .asInstanceOf[QuoteExp]
+                    .data
+                    .isInstanceOf[Symbol])) {
+            Bool(false)
+          } else {
+            Bool(true)
+          }
+        }),
+        Symbol("pair?") -> Procedure(args => {
+          val a = args.head
+          if (a.isInstanceOf[DataList]) {
+            Bool(true)
+          } else if (a.asInstanceOf[QuoteExp].data.isInstanceOf[DataList]) {
+            Bool(true)
+          } else {
+            Bool(false)
+          }
+        }),
+        Symbol("print") -> Procedure(args => {
+          println(args)
+          Str("\n")
+        }),
+        Symbol("error") -> Procedure(args => {
+          throw new Exception("error: " + args)
+        }),
+        Symbol("list") -> Procedure(args => {
+          QuoteExp(DataList(args))
+        })
       )
     )
     evalProgram(program, initEnv)
@@ -42,7 +136,7 @@ object evaluator {
   def evalProgram(program: Program, env: List[mutable.Map[Symbol, Datum]]): Datum = {
     var currentEnv: List[mutable.Map[Symbol, Datum]] = env
     var result: Option[Datum]                        = None
-    program.p.foreach { p: Form =>
+    program.p.foreach { p =>
       {
         p match {
           case exp: Exp =>
@@ -50,7 +144,6 @@ object evaluator {
           case defStmt: DefineStatement =>
             currentEnv = evalDefinition(defStmt, currentEnv)
             result = Option(Str("ok"))
-
         }
       }
     }
@@ -123,18 +216,20 @@ object evaluator {
 
     exp match {
       case QuoteExp(body) =>
-        body
+        QuoteExp(body)
       case Num(_) | Str(_) | Bool(_) =>
         exp.asInstanceOf[Datum]
-      case DataList(_) =>
-        exp.asInstanceOf[Datum]
+      case DataList(lst) =>
+        DataList(lst)
       case Op(_op) =>
         opMap(_op)
       case Symbol(n) =>
         findValueFromEnv(Symbol(n), env) match {
-          case Some(_n) => _n
+          case Some(_n) => {
+            _n
+          }
           case None =>
-            throw new Exception("変数が見つかりません")
+            throw new Exception("変数が見つかりません: " + n + env)
         }
       case IfExp(cond, t, f) =>
         evalIf(IfExp(cond, t, f), env)
@@ -154,9 +249,16 @@ object evaluator {
       case OrExp(exps) =>
         evalOr(OrExp(exps), env)
       case ProcedureCall(operator, operands) =>
-        val op             = evalExp(operator, env).asInstanceOf[Procedure]
-        val evaledOperands = operands.map(o => evalExp(o, env))
+        val op = evalExp(operator, env).asInstanceOf[Procedure]
+        val evaledOperands = operands.map(o => {
+          evalExp(o, env)
+        })
         evalExp(op.p(evaledOperands), env)
+      case Procedure(body) =>
+        Procedure(body)
+      case _ =>
+        throw new Exception("exp:" + exp)
+
     }
   }
 

@@ -35,22 +35,22 @@ class EvalTest extends FunSuite {
   test("car cdr cons null?") {
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(car '(1 2))")))) ===
-        Num(1f))
+        QuoteExp(Num(1f)))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(cdr '(1 2))")))) ===
-        DataList(List(Num(2f))))
+        QuoteExp(DataList(List(Num(2f)))))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(cdr '(1 2 3))")))) ===
-        DataList(List(Num(2f), Num(3f))))
+        QuoteExp(DataList(List(Num(2f), Num(3f)))))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(cons 0 '(1 2 3))")))) ===
-        DataList(List(Num(0f), Num(1f), Num(2f), Num(3f))))
+        QuoteExp(DataList(List(Num(0f), Num(1f), Num(2f), Num(3f)))))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(cdr (cons 0 '(1 2 3)))")))) ===
-        DataList(List(Num(1f), Num(2f), Num(3f))))
+        QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f)))))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(car (cons 0 '(1 2 3)))")))) ===
-        Num(0f))
+        QuoteExp(Num(0f)))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(null? (cons 0 '(1 2 3)))")))) ===
         Bool(false))
@@ -169,6 +169,15 @@ class EvalTest extends FunSuite {
       Num(10000f))
   }
 
+  test("findFirstSome") {
+    assert(findFirstSome(List(None, Some(Num(1f)))) === Some(Num(1f)))
+    assert(findFirstSome(List(None, Some(Num(1f)), Some(Num(2f)))) === Some(Num(1f)))
+    assert(findFirstSome(List(Some(Num(1f)), Some(Num(2f)))) === Some(Num(1f)))
+    assert(findFirstSome(List(Some(Num(1f)), None, Some(Num(2f)))) === Some(Num(1f)))
+    assert(findFirstSome(List(None, None, Some(Num(2f)))) === Some(Num(2f)))
+    assert(findFirstSome(List(None, None)) === None)
+  }
+
   test("begin") {
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(begin 1 (+ 1 1) (+ 1 (+ 1 1)))")))) ===
@@ -238,4 +247,51 @@ class EvalTest extends FunSuite {
         Num(100f))
   }
 
+  test("lib") {
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(car '(x + 3))")))) ===
+        QuoteExp(Symbol("x")))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(cdr '(x + 3))")))) ===
+        QuoteExp(DataList(List(Op(Plus), Num(3f)))))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(list 1 2 3")))) ===
+        QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f)))))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(cons 1 '(2 3)")))) ===
+        QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f)))))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(cons 'x '(2 3)")))) ===
+        QuoteExp(DataList(List(QuoteExp(Symbol("x")), Num(2f), Num(3f)))))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(number? 'x")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(number? 1")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(symbol? 1")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(symbol? 'x")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(pair? '(1 2 3)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(pair? 'x")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(null? 'x")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(null? \"x\"")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(null? '(1)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(null? '())")))) ===
+        Bool(true))
+  }
 }

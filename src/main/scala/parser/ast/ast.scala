@@ -28,7 +28,6 @@ object ast {
   case class LetExp(bindings: List[(Symbol, Exp)], body: Program)                  extends Exp
   case class ProcedureCall(operator: Exp, operands: List[Exp])                     extends Exp
   case class CondExp(condAndClauses: List[(Exp, List[Exp])], elseCause: List[Exp]) extends Exp
-  case class QuoteExp(data: Datum)                                                 extends Exp
   case class SetExp(variable: Symbol, value: Exp)                                  extends Exp
   case class BeginExp(exps: List[Exp])                                             extends Exp
   case class AndExp(exps: List[Exp])                                               extends Exp
@@ -42,4 +41,5 @@ object ast {
   case class Symbol(v: String)                extends Datum
   case class DataList(lst: List[Datum])       extends Datum
   case class Procedure(p: List[Datum] => Exp) extends Datum
+  case class QuoteExp(data: Datum)            extends Datum
 }
