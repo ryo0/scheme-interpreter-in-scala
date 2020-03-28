@@ -81,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+            <state relative-caret-position="220">
+              <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -90,8 +90,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+            <state relative-caret-position="242">
+              <caret line="196" column="17" lean-forward="true" selection-start-line="195" selection-start-column="25" selection-end-line="196" selection-end-column="17" />
               <folding>
                 <element signature="e#19#59#0" expanded="true" />
               </folding>
@@ -102,8 +102,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/Option.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="313" column="57" selection-start-line="313" selection-start-column="57" selection-end-line="313" selection-end-column="57" />
+            <state>
+              <caret line="312" lean-forward="true" selection-start-line="312" selection-end-line="312" />
             </state>
           </provider>
         </entry>
@@ -112,7 +112,7 @@
         <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="124">
-              <caret line="56" selection-start-line="56" selection-end-line="56" />
+              <caret line="205" selection-start-line="205" selection-end-line="205" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -142,7 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Token</find>
       <find>Plus,</find>
       <find>:::</find>
       <find>parseCond</find>
@@ -170,8 +169,9 @@
       <find>evalDefi</find>
       <find>initEnv</find>
       <find>println</find>
-      <find>&lt;-</find>
       <find>evalProgram</find>
+      <find>&lt;-</find>
+      <find>and</find>
     </findStrings>
     <replaceStrings>
       <replace>extends Token</replace>
@@ -180,8 +180,9 @@
       <replace>Bool(false),</replace>
       <replace>VarToken</replace>
       <replace>initEnv</replace>
-      <replace>List[mutable.Map</replace>
       <replace>eval</replace>
+      <replace>List[mutable.Map</replace>
+      <replace>or</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -300,7 +301,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EvalTest.car, cdr, cons, null?" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+    <configuration name="EvalTest.and" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
       <module name="Scala-Scheme-interpreter" />
       <setting name="path" value="EvalTest" />
       <setting name="vmparams" value="" />
@@ -314,7 +315,26 @@
       <envs />
       <setting name="testKind" value="Test name" />
       <setting name="path" value="EvalTest" />
-      <setting name="testName" value="car, cdr, cons, null?" />
+      <setting name="testName" value="and" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EvalTest.begin" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+      <module name="Scala-Scheme-interpreter" />
+      <setting name="path" value="EvalTest" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="showProgressMessages" value="true" />
+      <setting name="useSbt" value="false" />
+      <setting name="useUiWithSbt" value="false" />
+      <setting name="jrePath" value="" />
+      <envs />
+      <setting name="testKind" value="Test name" />
+      <setting name="path" value="EvalTest" />
+      <setting name="testName" value="begin" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -357,25 +377,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EvalTest.eval apply procedure" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
-      <module name="Scala-Scheme-interpreter" />
-      <setting name="path" value="EvalTest" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="file://$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="showProgressMessages" value="true" />
-      <setting name="useSbt" value="false" />
-      <setting name="useUiWithSbt" value="false" />
-      <setting name="jrePath" value="" />
-      <envs />
-      <setting name="testKind" value="Test name" />
-      <setting name="path" value="EvalTest" />
-      <setting name="testName" value="eval apply procedure" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Test" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
       <module name="Scala-Scheme-interpreter" />
       <setting name="path" value="" />
@@ -400,19 +401,19 @@
     <list>
       <item itemvalue="Application.main" />
       <item itemvalue="ScalaTest.Test" />
-      <item itemvalue="ScalaTest.EvalTest.eval apply procedure" />
-      <item itemvalue="ScalaTest.EvalTest.car, cdr, cons, null?" />
       <item itemvalue="ScalaTest.EvalTest" />
       <item itemvalue="ScalaTest.EvalTest.equal?, eq?, =" />
       <item itemvalue="ScalaTest.EvalTest.define" />
+      <item itemvalue="ScalaTest.EvalTest.begin" />
+      <item itemvalue="ScalaTest.EvalTest.and" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="ScalaTest.EvalTest" />
+        <item itemvalue="ScalaTest.EvalTest.and" />
+        <item itemvalue="ScalaTest.EvalTest.begin" />
         <item itemvalue="ScalaTest.EvalTest.define" />
         <item itemvalue="ScalaTest.EvalTest.equal?, eq?, =" />
-        <item itemvalue="ScalaTest.EvalTest.car, cdr, cons, null?" />
-        <item itemvalue="ScalaTest.EvalTest.eval apply procedure" />
       </list>
     </recent_temporary>
   </component>
@@ -472,27 +473,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="EvalTest - 2020.03.28 at 18h 08m 09s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 18h 38m 19s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 18h 39m 19s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 18h 39m 49s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 19h 00m 20s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 19h 00m 37s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.28 at 19h 01m 20s.xml">
-      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
     <history-entry file="EvalTest - 2020.03.28 at 19h 02m 11s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
@@ -500,6 +480,27 @@
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
     <history-entry file="EvalTest - 2020.03.28 at 19h 08m 19s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 19h 08m 33s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_begin - 2020.03.28 at 19h 20m 02s.xml">
+      <configuration name="EvalTest.begin" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_and - 2020.03.28 at 19h 21m 55s.xml">
+      <configuration name="EvalTest.and" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_and - 2020.03.28 at 19h 22m 15s.xml">
+      <configuration name="EvalTest.and" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_and - 2020.03.28 at 19h 22m 48s.xml">
+      <configuration name="EvalTest.and" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_and - 2020.03.28 at 19h 23m 41s.xml">
+      <configuration name="EvalTest.and" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.28 at 19h 23m 47s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
   </component>
@@ -620,20 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/Option.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="313" column="57" selection-start-line="313" selection-start-column="57" selection-end-line="313" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/ParserTest.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -644,10 +631,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/Option.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="312" lean-forward="true" selection-start-line="312" selection-end-line="312" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
-          <caret line="56" selection-start-line="56" selection-end-line="56" />
+          <caret line="205" selection-start-line="205" selection-end-line="205" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
@@ -656,8 +657,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+        <state relative-caret-position="242">
+          <caret line="196" column="17" lean-forward="true" selection-start-line="195" selection-start-column="25" selection-end-line="196" selection-end-column="17" />
           <folding>
             <element signature="e#19#59#0" expanded="true" />
           </folding>

@@ -145,6 +145,12 @@ object evaluator {
           args => evalProgram(body, extendEnv(vars, args.map(arg => evalExp(arg, env)), env)))
       case LetExp(binds, body) =>
         evalLet(LetExp(binds, body), env)
+      case BeginExp(exps) =>
+        evalBegin(BeginExp(exps), env)
+      case AndExp(exps) =>
+        evalAnd(AndExp(exps), env)
+      case OrExp(exps) =>
+        evalOr(OrExp(exps), env)
       case ProcedureCall(operator, operands) =>
         val op             = evalExp(operator, env).asInstanceOf[Procedure]
         val evaledOperands = operands.map(o => evalExp(o, env))
@@ -169,6 +175,28 @@ object evaluator {
     })) match {
       case Some(d) => d
       case None    => exp.elseCause.map(elseC => evalExp(elseC, env)).last
+    }
+  }
+
+  def evalBegin(exp: BeginExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
+    exp.exps.map(e => evalExp(e, env)).last
+  }
+
+  def evalAnd(exp: AndExp, env: List[mutable.Map[Symbol, Datum]]): Bool = {
+    val result = exp.exps.map(e => evalExp(e, env)).filter(e => e == Bool(false))
+    if (result.isEmpty) {
+      Bool(true)
+    } else {
+      Bool(false)
+    }
+  }
+
+  def evalOr(exp: OrExp, env: List[mutable.Map[Symbol, Datum]]): Bool = {
+    val result = exp.exps.map(e => evalExp(e, env)).filter(e => e == Bool(true))
+    if (result.isEmpty) {
+      Bool(false)
+    } else {
+      Bool(true)
     }
   }
 

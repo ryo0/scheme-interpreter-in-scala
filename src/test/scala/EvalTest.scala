@@ -168,4 +168,67 @@ class EvalTest extends FunSuite {
       "(define (len lst) (cond ((null? lst) 1 2 0) ((= \"aaa\" lst) 10000) (else \"aaa\" (+ 1 (len (cdr lst)))))) (len \"aaa\"))))")))) ===
       Num(10000f))
   }
+
+  test("begin") {
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(begin 1 (+ 1 1) (+ 1 (+ 1 1)))")))) ===
+        Num(3f))
+  }
+
+  test("and") {
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(and #t #t)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(and #f #t)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(and #t #f)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(and #f #f)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(and #t #t #t)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(and #t #f #t)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(and #t #t #f)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(and #f #t #t)")))) ===
+        Bool(false))
+  }
+
+  test("or") {
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #t #t)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #f #t)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #t #f)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #f #f)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #t #t #t)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #t #f #t)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #t #t #f)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #f #t #t)")))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(or #f #f #f)")))) ===
+        Bool(false))
+  }
 }
