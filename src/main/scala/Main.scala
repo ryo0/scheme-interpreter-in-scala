@@ -51,6 +51,18 @@ object Main extends App {
   )
   (iter '() exp))
 
+|
+ |(define (number??  exp num)
+ |(begin (print "number??") (print exp)
+ |  (and (number? exp) (= exp num))))
+ |
+ |
+ |(define (make-sum a1 a2)
+ |  (cond ((number?? a1 0) a2)
+ |        ((number?? a2 0) a1)
+ |        ((and (number? a1) (number? a2)) (+ a1 a2))
+ |        (else (list a1 '+ a2))))
+
 (define (deriv exp var)
   (cond ((number? exp) 0)
         ((variable? exp)
@@ -101,15 +113,6 @@ object Main extends App {
   (cddr p)))
 
 
-(define (make-sum a1 a2)
-  (cond ((number?? a1 0) a2)
-        ((number?? a2 0) a1)
-        ((and (number? a1) (number? a2)) (+ a1 a2))
-        (else (list a1 '+ a2))))
-
-(define (number??  exp num)
-  (and (number? exp) (= exp num)))
-
 (define (make-product m1 m2)
   (cond ((or (number?? m1 0) (number??  m2 0)) 0)
         ((number??  m1 1) m2)
@@ -117,8 +120,12 @@ object Main extends App {
         ((and (number? m1) (number? m2)) (* m1 m2))
         (else (list m1 '* m2))))
 
-(simple-sum? '(x + 3))
-|(variable? '(x + 3))
+(print (simple-sum? '(x + 3)))
+|(print (variable? '(x + 3)))
+|(print (one? '(x + 3)))
+|(print (number? '(x + 3)))
+|(print (same-variable? 'x 'x)))
+|(print (deriv '(x + 3) 'x))
 """
 
   val result1 = eval(parseProgram(parseTokensToNodes(tokenize(removeComments(code1)))))

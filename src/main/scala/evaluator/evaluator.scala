@@ -8,7 +8,6 @@ object evaluator {
   val equalProc = Procedure(args => {
     val a = args.head
     val b = args.tail.head
-    println(a, b, a == b)
     if (a == b) {
       Bool(true)
     } else {
