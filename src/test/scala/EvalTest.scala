@@ -59,5 +59,74 @@ class EvalTest extends FunSuite {
     assert(evalProgram(parseProgram(parseTokensToNodes(tokenize("(car (cons 0 '(1 2 3)))"))),
                        initEnv) ===
       Num(0f))
+    assert(evalProgram(parseProgram(parseTokensToNodes(tokenize("(null? (cons 0 '(1 2 3)))"))),
+                       initEnv) ===
+      Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(null? '())"))), initEnv) ===
+        Bool(true))
+
+  }
+
+  test("equal?, eq?, =") {
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(= 1 2)"))), initEnv) ===
+        Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(= 1 1"))), initEnv) ===
+        Bool(true))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(= '(1 2) 2"))), initEnv) ===
+        Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(= '(1 2) '(1 2)"))), initEnv) ===
+        Bool(true))
+    assert(evalProgram(parseProgram(parseTokensToNodes(tokenize("(= (cons 0 '(1 2)) '(1 2)"))),
+                       initEnv) ===
+      Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(= (cons 0 '(1 2)) '(0 1 2)"))),
+                  initEnv) ===
+        Bool(true))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(equal? 1 2)"))), initEnv) ===
+        Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(equal? 1 1"))), initEnv) ===
+        Bool(true))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(equal? '(1 2) 2"))), initEnv) ===
+        Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(equal? '(1 2) '(1 2)"))), initEnv) ===
+        Bool(true))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(equal? (cons 0 '(1 2)) '(1 2)"))),
+                  initEnv) ===
+        Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(equal? (cons 0 '(1 2)) '(0 1 2)"))),
+                  initEnv) ===
+        Bool(true))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(eq? 1 2)"))), initEnv) ===
+        Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(eq? 1 1"))), initEnv) ===
+        Bool(true))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(eq? '(1 2) 2"))), initEnv) ===
+        Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(eq? '(1 2) '(1 2)"))), initEnv) ===
+        Bool(true))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(eq? (cons 0 '(1 2)) '(1 2)"))),
+                  initEnv) ===
+        Bool(false))
+    assert(
+      evalProgram(parseProgram(parseTokensToNodes(tokenize("(eq? (cons 0 '(1 2)) '(0 1 2)"))),
+                  initEnv) ===
+        Bool(true))
   }
 }

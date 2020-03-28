@@ -1,17 +1,32 @@
 package evaluator
 
-import parser.ast.ast._
+import parser.ast.ast.{Symbol, _}
 
 object evaluator {
+  val equalProc = Procedure(args =>
+    if (args.head == args.tail.head) {
+      Bool(true)
+    } else {
+      Bool(false)
+  })
+
   val initEnv: List[Map[Symbol, Datum]] = List(
     Map(
       Symbol("car") -> Procedure(args => args.head.asInstanceOf[DataList].lst.head),
       Symbol("cdr") -> Procedure(args => DataList(args.head.asInstanceOf[DataList].lst.tail)),
       Symbol("cons") -> Procedure(
-        args => DataList(args.head :: args.tail.head.asInstanceOf[DataList].lst))
+        args => DataList(args.head :: args.tail.head.asInstanceOf[DataList].lst)),
+      Symbol("null?") -> Procedure(args =>
+        if (args.head.asInstanceOf[DataList].lst.isEmpty) {
+          Bool(true)
+        } else {
+          Bool(false)
+      }),
+      Symbol("eq?")    -> equalProc,
+      Symbol("equal?") -> equalProc,
+      Symbol("=")      -> equalProc,
     )
   )
-
   def evalProgram(program: Program, env: List[Map[Symbol, Datum]]): Datum = {
     val data = program.p.map { p: Form =>
       {
@@ -64,6 +79,8 @@ object evaluator {
         exp.asInstanceOf[Datum]
       case DataList(_) =>
         exp.asInstanceOf[Datum]
+      case Op(Equal) =>
+        equalProc
       case Op(_op) =>
         val op = opMap(_op)
         _op match {
