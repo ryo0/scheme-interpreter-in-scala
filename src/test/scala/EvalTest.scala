@@ -133,10 +133,11 @@ class EvalTest extends FunSuite {
         parseProgram(
           parseTokensToNodes(tokenize("(define x 1) (define (double x) (* x 2)) (double 11)")))
       ) === Num(22f))
-    assert(eval(
-      parseProgram(parseTokensToNodes(tokenize(
-        "(define (len lst) (if (null? lst) 0 (+ (len (cdr lst)) (len (cdr lst))))) (len '(1 2))")))
-    ) === Num(2f))
+    assert(
+      eval(
+        parseProgram(parseTokensToNodes(tokenize(
+          "(define (plus a b c) (+ a b c)) (define (len lst) (if (null? lst) 0 (plus 1 (len (cdr lst)) (len (cdr lst))))) (len '(1 2 3))")))
+      ) === Num(7f))
   }
 
   test("><") {
@@ -171,6 +172,10 @@ class EvalTest extends FunSuite {
     assert(eval(parseProgram(parseTokensToNodes(tokenize(
       "(define (len lst) (cond ((null? lst) 1 2 0) ((= \"aaa\" lst) 10000) (else \"aaa\" (+ 1 (len (cdr lst)))))) (len \"aaa\"))))")))) ===
       Num(10000f))
+
+    assert(eval(parseProgram(parseTokensToNodes(tokenize(
+      "(define (len lst) (cond ((null? lst) (if (eq? '(1) lst) 1 0))  (else (+ 1 (len (cdr lst)))))) (len '(1 2 3)))))")))) ===
+      Num(3f))
   }
 
   test("findFirstSome") {
@@ -251,6 +256,16 @@ class EvalTest extends FunSuite {
         Num(100f))
   }
 
+  test("quote") {
+    assert(
+      eval(parseProgram(
+        parseTokensToNodes(tokenize("(define (deriv a b) '*) (deriv '(x + 3) 'x) \"aa\"")))) ===
+        Str("aa"))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("'+")))) ===
+        QuoteExp(Op(Plus)))
+  }
+
   test("lib") {
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(car '(x + 3))")))) ===
@@ -297,5 +312,44 @@ class EvalTest extends FunSuite {
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(null? '())")))) ===
         Bool(true))
+    assert(
+      eval(parseProgram(
+        parseTokensToNodes(tokenize("(define (addend s) (car s)) (addend '(1 2 3))")))) ===
+        QuoteExp(Num(1f)))
+    assert(eval(parseProgram(parseTokensToNodes(tokenize(
+      "(define (cddr lst) (cdr (cdr lst))) (define (caddr lst) (car (cddr lst))) (define (augend s) (caddr s)) (augend '(1 2 3))")))) ===
+      QuoteExp(Num(3f)))
+    assert(
+      eval(parseProgram(parseTokensToNodes(
+        tokenize("""
+                   |(define (cadr lst) (car (cdr lst)))
+                   |
+                   |(define (cddr lst) (cdr (cdr lst)))
+                   |
+                   |(define (caddr lst) (car (cddr lst)))
+                   |
+                   |(define (cdddr lst) (cdr (cddr lst)))
+                   |
+                   |(define (cadddr lst) (car (cdddr lst)))
+        |(define (simple-sum? x)  (and (pair? x) (eq? (cadr x) '+)  (null? (cdddr x))))
+        |(simple-sum? '(a + b))
+      """.stripMargin)))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(
+        tokenize("""
+                   |(define (cadr lst) (car (cdr lst)))
+                   |
+                   |(define (cddr lst) (cdr (cdr lst)))
+                   |
+                   |(define (caddr lst) (car (cddr lst)))
+                   |
+                   |(define (cdddr lst) (cdr (cddr lst)))
+                   |
+                   |(define (cadddr lst) (car (cdddr lst)))
+                   |(define (simple-sum? x)  (and (pair? x) (eq? (cadr x) '+)  (null? (cdddr x))))
+                   |(simple-sum? 'a))
+                 """.stripMargin)))) ===
+        Bool(false))
   }
 }
