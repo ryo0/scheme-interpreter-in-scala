@@ -231,4 +231,11 @@ class EvalTest extends FunSuite {
       eval(parseProgram(parseTokensToNodes(tokenize("(or #f #f #f)")))) ===
         Bool(false))
   }
+
+  test("set!") {
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(define x 1) (set! x 100) x")))) ===
+        Num(100f))
+  }
+
 }

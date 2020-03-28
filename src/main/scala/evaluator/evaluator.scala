@@ -147,6 +147,8 @@ object evaluator {
         evalLet(LetExp(binds, body), env)
       case BeginExp(exps) =>
         evalBegin(BeginExp(exps), env)
+      case SetExp(variable, value) =>
+        evalSet(SetExp(variable, value), env)
       case AndExp(exps) =>
         evalAnd(AndExp(exps), env)
       case OrExp(exps) =>
@@ -219,5 +221,10 @@ object evaluator {
         case None       => Bool(false)
       }
     }
+  }
+
+  def evalSet(exp: SetExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
+    env.head.put(exp.variable, evalExp(exp.value, env))
+    Str("ok")
   }
 }
