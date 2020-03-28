@@ -135,11 +135,20 @@ object evaluator {
       case LambdaExp(vars, body) =>
         Procedure(
           args => evalProgram(body, extendEnv(vars, args.map(arg => evalExp(arg, env)), env)))
+      case LetExp(binds, body) =>
+        evalLet(LetExp(binds, body), env)
       case ProcedureCall(operator, operands) =>
         val op             = evalExp(operator, env).asInstanceOf[Procedure]
         val evaledOperands = operands.map(o => evalExp(o, env))
         evalExp(op.p(evaledOperands), env)
     }
+  }
+
+  def evalLet(exp: LetExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
+    val newEnv = extendEnv(exp.bindings.map(bind => bind._1),
+                           exp.bindings.map(bind => evalExp(bind._2, env)),
+                           env)
+    evalProgram(exp.body, newEnv)
   }
 
   def evalIf(exp: IfExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {

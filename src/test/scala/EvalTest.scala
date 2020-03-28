@@ -149,4 +149,14 @@ class EvalTest extends FunSuite {
       eval(parseProgram(parseTokensToNodes(tokenize("(< 2 1)")))) ===
         Bool(false))
   }
+
+  test("let") {
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(let ((x 1) (y 2)) (+ x y))")))) ===
+        Num(3f))
+    assert(
+      eval(parseProgram(
+        parseTokensToNodes(tokenize("(let ((x (let ((x 1) (y 2)) (+ x y))) (y 2)) (+ x y))")))) ===
+        Num(5f))
+  }
 }
