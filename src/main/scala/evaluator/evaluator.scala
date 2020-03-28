@@ -2,6 +2,8 @@ package evaluator
 
 import parser.ast.ast.{Symbol, _}
 
+import scala.collection.mutable
+
 object evaluator {
   val equalProc = Procedure(args =>
     if (args.head == args.tail.head) {
@@ -10,46 +12,59 @@ object evaluator {
       Bool(false)
   })
 
-  val initEnv: List[Map[Symbol, Datum]] = List(
-    Map(
-      Symbol("car") -> Procedure(args => args.head.asInstanceOf[DataList].lst.head),
-      Symbol("cdr") -> Procedure(args => DataList(args.head.asInstanceOf[DataList].lst.tail)),
-      Symbol("cons") -> Procedure(
-        args => DataList(args.head :: args.tail.head.asInstanceOf[DataList].lst)),
-      Symbol("null?") -> Procedure(args =>
-        if (args.head.asInstanceOf[DataList].lst.isEmpty) {
-          Bool(true)
-        } else {
-          Bool(false)
-      }),
-      Symbol("eq?")    -> equalProc,
-      Symbol("equal?") -> equalProc,
-      Symbol("=")      -> equalProc,
+  def eval(program: Program): Datum = {
+    val initEnv: List[mutable.Map[Symbol, Datum]] = List(
+      mutable.Map(
+        Symbol("car") -> Procedure(args => args.head.asInstanceOf[DataList].lst.head),
+        Symbol("cdr") -> Procedure(args => DataList(args.head.asInstanceOf[DataList].lst.tail)),
+        Symbol("cons") -> Procedure(
+          args => DataList(args.head :: args.tail.head.asInstanceOf[DataList].lst)),
+        Symbol("null?") -> Procedure(args =>
+          if (args.head.asInstanceOf[DataList].lst.isEmpty) {
+            Bool(true)
+          } else {
+            Bool(false)
+        }),
+        Symbol("eq?")    -> equalProc,
+        Symbol("equal?") -> equalProc,
+        Symbol("=")      -> equalProc,
+      )
     )
-  )
-  def evalProgram(program: Program, env: List[Map[Symbol, Datum]]): Datum = {
-    val data = program.p.map { p: Form =>
+    evalProgram(program, initEnv)
+  }
+
+  def evalProgram(program: Program, env: List[mutable.Map[Symbol, Datum]]): Datum = {
+    var currentEnv: List[mutable.Map[Symbol, Datum]] = env
+    var result: Option[Datum]                        = None
+    program.p.foreach { p: Form =>
       {
         p match {
-          case exp: Exp => evalExp(exp, env)
-//          case defStmt: DefineStatement =>
+          case exp: Exp =>
+            result = Option(evalExp(exp, currentEnv))
+          case defStmt: DefineStatement =>
+            currentEnv = evalDefinition(defStmt, currentEnv)
+            result = Option(Str("ok"))
+
         }
       }
     }
-    data.last
+    result match {
+      case Some(n) => n
+      case None    => throw new Exception("evalProgramが空")
+    }
   }
 
   def extendEnv(params: List[Symbol],
                 values: List[Datum],
-                env: List[Map[Symbol, Datum]]): List[Map[Symbol, Datum]] = {
-    var newEnv = Map[Symbol, Datum]()
+                env: List[mutable.Map[Symbol, Datum]]): List[mutable.Map[Symbol, Datum]] = {
+    var newEnv = mutable.Map[Symbol, Datum]()
     for (i <- params.indices) {
       newEnv = newEnv + (params(i) -> values(i))
     }
     newEnv :: env
   }
 
-  def findValueFromEnv(symbol: Symbol, env: List[Map[Symbol, Datum]]): Option[Datum] = {
+  def findValueFromEnv(symbol: Symbol, env: List[mutable.Map[Symbol, Datum]]): Option[Datum] = {
     var result: Option[Datum] = None
     for (envMap <- env) {
       val value = envMap.get(symbol)
@@ -62,7 +77,13 @@ object evaluator {
     result
   }
 
-  def evalExp(exp: Exp, env: List[Map[Symbol, Datum]]): Datum = {
+  def evalDefinition(defStmt: DefineStatement,
+                     env: List[mutable.Map[Symbol, Datum]]): List[mutable.Map[Symbol, Datum]] = {
+    env.head.put(defStmt.name, evalProgram(defStmt.body, env))
+    env
+  }
+
+  def evalExp(exp: Exp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
     val opMap = Map(
       Plus -> Procedure(args => {
         val first = args.head
@@ -102,7 +123,8 @@ object evaluator {
       case Symbol(n) =>
         findValueFromEnv(Symbol(n), env) match {
           case Some(_n) => _n
-          case None     => throw new Exception("変数が見つかりません")
+          case None =>
+            throw new Exception("変数が見つかりません")
         }
       case IfExp(cond, t, f) =>
         evalIf(IfExp(cond, t, f), env)
@@ -116,7 +138,7 @@ object evaluator {
     }
   }
 
-  def evalIf(exp: IfExp, env: List[Map[Symbol, Datum]]): Datum = {
+  def evalIf(exp: IfExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
     if (evalExp(exp.cond, env) == Bool(true)) {
       evalExp(exp.trueExp, env)
     } else {
