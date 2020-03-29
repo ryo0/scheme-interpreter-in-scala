@@ -286,21 +286,21 @@ object evaluator {
   }
 
   def evalAnd(exp: AndExp, env: List[mutable.Map[Symbol, Datum]]): Bool = {
-    val result = exp.exps.map(e => evalExp(e, env)).filter(e => e == Bool(false))
-    if (result.isEmpty) {
-      Bool(true)
-    } else {
-      Bool(false)
+    for (e <- exp.exps) {
+      if (evalExp(e, env) == Bool(false)) {
+        return Bool(false)
+      }
     }
+    Bool(true)
   }
 
   def evalOr(exp: OrExp, env: List[mutable.Map[Symbol, Datum]]): Bool = {
-    val result = exp.exps.map(e => evalExp(e, env)).filter(e => e == Bool(true))
-    if (result.isEmpty) {
-      Bool(false)
-    } else {
-      Bool(true)
+    for (e <- exp.exps) {
+      if (evalExp(e, env) == Bool(true)) {
+        return Bool(true)
+      }
     }
+    Bool(false)
   }
 
   def findFirstSome(ops: List[Option[Datum]]): Option[Datum] = {
