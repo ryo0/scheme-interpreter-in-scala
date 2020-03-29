@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="00f083c4-813f-49a5-a5cb-8e173c733ec7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.12/classes/Main$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.12/classes/Main$.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -54,8 +56,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/parser/parser.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2610">
-              <caret line="177" column="42" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
+            <state relative-caret-position="134">
+              <caret line="82" column="19" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="19" />
               <folding>
                 <element signature="e#16#32#0" expanded="true" />
               </folding>
@@ -72,11 +74,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="141" column="53" selection-start-line="141" selection-start-column="53" selection-end-line="141" selection-end-column="53" />
+            <state relative-caret-position="344">
+              <caret line="448" column="19" selection-start-line="448" selection-start-column="19" selection-end-line="448" selection-end-column="19" />
               <folding>
                 <element signature="e#19#59#0" expanded="true" />
               </folding>
@@ -114,11 +116,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="120" column="7" selection-start-line="120" selection-start-column="2" selection-end-line="120" selection-end-column="7" />
+            <state relative-caret-position="117">
+              <caret line="124" column="43" lean-forward="true" selection-start-line="124" selection-start-column="43" selection-end-line="124" selection-end-column="43" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -148,7 +150,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>CondExp</find>
       <find>addend</find>
       <find>len</find>
       <find>Cond</find>
@@ -171,12 +172,13 @@
       <find>list</find>
       <find>&quot;list</find>
       <find>evalIf</find>
-      <find>println</find>
       <find>asInstanceOf[Quote</find>
       <find>addend-and-augend</find>
       <find>plus</find>
       <find>printl</find>
       <find>cons</find>
+      <find>println(nodes)</find>
+      <find>println</find>
       <find>print</find>
     </findStrings>
     <replaceStrings>
@@ -216,14 +218,14 @@
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/parser/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/tokenize/token/Tokens.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/parser/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/TokenizerTest.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ParserTest.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/EvalTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/parser/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
       </list>
     </option>
   </component>
@@ -238,7 +240,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="76" />
+    <option name="x" value="27" />
     <option name="y" value="23" />
     <option name="width" value="1358" />
     <option name="height" value="755" />
@@ -587,7 +589,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="76" y="23" width="1358" height="755" extended-state="0" />
+    <frame x="27" y="23" width="1358" height="755" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49622926" weight="0.22907154" />
@@ -720,16 +722,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/parser/parser.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2610">
-          <caret line="177" column="42" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
-          <folding>
-            <element signature="e#16#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.7/scala-library-2.12.7-sources.jar!/scala/collection/immutable/List.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -744,16 +736,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="120" column="7" selection-start-line="120" selection-start-column="2" selection-end-line="120" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-5">
@@ -764,13 +746,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1062">
-          <caret line="76" column="70" lean-forward="true" selection-start-line="76" selection-start-column="70" selection-end-line="76" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -778,12 +753,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1062">
+          <caret line="76" column="70" lean-forward="true" selection-start-line="76" selection-start-column="70" selection-end-line="76" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/parser/parser.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="134">
+          <caret line="82" column="19" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="19" />
+          <folding>
+            <element signature="e#16#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="141" column="53" selection-start-line="141" selection-start-column="53" selection-end-line="141" selection-end-column="53" />
+        <state relative-caret-position="344">
+          <caret line="448" column="19" selection-start-line="448" selection-start-column="19" selection-end-line="448" selection-end-column="19" />
           <folding>
             <element signature="e#19#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="124" column="43" lean-forward="true" selection-start-line="124" selection-start-column="43" selection-end-line="124" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>

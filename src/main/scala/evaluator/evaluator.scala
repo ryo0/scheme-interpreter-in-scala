@@ -442,10 +442,11 @@ object evaluator {
       }
       result += " "
     }
+    result = result.stripSuffix(" ")
     if (result == " ") {
       result = "()"
     } else {
-      result += ")"
+      result += ") "
     }
     result
   }
