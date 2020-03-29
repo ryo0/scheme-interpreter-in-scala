@@ -30,13 +30,11 @@ object evaluator {
     val initEnv: List[mutable.Map[Symbol, Datum]] = List(
       mutable.Map(
         Symbol("car") -> Procedure(p = args => {
-          println("car")
           args.head match {
             case list: DataList =>
               if (list.lst.isEmpty) {
                 return QuoteExp(DataList(List()))
               }
-              println(list.lst.head)
               QuoteExp(list.lst.head)
             case quote: QuoteExp =>
               quote.data match {
@@ -44,7 +42,6 @@ object evaluator {
                   if (list.lst.isEmpty) {
                     return QuoteExp(DataList(List()))
                   }
-                  println(list.lst.head)
                   QuoteExp(list.lst.head)
                 case _ =>
                   if (args.isEmpty) {
@@ -214,7 +211,15 @@ object evaluator {
       Plus -> Procedure(args => {
         val first = args.head
         args.tail
-          .map(arg => evalExp(arg, env).asInstanceOf[Num])
+          .map(arg => {
+            val e = evalExp(arg, env)
+            e match {
+              case num: Num =>
+                num
+              case _ =>
+                e.asInstanceOf[QuoteExp].data.asInstanceOf[Num]
+            }
+          })
           .foldLeft(first.asInstanceOf[Num]) { (acc, x) =>
             Num(acc.n + x.n)
           }
@@ -222,19 +227,49 @@ object evaluator {
       Minus -> Procedure(args => {
         val first = args.head
         args.tail
-          .map(arg => evalExp(arg, env).asInstanceOf[Num])
+          .map(arg => {
+            val e = evalExp(arg, env)
+            e match {
+              case num: Num =>
+                num
+              case _ =>
+                e.asInstanceOf[QuoteExp].data.asInstanceOf[Num]
+            }
+          })
           .foldLeft(first.asInstanceOf[Num]) { (acc, x) =>
             Num(acc.n - x.n)
           }
       }),
-      Asterisk -> Procedure(args =>
-        args.map(arg => evalExp(arg, env).asInstanceOf[Num]).foldLeft(Num(1f)) { (acc, x) =>
-          Num(acc.n * x.n)
-      }),
-      Slash -> Procedure(args =>
-        args.map(arg => evalExp(arg, env).asInstanceOf[Num]).foldLeft(Num(1f)) { (acc, x) =>
-          Num(acc.n / x.n)
-      }),
+      Asterisk -> Procedure(
+        args =>
+          args
+            .map(arg => {
+              val e = evalExp(arg, env)
+              e match {
+                case num: Num =>
+                  num
+                case _ =>
+                  e.asInstanceOf[QuoteExp].data.asInstanceOf[Num]
+              }
+            })
+            .foldLeft(Num(1f)) { (acc, x) =>
+              Num(acc.n * x.n)
+          }),
+      Slash -> Procedure(
+        args =>
+          args
+            .map(arg => {
+              val e = evalExp(arg, env)
+              e match {
+                case num: Num =>
+                  num
+                case _ =>
+                  e.asInstanceOf[QuoteExp].data.asInstanceOf[Num]
+              }
+            })
+            .foldLeft(Num(1f)) { (acc, x) =>
+              Num(acc.n / x.n)
+          }),
       Equal -> equalProc,
       GreaterThan -> Procedure(
         args => Bool(args.head.asInstanceOf[Num].n > args.tail.head.asInstanceOf[Num].n)),

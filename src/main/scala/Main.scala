@@ -52,14 +52,6 @@ object Main extends App {
  |  (iter '() exp))
  |
  |(define (deriv exp var)
- | (begin (print "deriv exp")
-| (print exp)
-|  (print (number? exp))
-|  (print (variable? exp))
-|  (print (one? exp))
-|  (print (simple-sum? exp))
-|  (print (sum? exp))
-|  (print (product? exp))
  |  (cond ((number? exp) 0)
  |        ((variable? exp)
  |         (if (same-variable? exp var) 1 0))
@@ -77,7 +69,7 @@ object Main extends App {
  |           (make-product (deriv (multiplier exp) var)
  |                         (multiplicand exp))))
  |         (else
- |          (error "unknown expression type -- DERIV" exp)))))
+ |          (error "unknown expression type -- DERIV" exp))))
  |
  |
  |(define (variable? x) (symbol? x))
@@ -126,7 +118,18 @@ object Main extends App {
  |        ((and (number? m1) (number? m2)) (* m1 m2))
  |        (else (list m1 '* m2))))
  |
+|(print (deriv '(x + 3) 'x))
+ |(print (deriv '(x * y) 'x))
+ |(print (deriv '((x * y) * (x + 3)) 'x))
  |(print (deriv '(x + 3 * (x + y + 2)) 'x))
+ |(print (deriv '(x + 3 * (x + x) * 2) 'x))
+ |(print (deriv '(x + 3 * x + x + x * y) 'x))
+ |(print (deriv '(x * 3 * x * x + x * y * y + y * x) 'x))
+ |(print (deriv '(x + x + x * x * 3 * y * 5 + x * x) 'x))
+ |(print (deriv '(x + 3 * x * x + x * (y + 2)) 'x))
+ |(print (deriv '(x + 3 * x * x + (x + (x * x + x))) 'x))
+ |(print (deriv '(x + 3 * x * x + (x + (x * (x + x) * y * x))) 'x))
+ |(print (deriv '(x + 3 * x * x + (x + (x * (x + x) * y * x))) 'y))
 """
 
   val result1 = eval(parseProgram(parseTokensToNodes(tokenize(code1))))
