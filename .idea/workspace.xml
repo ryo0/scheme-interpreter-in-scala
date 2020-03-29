@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="00f083c4-813f-49a5-a5cb-8e173c733ec7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Main.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Main.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.12/classes/Main$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.12/classes/Main$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -57,7 +57,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/scala/parser/parser.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="134">
-              <caret line="82" column="19" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="19" />
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
               <folding>
                 <element signature="e#16#32#0" expanded="true" />
               </folding>
@@ -77,8 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="448" column="19" selection-start-line="448" selection-start-column="19" selection-end-line="448" selection-end-column="19" />
+            <state relative-caret-position="152">
+              <caret line="235" column="20" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
               <folding>
                 <element signature="e#19#59#0" expanded="true" />
               </folding>
@@ -119,8 +119,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="124" column="43" lean-forward="true" selection-start-line="124" selection-start-column="43" selection-end-line="124" selection-end-column="43" />
+            <state relative-caret-position="206">
+              <caret line="342" column="28" lean-forward="true" selection-start-line="342" selection-start-column="28" selection-end-line="342" selection-end-column="28" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -131,8 +131,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1062">
-              <caret line="76" column="70" lean-forward="true" selection-start-line="76" selection-start-column="70" selection-end-line="76" selection-end-column="70" />
+            <state relative-caret-position="209">
+              <caret line="140" column="81" selection-start-line="140" selection-start-column="81" selection-end-line="140" selection-end-column="81" />
             </state>
           </provider>
         </entry>
@@ -150,16 +150,10 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>addend</find>
-      <find>len</find>
-      <find>Cond</find>
-      <find>make-sum</find>
-      <find>number</find>
       <find>number??</find>
       <find>cond</find>
       <find>simple-sum?</find>
       <find>evalAnd</find>
-      <find>;</find>
       <find>number?</find>
       <find>same-variable?</find>
       <find>addend-and-augend</find>
@@ -178,7 +172,13 @@
       <find>printl</find>
       <find>cons</find>
       <find>println(nodes)</find>
+      <find>?</find>
       <find>println</find>
+      <find>?</find>
+      <find>;</find>
+      <find>_</find>
+      <find>letter</find>
+      <find>tokenizeLetter</find>
       <find>print</find>
     </findStrings>
     <replaceStrings>
@@ -218,12 +218,12 @@
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/parser/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/tokenize/token/Tokens.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/TokenizerTest.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ParserTest.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/EvalTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/parser.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
       </list>
@@ -599,7 +599,7 @@
       <window_info id="Favorites" order="4" sideWeight="0.50377077" side_tool="true" weight="0.21193573" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.280543" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49543378" visible="true" weight="0.280543" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.30769232" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -608,10 +608,10 @@
       <window_info anchor="bottom" id="Bucklescript" order="8" />
       <window_info anchor="bottom" id="sbt-shell-toolwindow" order="9" weight="0.32880846" />
       <window_info anchor="bottom" id="SBT Console" order="10" />
-      <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49923897" weight="0.32880846" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5045662" side_tool="true" visible="true" weight="0.280543" />
       <window_info anchor="bottom" id="Build" order="13" weight="0.32985073" />
-      <window_info anchor="bottom" id="Messages" order="14" weight="0.32730016" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.49695587" weight="0.32730016" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -753,27 +753,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1062">
-          <caret line="76" column="70" lean-forward="true" selection-start-line="76" selection-start-column="70" selection-end-line="76" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/parser/parser.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="134">
-          <caret line="82" column="19" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="19" />
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
           <folding>
             <element signature="e#16#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="140" column="81" selection-start-line="140" selection-start-column="81" selection-end-line="140" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="448" column="19" selection-start-line="448" selection-start-column="19" selection-end-line="448" selection-end-column="19" />
+        <state relative-caret-position="152">
+          <caret line="235" column="20" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
           <folding>
             <element signature="e#19#59#0" expanded="true" />
           </folding>
@@ -782,8 +782,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="124" column="43" lean-forward="true" selection-start-line="124" selection-start-column="43" selection-end-line="124" selection-end-column="43" />
+        <state relative-caret-position="206">
+          <caret line="342" column="28" lean-forward="true" selection-start-line="342" selection-start-column="28" selection-end-line="342" selection-end-column="28" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

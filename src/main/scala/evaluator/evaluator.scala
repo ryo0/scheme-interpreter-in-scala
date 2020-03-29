@@ -209,7 +209,12 @@ object evaluator {
   def evalExp(exp: Exp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
     val opMap = Map(
       Plus -> Procedure(args => {
-        val first = args.head
+        var first = args.head
+        first match {
+          case QuoteExp(body) =>
+            first = body
+          case _ =>
+        }
         args.tail
           .map(arg => {
             val e = evalExp(arg, env)
@@ -225,7 +230,12 @@ object evaluator {
           }
       }),
       Minus -> Procedure(args => {
-        val first = args.head
+        var first = args.head
+        first match {
+          case QuoteExp(body) =>
+            first = body
+          case _ =>
+        }
         args.tail
           .map(arg => {
             val e = evalExp(arg, env)
@@ -271,10 +281,40 @@ object evaluator {
               Num(acc.n / x.n)
           }),
       Equal -> equalProc,
-      GreaterThan -> Procedure(
-        args => Bool(args.head.asInstanceOf[Num].n > args.tail.head.asInstanceOf[Num].n)),
-      LessThan -> Procedure(
-        args => Bool(args.head.asInstanceOf[Num].n < args.tail.head.asInstanceOf[Num].n))
+      GreaterThan -> Procedure(args => {
+        var a = args.head
+        var b = args.tail.head
+        a match {
+          case exp: QuoteExp =>
+            a = exp.data
+          case _ =>
+            a = a
+        }
+        b match {
+          case exp: QuoteExp =>
+            b = exp.data
+          case _ =>
+            b = b
+        }
+        Bool(a.asInstanceOf[Num].n > b.asInstanceOf[Num].n)
+      }),
+      LessThan -> Procedure(args => {
+        var a = args.head
+        var b = args.tail.head
+        a match {
+          case exp: QuoteExp =>
+            a = exp.data
+          case _ =>
+            a = a
+        }
+        b match {
+          case exp: QuoteExp =>
+            b = exp.data
+          case _ =>
+            b = b
+        }
+        Bool(a.asInstanceOf[Num].n < b.asInstanceOf[Num].n)
+      }),
     )
 
     exp match {
