@@ -271,8 +271,20 @@ class EvalTest extends FunSuite {
       eval(parseProgram(parseTokensToNodes(tokenize("(car '(x + 3))")))) ===
         QuoteExp(Symbol("x")))
     assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(car '(a))")))) ===
+        QuoteExp(Symbol("a")))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(car (cons 1 '(2)))")))) ===
+        QuoteExp(Num(1f)))
+    assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(cdr '(x + 3))")))) ===
         QuoteExp(DataList(List(Op(Plus), Num(3f)))))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(cdr '(a))")))) ===
+        QuoteExp(DataList(List())))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(cdr (cons 1 '(2)))")))) ===
+        QuoteExp(DataList(List(Num(2f)))))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(list 1 2 3")))) ===
         QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f)))))
@@ -357,5 +369,54 @@ class EvalTest extends FunSuite {
                    |(simple-sum? 'a))
                  """.stripMargin)))) ===
         Bool(false))
+    assert(
+      eval(
+        parseProgram(parseTokensToNodes(tokenize("""
+                                                   |(define (variable? x) (symbol? x))
+                                                   |(define (same-variable? v1 v2)
+                                                   |(and (variable? v1) (variable? v2) (eq? v1 v2)))
+                                                   |(same-variable? 'a 'x))
+                                                 """.stripMargin)))) ===
+        Bool(false))
+    assert(
+      eval(
+        parseProgram(parseTokensToNodes(tokenize("""
+                                                   |(define (variable? x) (symbol? x))
+                                                   |(define (same-variable? v1 v2)
+                                                   |(and (variable? v1) (variable? v2) (eq? v1 v2)))
+                                                   |(same-variable? '(x + 2) 'x))
+                                                 """.stripMargin)))) ===
+        Bool(false))
+    assert(
+      eval(
+        parseProgram(parseTokensToNodes(tokenize("""
+                                                   |(define (variable? x) (symbol? x))
+                                                   |(define (same-variable? v1 v2)
+                                                   |(and (variable? v1) (variable? v2) (eq? v1 v2)))
+                                                   |(same-variable? 'x 'x))
+                                                 """.stripMargin)))) ===
+        Bool(true))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("""
+                                                   |(define (cddr lst) (cdr (cdr lst)))
+                                                   |(define (caddr lst) (car (cddr lst)))
+                                                   |
+                                                   |(define (addend s) (car s))
+                                                   |(define (augend s) (caddr s))
+                                                   |
+                                                   |(addend '(x + 3))
+                                                 """.stripMargin)))) ===
+        QuoteExp(Symbol("x")))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("""
+                                                   |(define (cddr lst) (cdr (cdr lst)))
+                                                   |(define (caddr lst) (car (cddr lst)))
+                                                   |
+                                                   |(define (addend s) (car s))
+                                                   |(define (augend s) (caddr s))
+                                                   |
+                                                   |(augend '(x + 3))
+                                                 """.stripMargin)))) ===
+        QuoteExp(Num(3f)))
   }
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="00f083c4-813f-49a5-a5cb-8e173c733ec7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Main.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Main.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/scala/EvalTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/EvalTest.scala" afterDir="false" />
     </list>
@@ -77,8 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="91" column="27" lean-forward="true" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
+            <state relative-caret-position="239">
+              <caret line="138" column="34" lean-forward="true" selection-start-line="138" selection-start-column="34" selection-end-line="138" selection-end-column="34" />
               <folding>
                 <element signature="e#19#59#0" expanded="true" />
               </folding>
@@ -95,11 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="288" column="67" selection-start-line="288" selection-start-column="67" selection-end-line="288" selection-end-column="67" />
+            <state relative-caret-position="301">
+              <caret line="419" column="26" selection-start-line="419" selection-start-column="26" selection-end-line="419" selection-end-column="26" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -116,11 +116,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-684">
-              <caret line="15" selection-start-line="15" selection-end-line="23" selection-end-column="39" />
+            <state relative-caret-position="192">
+              <caret line="122" column="29" lean-forward="true" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="29" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -150,10 +150,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>length</find>
-      <find>&gt;=</find>
-      <find>&lt;-</find>
-      <find>println</find>
       <find>pair?</find>
       <find>list</find>
       <find>in deriv</find>
@@ -164,22 +160,26 @@
       <find>ProcedureCall</find>
       <find>&quot;ok</find>
       <find>CondExp</find>
-      <find>print</find>
       <find>cons</find>
-      <find>same-variable?</find>
       <find>addend</find>
       <find>len</find>
       <find>Cond</find>
-      <find>sum?</find>
       <find>addend-and-augend</find>
       <find>make-sum</find>
-      <find>augend</find>
       <find>number</find>
       <find>number??</find>
       <find>cond</find>
       <find>simple-sum?</find>
       <find>evalAnd</find>
+      <find>;</find>
       <find>number?</find>
+      <find>same-variable?</find>
+      <find>sum?</find>
+      <find>addend-and-augend</find>
+      <find>augend</find>
+      <find>evalCond</find>
+      <find>println</find>
+      <find>print</find>
     </findStrings>
     <replaceStrings>
       <replace>extends Token</replace>
@@ -223,9 +223,9 @@
         <option value="$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/TokenizerTest.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ParserTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/EvalTest.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
       </list>
     </option>
   </component>
@@ -339,7 +339,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="ScalaTest.EvalTest">
+  <component name="RunManager" selected="Application.main">
     <configuration name="main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Scala-Scheme-interpreter" />
@@ -494,10 +494,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="ScalaTest.EvalTest.lib" />
+        <item itemvalue="ScalaTest.EvalTest.lib" />
         <item itemvalue="ScalaTest.EvalTest.cond" />
         <item itemvalue="ScalaTest.EvalTest.quote" />
         <item itemvalue="ScalaTest.EvalTest.findFirstSome" />
-        <item itemvalue="ScalaTest.ParserTest.quote" />
       </list>
     </recent_temporary>
   </component>
@@ -557,34 +557,34 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="EvalTest_lib - 2020.03.29 at 01h 06m 42s.xml">
-      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_lib - 2020.03.29 at 01h 07m 24s.xml">
-      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_lib - 2020.03.29 at 01h 07m 51s.xml">
-      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 11m 32s.xml">
-      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 12m 00s.xml">
-      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 12m 34s.xml">
-      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 14m 03s.xml">
-      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 17m 03s.xml">
-      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="EvalTest - 2020.03.29 at 10h 19m 03s.xml">
+    <history-entry file="EvalTest - 2020.03.29 at 10h 40m 03s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
-    <history-entry file="EvalTest - 2020.03.29 at 10h 21m 08s.xml">
+    <history-entry file="EvalTest - 2020.03.29 at 10h 40m 51s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 48m 25s.xml">
+      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 49m 01s.xml">
+      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 50m 41s.xml">
+      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 53m 54s.xml">
+      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 54m 16s.xml">
+      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest_lib - 2020.03.29 at 10h 54m 39s.xml">
+      <configuration name="EvalTest.lib" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.29 at 11h 04m 11s.xml">
+      <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="EvalTest - 2020.03.29 at 11h 04m 38s.xml">
       <configuration name="EvalTest" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
   </component>
@@ -592,7 +592,7 @@
     <frame x="69" y="23" width="1358" height="755" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49622926" visible="true" weight="0.22907154" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49622926" weight="0.22907154" />
       <window_info id="Structure" order="1" sideWeight="0.50377077" side_tool="true" weight="0.21193573" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -622,6 +622,37 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="sbt" order="8" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49622926" visible="true" weight="0.22907154" />
+      <window_info id="Structure" order="1" sideWeight="0.50377077" side_tool="true" weight="0.21193573" />
+      <window_info id="Designer" order="2" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Favorites" order="4" sideWeight="0.50377077" side_tool="true" weight="0.21193573" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.280543" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.30769232" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Bucklescript" order="8" />
+      <window_info anchor="bottom" id="sbt-shell-toolwindow" order="9" weight="0.32880846" />
+      <window_info anchor="bottom" id="SBT Console" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="Build" order="13" weight="0.32985073" />
+      <window_info anchor="bottom" id="Messages" order="14" weight="0.32730016" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" />
+      <window_info anchor="right" id="Cargo" order="5" />
+      <window_info anchor="right" id="Scheme.REPL" order="6" side_tool="true" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="sbt" order="8" />
+    </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/scala/main.sc" />
@@ -722,16 +753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-684">
-          <caret line="15" selection-start-line="15" selection-end-line="23" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/parser/ast/ast.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
@@ -739,22 +760,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="419" column="26" selection-start-line="419" selection-start-column="26" selection-end-line="419" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="91" column="27" lean-forward="true" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
+        <state relative-caret-position="239">
+          <caret line="138" column="34" lean-forward="true" selection-start-line="138" selection-start-column="34" selection-end-line="138" selection-end-column="34" />
           <folding>
             <element signature="e#19#59#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/EvalTest.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="288" column="67" selection-start-line="288" selection-start-column="67" selection-end-line="288" selection-end-column="67" />
+        <state relative-caret-position="192">
+          <caret line="122" column="29" lean-forward="true" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="29" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -29,19 +29,28 @@ object evaluator {
   def eval(program: Program): Datum = {
     val initEnv: List[mutable.Map[Symbol, Datum]] = List(
       mutable.Map(
-        Symbol("car") -> Procedure(args => {
-          if (args.isEmpty) {
-            return QuoteExp(DataList(List()))
-          }
-          if (args.head.asInstanceOf[QuoteExp].data.asInstanceOf[DataList].lst.isEmpty) {
-            return QuoteExp(DataList(List()))
-          }
+        Symbol("car") -> Procedure(p = args => {
           args.head match {
             case list: DataList =>
+              if (list.lst.isEmpty) {
+                return QuoteExp(DataList(List()))
+              }
               QuoteExp(list.lst.head)
-            case _ =>
-              QuoteExp(args.head.asInstanceOf[QuoteExp].data.asInstanceOf[DataList].lst.head)
+            case quote: QuoteExp =>
+              quote.data match {
+                case list: DataList =>
+                  if (list.lst.isEmpty) {
+                    return QuoteExp(DataList(List()))
+                  }
+                  QuoteExp(list.lst.head)
+                case _ =>
+                  if (args.isEmpty) {
+                    return QuoteExp(DataList(List()))
+                  }
+                  QuoteExp(args.head)
+              }
           }
+
         }),
         Symbol("cdr") -> {
           Procedure(
@@ -271,16 +280,12 @@ object evaluator {
   }
 
   def evalCond(exp: CondExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
-    findFirstSome(exp.condAndClauses.map(cls => {
-      if (Bool(true) == evalExp(cls._1, env)) {
-        Option(cls._2.map(cl2 => evalExp(cl2, env)).last)
-      } else {
-        None
+    for (condAndCaluse <- exp.condAndClauses) {
+      if (evalExp(condAndCaluse._1, env) == Bool(true)) {
+        return condAndCaluse._2.map(c => evalExp(c, env)).last
       }
-    })) match {
-      case Some(d) => d
-      case None    => exp.elseCause.map(elseC => evalExp(elseC, env)).last
     }
+    exp.elseCause.map(elseC => evalExp(elseC, env)).last
   }
 
   def evalBegin(exp: BeginExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
