@@ -46,6 +46,12 @@ class EvalTest extends FunSuite {
       eval(parseProgram(parseTokensToNodes(tokenize("(cons 0 '(1 2 3))")))) ===
         QuoteExp(DataList(List(Num(0f), Num(1f), Num(2f), Num(3f)))))
     assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(cons '0 '(1 2 3))")))) ===
+        QuoteExp(DataList(List(QuoteExp(Num(0f)), Num(1f), Num(2f), Num(3f)))))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(cons '0 '(1 2 3))")))) ===
+        QuoteExp(DataList(List(QuoteExp(Num(0f)), Num(1f), Num(2f), Num(3f)))))
+    assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(cdr (cons 0 '(1 2 3)))")))) ===
         QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f)))))
     assert(
@@ -293,7 +299,7 @@ class EvalTest extends FunSuite {
         QuoteExp(DataList(List(Num(1f), Num(2f), Num(3f)))))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(cons 'x '(2 3)")))) ===
-        QuoteExp(DataList(List(QuoteExp(Symbol("x")), Num(2f), Num(3f)))))
+        QuoteExp(DataList(List(Symbol("x"), Num(2f), Num(3f)))))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(number? 'x")))) ===
         Bool(false))
@@ -340,83 +346,138 @@ class EvalTest extends FunSuite {
     assert(
       eval(parseProgram(parseTokensToNodes(
         tokenize("""
-                   |(define (cadr lst) (car (cdr lst)))
-                   |
-                   |(define (cddr lst) (cdr (cdr lst)))
-                   |
-                   |(define (caddr lst) (car (cddr lst)))
-                   |
-                   |(define (cdddr lst) (cdr (cddr lst)))
-                   |
-                   |(define (cadddr lst) (car (cdddr lst)))
-        |(define (simple-sum? x)  (and (pair? x) (eq? (cadr x) '+)  (null? (cdddr x))))
-        |(simple-sum? '(a + b))
-      """.stripMargin)))) ===
+            |(define (cadr lst) (car (cdr lst)))
+            |
+            |(define (cddr lst) (cdr (cdr lst)))
+            |
+            |(define (caddr lst) (car (cddr lst)))
+            |
+            |(define (cdddr lst) (cdr (cddr lst)))
+            |
+            |(define (cadddr lst) (car (cdddr lst)))
+            |(define (simple-sum? x)  (and (pair? x) (eq? (cadr x) '+)  (null? (cdddr x))))
+            |(simple-sum? '(a + b))
+          """.stripMargin)))) ===
         Bool(true))
     assert(
       eval(parseProgram(parseTokensToNodes(
         tokenize("""
-                   |(define (cadr lst) (car (cdr lst)))
-                   |
-                   |(define (cddr lst) (cdr (cdr lst)))
-                   |
-                   |(define (caddr lst) (car (cddr lst)))
-                   |
-                   |(define (cdddr lst) (cdr (cddr lst)))
-                   |
-                   |(define (cadddr lst) (car (cdddr lst)))
-                   |(define (simple-sum? x)  (and (pair? x) (eq? (cadr x) '+)  (null? (cdddr x))))
-                   |(simple-sum? 'a))
-                 """.stripMargin)))) ===
+            |(define (cadr lst) (car (cdr lst)))
+            |
+            |(define (cddr lst) (cdr (cdr lst)))
+            |
+            |(define (caddr lst) (car (cddr lst)))
+            |
+            |(define (cdddr lst) (cdr (cddr lst)))
+            |
+            |(define (cadddr lst) (car (cdddr lst)))
+            |(define (simple-sum? x)  (and (pair? x) (eq? (cadr x) '+)  (null? (cdddr x))))
+            |(simple-sum? 'a))
+          """.stripMargin)))) ===
         Bool(false))
     assert(
       eval(
         parseProgram(parseTokensToNodes(tokenize("""
-                                                   |(define (variable? x) (symbol? x))
-                                                   |(define (same-variable? v1 v2)
-                                                   |(and (variable? v1) (variable? v2) (eq? v1 v2)))
-                                                   |(same-variable? 'a 'x))
-                                                 """.stripMargin)))) ===
+            |(define (variable? x) (symbol? x))
+            |(define (same-variable? v1 v2)
+            |(and (variable? v1) (variable? v2) (eq? v1 v2)))
+            |(same-variable? 'a 'x))
+          """.stripMargin)))) ===
         Bool(false))
     assert(
       eval(
         parseProgram(parseTokensToNodes(tokenize("""
-                                                   |(define (variable? x) (symbol? x))
-                                                   |(define (same-variable? v1 v2)
-                                                   |(and (variable? v1) (variable? v2) (eq? v1 v2)))
-                                                   |(same-variable? '(x + 2) 'x))
-                                                 """.stripMargin)))) ===
+            |(define (variable? x) (symbol? x))
+            |(define (same-variable? v1 v2)
+            |(and (variable? v1) (variable? v2) (eq? v1 v2)))
+            |(same-variable? '(x + 2) 'x))
+          """.stripMargin)))) ===
         Bool(false))
     assert(
       eval(
         parseProgram(parseTokensToNodes(tokenize("""
-                                                   |(define (variable? x) (symbol? x))
-                                                   |(define (same-variable? v1 v2)
-                                                   |(and (variable? v1) (variable? v2) (eq? v1 v2)))
-                                                   |(same-variable? 'x 'x))
-                                                 """.stripMargin)))) ===
+            |(define (variable? x) (symbol? x))
+            |(define (same-variable? v1 v2)
+            |(and (variable? v1) (variable? v2) (eq? v1 v2)))
+            |(same-variable? 'x 'x))
+          """.stripMargin)))) ===
         Bool(true))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("""
-                                                   |(define (cddr lst) (cdr (cdr lst)))
-                                                   |(define (caddr lst) (car (cddr lst)))
-                                                   |
-                                                   |(define (addend s) (car s))
-                                                   |(define (augend s) (caddr s))
-                                                   |
-                                                   |(addend '(x + 3))
-                                                 """.stripMargin)))) ===
+          |(define (cddr lst) (cdr (cdr lst)))
+          |(define (caddr lst) (car (cddr lst)))
+          |
+          |(define (addend s) (car s))
+          |(define (augend s) (caddr s))
+          |
+          |(addend '(x + 3))
+        """.stripMargin)))) ===
         QuoteExp(Symbol("x")))
     assert(
       eval(parseProgram(parseTokensToNodes(tokenize("""
-                                                   |(define (cddr lst) (cdr (cdr lst)))
-                                                   |(define (caddr lst) (car (cddr lst)))
-                                                   |
-                                                   |(define (addend s) (car s))
-                                                   |(define (augend s) (caddr s))
-                                                   |
-                                                   |(augend '(x + 3))
-                                                 """.stripMargin)))) ===
+          |(define (cddr lst) (cdr (cdr lst)))
+          |(define (caddr lst) (car (cddr lst)))
+          |
+          |(define (addend s) (car s))
+          |(define (augend s) (caddr s))
+          |
+          |(augend '(x + 3))
+        """.stripMargin)))) ===
         QuoteExp(Num(3f)))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("""
+          |(define (cddr lst) (cdr (cdr lst)))
+          |(define (caddr lst) (car (cddr lst)))
+          |
+          |(car (caddr (cddr '(x + 3 * (x + y + 2)))))
+        """.stripMargin)))) ===
+        QuoteExp(Symbol("x")))
+    assert(
+      eval(
+        parseProgram(parseTokensToNodes(tokenize("""
+            |(define (addend s) (car s))
+            |
+            |(define (augend s) (caddr s))
+            |
+            |(define (add-last x lst)
+            |  (if (null? lst)
+            |      (list x)
+            |    (cons (car lst) (add-last x (cdr lst)))
+            |    )
+            |  )
+            |
+            |(define (addend-and-augend exp)
+            |    (define (iter addend exp)
+            |    (cond
+            |    ((null? exp) #f)
+            |    ((eq? '+ (car exp)) (cons addend (cdr exp)))
+            |    (else
+            |    (iter (add-last (car exp) addend) (cdr exp))
+            |    )
+            |    )
+            |    )
+            |(iter '() exp))
+            |(addend-and-augend '(x + (x + 1)))
+          """.stripMargin)))) ===
+        QuoteExp(DataList(
+          List(DataList(List(Symbol("x"))), DataList(List(Symbol("x"), Op(Plus), Num(1f)))))))
+
+    assert(eval(
+      parseProgram(parseTokensToNodes(tokenize("""
+          |(define (addend s) (car s))
+          |
+          |(define (augend s) (caddr s))
+          |
+          |(define (add-last x lst)
+          |  (if (null? lst)
+          |      (list x)
+          |    (cons (car lst) (add-last x (cdr lst)))
+          |    )
+          |  )
+          |
+          |(add-last 'a '(x + (x + 1)))
+        """.stripMargin)))) ===
+      QuoteExp(DataList(
+        List(QuoteExp(Symbol("x")), QuoteExp(DataList(List(Symbol("x"), Num(1f)))), Symbol("a")))))
   }
 }

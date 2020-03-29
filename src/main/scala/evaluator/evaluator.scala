@@ -72,10 +72,20 @@ object evaluator {
             }
           )
         },
-        Symbol("cons") -> Procedure(
-          args =>
-            QuoteExp(DataList(
-              args.head :: args.tail.head.asInstanceOf[QuoteExp].data.asInstanceOf[DataList].lst))),
+        Symbol("cons") -> Procedure(args => {
+          var head = args.head
+          head match {
+            case exp: QuoteExp =>
+              head = exp.data
+            case _ =>
+          }
+          args.tail.head match {
+            case exp: QuoteExp =>
+              QuoteExp(DataList(head :: exp.data.asInstanceOf[DataList].lst))
+            case _ =>
+              QuoteExp(DataList(head :: List(args.tail.head)))
+          }
+        }),
         Symbol("null?") -> Procedure(args =>
           args.head match {
             case list: DataList =>
@@ -281,7 +291,7 @@ object evaluator {
 
   def evalCond(exp: CondExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
     for (condAndCaluse <- exp.condAndClauses) {
-      if (evalExp(condAndCaluse._1, env) == Bool(true)) {
+      if (evalExp(condAndCaluse._1, env) != Bool(false)) {
         return condAndCaluse._2.map(c => evalExp(c, env)).last
       }
     }
@@ -321,7 +331,7 @@ object evaluator {
   }
 
   def evalIf(exp: IfExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
-    if (evalExp(exp.cond, env) == Bool(true)) {
+    if (evalExp(exp.cond, env) != Bool(false)) {
       evalExp(exp.trueExp, env)
     } else {
       exp.falseExp match {

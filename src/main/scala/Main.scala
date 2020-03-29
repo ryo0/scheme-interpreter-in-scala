@@ -52,7 +52,14 @@ object Main extends App {
  |  (iter '() exp))
  |
  |(define (deriv exp var)
- | (begin
+ | (begin (print "deriv exp")
+| (print exp)
+|  (print (number? exp))
+|  (print (variable? exp))
+|  (print (one? exp))
+|  (print (simple-sum? exp))
+|  (print (sum? exp))
+|  (print (product? exp))
  |  (cond ((number? exp) 0)
  |        ((variable? exp)
  |         (if (same-variable? exp var) 1 0))
@@ -100,7 +107,6 @@ object Main extends App {
  |(if (null? (cdddr p))
  |  (caddr p)
  |  (cddr p)))
- |(cond (#f (error "aaa")) (else "bbb"))
  |
  |
  |
@@ -120,9 +126,7 @@ object Main extends App {
  |        ((and (number? m1) (number? m2)) (* m1 m2))
  |        (else (list m1 '* m2))))
  |
- |(print (deriv '(x + 3) 'x))
- |(print (deriv '(x * y) 'x))
- |(print (deriv '((x * y) * (x + 3)) 'x))
+ |(print (deriv '(x + 3 * (x + y + 2)) 'x))
 """
 
   val result1 = eval(parseProgram(parseTokensToNodes(tokenize(code1))))
