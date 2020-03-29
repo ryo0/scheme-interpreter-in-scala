@@ -74,11 +74,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="235" column="20" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
+            <state relative-caret-position="210">
+              <caret line="434" column="5" selection-start-line="434" selection-start-column="5" selection-end-line="434" selection-end-column="5" />
               <folding>
                 <element signature="e#19#59#0" expanded="true" />
               </folding>
@@ -116,11 +116,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="342" column="28" lean-forward="true" selection-start-line="342" selection-start-column="28" selection-end-line="342" selection-end-column="28" />
+            <state relative-caret-position="212">
+              <caret line="516" column="26" selection-start-line="516" selection-start-column="26" selection-end-line="516" selection-end-column="26" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -132,7 +132,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="209">
-              <caret line="140" column="81" selection-start-line="140" selection-start-column="81" selection-end-line="140" selection-end-column="81" />
+              <caret line="140" column="88" lean-forward="true" selection-start-line="140" selection-start-column="88" selection-end-line="140" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -150,8 +150,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>number??</find>
-      <find>cond</find>
       <find>simple-sum?</find>
       <find>evalAnd</find>
       <find>number?</find>
@@ -180,6 +178,8 @@
       <find>letter</find>
       <find>tokenizeLetter</find>
       <find>print</find>
+      <find>&gt;</find>
+      <find>evalSet</find>
     </findStrings>
     <replaceStrings>
       <replace>extends Token</replace>
@@ -224,8 +224,8 @@
         <option value="$PROJECT_DIR$/src/test/scala/EvalTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/parser/parser.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala" />
       </list>
     </option>
   </component>
@@ -599,7 +599,7 @@
       <window_info id="Favorites" order="4" sideWeight="0.50377077" side_tool="true" weight="0.21193573" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49543378" visible="true" weight="0.280543" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49467275" visible="true" weight="0.280543" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.30769232" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -609,9 +609,9 @@
       <window_info anchor="bottom" id="sbt-shell-toolwindow" order="9" weight="0.32880846" />
       <window_info anchor="bottom" id="SBT Console" order="10" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49923897" weight="0.32880846" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5045662" side_tool="true" visible="true" weight="0.280543" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5053272" side_tool="true" visible="true" weight="0.280543" />
       <window_info anchor="bottom" id="Build" order="13" weight="0.32985073" />
-      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.49695587" weight="0.32730016" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.49619484" weight="0.32730016" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -653,6 +653,18 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="sbt" order="8" />
     </layout-to-restore>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/Main.scala</url>
+          <line>503</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/scala/main.sc" />
@@ -766,26 +778,26 @@
     <entry file="file://$PROJECT_DIR$/src/main/scala/tokenize/Tokenizer.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
-          <caret line="140" column="81" selection-start-line="140" selection-start-column="81" selection-end-line="140" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="235" column="20" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
-          <folding>
-            <element signature="e#19#59#0" expanded="true" />
-          </folding>
+          <caret line="140" column="88" lean-forward="true" selection-start-line="140" selection-start-column="88" selection-end-line="140" selection-end-column="88" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="342" column="28" lean-forward="true" selection-start-line="342" selection-start-column="28" selection-end-line="342" selection-end-column="28" />
+        <state relative-caret-position="212">
+          <caret line="516" column="26" selection-start-line="516" selection-start-column="26" selection-end-line="516" selection-end-column="26" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/evaluator/evaluator.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="434" column="5" selection-start-line="434" selection-start-column="5" selection-end-line="434" selection-end-column="5" />
+          <folding>
+            <element signature="e#19#59#0" expanded="true" />
           </folding>
         </state>
       </provider>

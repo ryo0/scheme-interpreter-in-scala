@@ -375,4 +375,163 @@ object Main extends App {
       |)
     """.stripMargin
   val result2 = eval(parseProgram(parseTokensToNodes(tokenize(code2))))
+
+  val code3 =
+    """
+      |(define (length lst)
+ |  (if (null? lst)
+ |    0
+ |    (+ 1 (length (cdr lst))))
+ |)
+ |
+ |(define (cadr lst) (car (cdr lst)))
+ |
+ |(define (cddr lst) (cdr (cdr lst)))
+ |
+ |(define (caddr lst) (car (cddr lst)))
+ |
+ |(define (cdddr lst) (cdr (cddr lst)))
+ |
+ |(define (cadddr lst) (car (cdddr lst)))
+ |
+ |(define (gteq a b) (or (> a b) (= a b)))
+ |
+ |(define nil '())
+ |
+ |(define (append lst1 lst2)
+ |  (if (null? lst1)
+ |    lst2
+ |    (cons (car lst1) (append (cdr lst1) lst2))))
+      |(define (entry tree) (car tree))
+      |(define (left-branch tree) (cadr tree))
+      |(define (right-branch tree) (caddr tree))
+      |(define (make-tree entry left right)
+      |  (list entry left right))
+      |
+      |(define (element-of-set x set)
+      |    (cond
+      |        ((null? set) #f)
+      |        ((= x (entry set)) true)
+      |        ((> x (entry set))
+      |         (element-of-set x (right-branch set)))
+      |         ((< x (entry set))
+      |          (element-of-set x (left-branch set)))
+      |      )
+      |  )
+      |(define (adjoin-set x set)
+      |  (cond
+      |      ((null? set) (make-tree x nil nil))
+      |      ((= x (entry set)) set)
+      |      ((> x (entry set))
+      |       (make-tree (entry set)
+      |                  (left-branch set)
+      |        (adjoin-set x (right-branch set))))
+      |      ((< x (entry set))
+      |       (make-tree (entry set)
+      |        (adjoin-set x (left-branch set))
+      |        (right-branch set)))
+      |    )
+      |  )
+      |
+      |(define (tree->list-1 tree)
+      |    (if (null? tree)
+      |      nil
+      |      (append (tree->list-1 (left-branch tree))
+      |              (cons (entry tree)
+      |                    (tree->list-1
+      |                     (right-branch tree)))))
+      |  )
+      |(define (tree->list-2 tree)
+      |    (define (copy-to-list tree result-list)
+      |      (if (null? tree)
+      |        result-list
+      |        (copy-to-list (left-branch tree)
+      |                      (cons (entry tree)
+      |                            (copy-to-list
+      |                             (right-branch tree)
+      |                             result-list)))))
+      |  (copy-to-list tree '())
+      |  )
+      |(define tree1 (adjoin-set 5 (adjoin-set 1 (adjoin-set 11 (adjoin-set 9 (adjoin-set 3 (make-tree 7 nil nil)))))))
+      |(print tree1)
+      |
+      |(define tree2  (adjoin-set 5 (adjoin-set 9 (adjoin-set 7 (adjoin-set 1 (make-tree 3 nil nil))))))
+      |(print tree2)
+      |
+      |(define tree3  (adjoin-set 11 (adjoin-set 7 (adjoin-set 9 (adjoin-set 1 (adjoin-set 3 (make-tree 5 nil nil)))))))
+      |(print tree3)
+      |
+      |(print (tree->list-1 tree1))
+      |
+      |(print (tree->list-1 tree2))
+      |
+      |(print (tree->list-1 tree3))
+      |(print (tree->list-2 tree1))
+      |(tree->list-2 tree1)
+      
+      |
+      |(print (tree->list-2 tree2))
+      |
+      |(print (tree->list-2 tree3))
+      |
+    """.stripMargin
+
+  val result3 = eval(parseProgram(parseTokensToNodes(tokenize(code3))))
+
+  val code4 =
+    """(define (length lst)
+      |  (if (null? lst)
+      |    0
+      |    (+ 1 (length (cdr lst))))
+      |)
+      |
+      |(define (cadr lst) (car (cdr lst)))
+      |
+      |(define (cddr lst) (cdr (cdr lst)))
+      |
+      |(define (caddr lst) (car (cddr lst)))
+      |
+      |(define (cdddr lst) (cdr (cddr lst)))
+      |
+      |(define (cadddr lst) (car (cdddr lst)))
+      |
+      |(define (gteq a b) (or (> a b) (= a b)))
+      |
+      |(define nil '())
+      |
+      |(define (append lst1 lst2)
+      |  (if (null? lst1)
+      |    lst2
+      |    (cons (car lst1) (append (cdr lst1) lst2))))
+      |
+      |
+      |(define (make-account balance)
+      |  (define (withdraw amount)
+      |    (if (gteq balance amount)
+      |        (begin (set! balance (- balance amount))
+      |               (print balance)
+      |               balance)
+      |        "Insufficient funds"))
+      |  (define (deposit amount)
+      |    (set! balance (+ balance amount))
+      |    (print balance)
+      |    balance)
+      |  (define (dispatch m)
+      |    (cond ((eq? m 'withdraw) withdraw)
+      |          ((eq? m 'deposit) deposit)
+      |          (else (error "Unknown request -- MAKE-ACCOUNT"
+      |                       m))))
+      |  dispatch)
+      |
+      |  (define acc (make-account 50))
+      |
+      | ((acc 'deposit) 40)
+      | ((acc 'withdraw) 60)
+      |
+      | (define acc2 (make-account 100))
+      | ((acc2 'deposit) 40)
+      | ((acc2 'withdraw) 60)
+    """.stripMargin
+
+  val result4 = eval(parseProgram(parseTokensToNodes(tokenize(code4))))
 }

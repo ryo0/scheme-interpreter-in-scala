@@ -425,7 +425,14 @@ object evaluator {
   }
 
   def evalSet(exp: SetExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
-    env.head.put(exp.variable, evalExp(exp.value, env))
+    for (envMap <- env) {
+      val value = envMap.get(exp.variable)
+      value match {
+        case Some(n) =>
+          envMap.put(exp.variable, evalExp(exp.value, env))
+        case _ =>
+      }
+    }
     Str("ok")
   }
 
