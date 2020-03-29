@@ -89,10 +89,12 @@ object evaluator {
         Symbol("equal?") -> equalProc,
         Symbol("=")      -> equalProc,
         Symbol("number?") -> Procedure(args => {
-          if (!args.exists(arg => arg.isInstanceOf[Num])) {
-            Bool(false)
-          } else {
+          val n = args.head
+          if (n.isInstanceOf[Num] || n
+                .isInstanceOf[QuoteExp] && n.asInstanceOf[QuoteExp].data.isInstanceOf[Num]) {
             Bool(true)
+          } else {
+            Bool(false)
           }
         }),
         Symbol("symbol?") -> Procedure(args => {

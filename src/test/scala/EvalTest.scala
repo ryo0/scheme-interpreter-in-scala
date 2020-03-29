@@ -286,6 +286,12 @@ class EvalTest extends FunSuite {
       eval(parseProgram(parseTokensToNodes(tokenize("(number? 'x")))) ===
         Bool(false))
     assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(number? '(1 2)")))) ===
+        Bool(false))
+    assert(
+      eval(parseProgram(parseTokensToNodes(tokenize("(number? '1")))) ===
+        Bool(true))
+    assert(
       eval(parseProgram(parseTokensToNodes(tokenize("(number? 1")))) ===
         Bool(true))
     assert(
