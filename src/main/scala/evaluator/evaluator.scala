@@ -30,11 +30,13 @@ object evaluator {
     val initEnv: List[mutable.Map[Symbol, Datum]] = List(
       mutable.Map(
         Symbol("car") -> Procedure(p = args => {
+          println("car")
           args.head match {
             case list: DataList =>
               if (list.lst.isEmpty) {
                 return QuoteExp(DataList(List()))
               }
+              println(list.lst.head)
               QuoteExp(list.lst.head)
             case quote: QuoteExp =>
               quote.data match {
@@ -42,12 +44,13 @@ object evaluator {
                   if (list.lst.isEmpty) {
                     return QuoteExp(DataList(List()))
                   }
+                  println(list.lst.head)
                   QuoteExp(list.lst.head)
                 case _ =>
                   if (args.isEmpty) {
                     return QuoteExp(DataList(List()))
                   }
-                  QuoteExp(args.head)
+                  throw new Exception("car")
               }
           }
 
@@ -146,7 +149,12 @@ object evaluator {
           throw new Exception("error: " + args)
         }),
         Symbol("list") -> Procedure(args => {
-          QuoteExp(DataList(args))
+          QuoteExp(DataList(args.map {
+            case exp: QuoteExp =>
+              exp.data
+            case arg =>
+              arg
+          }))
         })
       )
     )
