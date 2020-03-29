@@ -139,7 +139,7 @@ object evaluator {
           }
         }),
         Symbol("print") -> Procedure(args => {
-          println(args)
+          args.map(arg => println(datumToString(arg)))
           Str("\n")
         }),
         Symbol("error") -> Procedure(args => {
@@ -387,5 +387,66 @@ object evaluator {
   def evalSet(exp: SetExp, env: List[mutable.Map[Symbol, Datum]]): Datum = {
     env.head.put(exp.variable, evalExp(exp.value, env))
     Str("ok")
+  }
+
+  def datumToString(datum: Datum): String = {
+    datum match {
+      case Num(n) =>
+        n.toString
+      case Symbol(s) =>
+        s
+      case Bool(tf) =>
+        if (tf) {
+          "true"
+        } else {
+          "false"
+        }
+      case Op(op) =>
+        op match {
+          case Plus =>
+            "+"
+          case Minus =>
+            "-"
+          case Asterisk =>
+            "*"
+          case Slash =>
+            "/"
+          case Equal =>
+            "="
+          case LessThan =>
+            "<"
+          case GreaterThan =>
+            ">"
+          case And =>
+            "and"
+          case Or =>
+            "or"
+        }
+      case QuoteExp(body) =>
+        body match {
+          case DataList(lst) =>
+            printListToString(lst)
+          case _ =>
+            "'" + datumToString(body)
+        }
+    }
+  }
+
+  def printListToString(lst: List[Datum]): String = {
+    var result = "("
+    lst.foreach {
+      case DataList(lst) =>
+        result += printListToString(lst)
+      case x => {
+        result += datumToString(x)
+      }
+      result += " "
+    }
+    if (result == " ") {
+      result = "()"
+    } else {
+      result += ")"
+    }
+    result
   }
 }
